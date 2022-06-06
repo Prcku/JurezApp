@@ -43,7 +43,14 @@ public class RezervationServiceImpl implements RezervationService {
 
     @Override
     public List<Rezervation> availibleRezervation() {
-        return null;
+        try{
+         List<Rezervation> rezervations = rezervationJpaRepo.findByUserIsNull();
+            log.info("Get freeRezervation: {}");
+         return rezervations;
+        }catch (Exception e){
+            log.info("Get freeRezervation faild: {}");
+            return null;
+        }
     }
 
     @Override

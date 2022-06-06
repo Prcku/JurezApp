@@ -29,6 +29,11 @@ public class RezervationController {
             return rezervationService.get(id);
         }
 
+        @GetMapping("/free")
+        public List<Rezervation> getAvalivble(){
+            return rezervationService.availibleRezervation();
+    }
+
         @PostMapping(
                 consumes = {MediaType.APPLICATION_JSON_VALUE},
                 produces = {MediaType.APPLICATION_JSON_VALUE})
