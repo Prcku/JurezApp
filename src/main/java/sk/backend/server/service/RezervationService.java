@@ -13,9 +13,7 @@ public interface RezervationService {
 //    Rezervation rezerveTerm(Date date, Long id);
 
     Rezervation rezerveTerm(String date, Long id);
-
-    List<Rezervation> cancelRezervation(Rezervation rezervation);
+    Rezervation cancelRezervation(String date, Long id);
     Integer howManyPlaceIsNotFree(String current_time);
     List<Rezervation> findByDate(String date);
-
 }

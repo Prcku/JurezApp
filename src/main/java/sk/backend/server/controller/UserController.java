@@ -1,14 +1,14 @@
 package sk.backend.server.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import sk.backend.server.controller.exceptions.BadRequestException;
+import sk.backend.server.controller.exceptions.EntityNotFoundException;
 import sk.backend.server.domain.User;
 import sk.backend.server.service.UserService;
 
 import javax.annotation.Resource;
-import javax.annotation.Resources;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +17,6 @@ public class UserController {
     @Resource()
     private UserService userService;
 
-
     @GetMapping
     public List<User> getUsers(){
         return userService.getAll();
@@ -25,18 +24,19 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id){
-        return userService.get(id);
+        Optional<User> user = Optional.ofNullable(userService.get(id));
+        return user.orElseThrow(EntityNotFoundException::new);
     }
 
-    @PostMapping(
-//            consumes = {MediaType.APPLICATION_JSON_VALUE},
-//            produces = {MediaType.APPLICATION_JSON_VALUE}
-            )
-    public User createUser(@RequestBody User user){
-        return userService.create(user);
+    @PostMapping()
+    public User createUser(@RequestBody User user) throws BadRequestException{
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null){
+            throw new BadRequestException();
+        }
+        Optional<User> user1 = Optional.ofNullable(userService.create(user));
+        return user1.orElseThrow(BadRequestException::new);
     }
 
-    // treba dorobit ID a update pre usera ostatne
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User user, @PathVariable Long id){
         User user1 = userService.get(id);
@@ -52,7 +52,6 @@ public class UserController {
         if(user.getEmail() != null ){
             user1.setEmail(user1.getEmail());
         }
-//        userService.update(user);
         userService.update(user1);
         return userService.get(id);
     }

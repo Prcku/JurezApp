@@ -14,10 +14,8 @@ import java.util.List;
 @RequestMapping("/rezervation")
 public class RezervationController {
 
-
         @Resource()
         private RezervationService rezervationService;
-
 
 //        @GetMapping
 //        public List<User> getUsers(){
@@ -30,7 +28,7 @@ public class RezervationController {
         }
 
         @GetMapping("/free")
-        public List<Rezervation> getAvalivble(){
+        public List<Rezervation> getAvalible(){
             return rezervationService.availibleRezervation();
         }
 
@@ -39,27 +37,24 @@ public class RezervationController {
             return rezervationService.findByDate(date);
         }
 
+        @PutMapping("/time/{date}/{id}")
+        public Rezervation bookRezervation(@PathVariable String date,@PathVariable Long id){
+            return rezervationService.rezerveTerm(date,id);
+        }
+
         @GetMapping("/free/{date}")
         public Integer gethowManyPlaceIsNotFree(@PathVariable String date){
             return rezervationService.howManyPlaceIsNotFree(date);
         }
 
-        @PostMapping(
-                consumes = {MediaType.APPLICATION_JSON_VALUE},
-                produces = {MediaType.APPLICATION_JSON_VALUE})
+        @PostMapping()
         public Rezervation createRezervation(@RequestBody Rezervation rezervation){
             return rezervationService.create(rezervation);
         }
 
-        @PutMapping("/time/{date}/{id}")
-        public Rezervation bookRezervation(@PathVariable String date,@PathVariable Long id){
-            Rezervation rezervation = rezervationService.rezerveTerm(date,id);
-            return  rezervation;
+        @DeleteMapping("time/{date}/{id}")
+        public void deleteUser(@PathVariable String date ,@PathVariable Long id){
+            rezervationService.cancelRezervation(date, id);
         }
-
-//        @DeleteMapping("/{id}")
-//        public void deleteUser(@PathVariable Long id){
-//            userService.delete(id);
-//        }
 
 }

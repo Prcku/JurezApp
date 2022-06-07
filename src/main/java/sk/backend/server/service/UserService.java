@@ -4,6 +4,7 @@ import sk.backend.server.domain.Rezervation;
 import sk.backend.server.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     User create(User user);

@@ -88,8 +88,17 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<Rezervation> cancelRezervation(Rezervation rezervation) {
-        return null;
+    public Rezervation cancelRezervation(String date, Long id) {
+        try{
+            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(date,id);
+            log.info("Get first rezervation by date {}", date , "and user id : {}",id);
+            rezervationJpaRepo.rezerveTerm(null,rezervation.get().getId());
+            log.info("update rezervation : {}",rezervation.get().getId());
+            return rezervationJpaRepo.findById(rezervation.get().getId()).get();
+        }catch (Exception e){
+            log.info("Get first rezervation by date FAILED: {}", date);
+            return null;
+        }
     }
 
     @Override
@@ -103,6 +112,4 @@ public class RezervationServiceImpl implements RezervationService {
             return null;
         }
     }
-
-
 }

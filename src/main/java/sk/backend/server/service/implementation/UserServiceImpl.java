@@ -10,6 +10,7 @@ import sk.backend.server.repo.UserJpaRepo;
 import sk.backend.server.service.UserService;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        log.info("Create new User: {}",user.getEmail());
-        return userJpaRepo.save(user);
+        try {
+            if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
+                User user1 = userJpaRepo.save(user);
+                log.info("Create new User: {}",user.getEmail());
+                return user1;
+            }
+            log.info("Duplicit Email: {}",user.getEmail());
+            return null;
+        }catch (Exception e){
+            log.info("Create new User Failed: {}",user.getEmail());
+            return null;
+        }
+
     }
 
     @Override
