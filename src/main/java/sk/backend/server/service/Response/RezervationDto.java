@@ -12,7 +12,7 @@ public class RezervationDto {
     private Long id;
 
 //    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING, timezone = "Europe/Bratislava")
-    private String current_time;
+    private String currentTime;
 
     private Boolean status;
 

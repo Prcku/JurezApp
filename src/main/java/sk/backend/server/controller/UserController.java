@@ -36,11 +36,25 @@ public class UserController {
         return userService.create(user);
     }
 
-    @PutMapping(
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public User updateUser(@RequestBody User user){
-        return userService.update(user);
+    // treba dorobit ID a update pre usera ostatne
+    @PutMapping("/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id){
+        User user1 = userService.get(id);
+        if (user1 == null){
+            return null;
+        }
+        if( user.getFirstName() != null){
+            user1.setFirstName(user.getFirstName());
+        }
+        if(user.getLastName() != null){
+            user1.setLastName(user.getLastName());
+        }
+        if(user.getEmail() != null ){
+            user1.setEmail(user1.getEmail());
+        }
+//        userService.update(user);
+        userService.update(user1);
+        return userService.get(id);
     }
 
     @DeleteMapping("/{id}")

@@ -32,7 +32,17 @@ public class RezervationController {
         @GetMapping("/free")
         public List<Rezervation> getAvalivble(){
             return rezervationService.availibleRezervation();
-    }
+        }
+
+        @GetMapping("/time/{date}")
+        public List<Rezervation> getRezervationByDate(@PathVariable String date){
+            return rezervationService.findByDate(date);
+        }
+
+        @GetMapping("/free/{date}")
+        public Integer gethowManyPlaceIsNotFree(@PathVariable String date){
+            return rezervationService.howManyPlaceIsNotFree(date);
+        }
 
         @PostMapping(
                 consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -41,12 +51,11 @@ public class RezervationController {
             return rezervationService.create(rezervation);
         }
 
-//        @PutMapping(
-//                consumes = {MediaType.APPLICATION_JSON_VALUE},
-//                produces = {MediaType.APPLICATION_JSON_VALUE})
-//        public User updateUser(@RequestBody User user){
-//            return userService.update(user);
-//        }
+        @PutMapping("/time/{date}/{id}")
+        public Rezervation bookRezervation(@PathVariable String date,@PathVariable Long id){
+            Rezervation rezervation = rezervationService.rezerveTerm(date,id);
+            return  rezervation;
+        }
 
 //        @DeleteMapping("/{id}")
 //        public void deleteUser(@PathVariable Long id){

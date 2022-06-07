@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.backend.server.domain.Rezervation;
+import sk.backend.server.domain.User;
 import sk.backend.server.repo.RezervationJpaRepo;
+import sk.backend.server.repo.UserJpaRepo;
 import sk.backend.server.service.RezervationService;
 
 import javax.transaction.Transactional;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,9 +23,13 @@ public class RezervationServiceImpl implements RezervationService {
     @Autowired
     private final RezervationJpaRepo rezervationJpaRepo;
 
+    @Autowired
+    private final UserJpaRepo userJpaRepo;
+
     @Override
     public Rezervation create(Rezervation rezervation) {
         log.info("Create new User: {}",rezervation.toString());
+        rezervation.getUser().getId();
         return rezervationJpaRepo.save(rezervation);
     }
 
@@ -42,9 +48,21 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
+    public List<Rezervation> findByDate(String date) {
+        try {
+            List<Rezervation> rezervation = rezervationJpaRepo.findByCurrentTimeEquals(date);
+            log.info("Get rezeration by Date: {}",date);
+            return rezervation;
+        }catch (Exception e){
+            log.info("Get rezeration by Date faild {}",date);
+            return null;
+        }
+    }
+
+    @Override
     public List<Rezervation> availibleRezervation() {
         try{
-         List<Rezervation> rezervations = rezervationJpaRepo.findByUserIsNull();
+         List<Rezervation> rezervations = rezervationJpaRepo.findByUserIsNullAndStatusIsTrue();
             log.info("Get freeRezervation: {}");
          return rezervations;
         }catch (Exception e){
@@ -54,14 +72,37 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public Rezervation rezerveTerm(Date date) {
-
-
-        return null;
+    public Rezervation rezerveTerm(String date, Long id) {
+        try{
+            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(date);
+            log.info("Get first rezervation by date : {}", date);
+            Optional<User> user = userJpaRepo.findById(id);
+            log.info("Get user by id : {}", id);
+            rezervationJpaRepo.rezerveTerm(user.get(),rezervation.get().getId());
+            log.info("update rezervation : {}");
+            return rezervationJpaRepo.findById(rezervation.get().getId()).get();
+        }catch (Exception e){
+            log.info("Get first rezervation by date FAILED: {}", date);
+            return null;
+        }
     }
 
     @Override
     public List<Rezervation> cancelRezervation(Rezervation rezervation) {
         return null;
     }
+
+    @Override
+    public Integer howManyPlaceIsNotFree(String currentTime) {
+        try{
+            Integer number = rezervationJpaRepo.countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(currentTime);
+            log.info("Get user of this rezervations: {}", currentTime);
+            return number;
+        }catch (Exception e){
+            log.info("Get user of this rezervations faild: {}" , currentTime);
+            return null;
+        }
+    }
+
+
 }

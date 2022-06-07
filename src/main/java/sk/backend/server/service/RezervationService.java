@@ -10,7 +10,12 @@ public interface RezervationService {
     Rezervation create(Rezervation rezervation);
     Rezervation get(Long id);
     List<Rezervation> availibleRezervation();
-    Rezervation rezerveTerm(Date date);
+//    Rezervation rezerveTerm(Date date, Long id);
+
+    Rezervation rezerveTerm(String date, Long id);
+
     List<Rezervation> cancelRezervation(Rezervation rezervation);
+    Integer howManyPlaceIsNotFree(String current_time);
+    List<Rezervation> findByDate(String date);
 
 }

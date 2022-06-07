@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        return userJpaRepo.save(user);
+    public void update(User user) {
+        userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
     }
 
     @Override

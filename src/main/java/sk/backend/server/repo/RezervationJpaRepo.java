@@ -10,20 +10,39 @@ import sk.backend.server.domain.Rezervation;
 import sk.backend.server.domain.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
 
-    //toto asi nebude treba
-//    List<Rezervation> findByUserIsNotNull();
+    @Transactional
+    @Modifying
+    @Query("update Rezervation r set r.user = ?1 where r.id = ?2")
+    void rezerveTerm(User user, Long id);
+//    Optional<Rezervation> findFirstByCurrentTimeEqualsOrderByIdAscAndUserIsNullAndStatusIsTrue(String currentTime);
 
-    List<Rezervation> findByUserIsNull();
+    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(String currentTime);
+//    @Transactional
+//    @Modifying
+//    @Query("update Rezervation r set r.user = ?1 where r.user is null and r.status = true")
+//    void UpdateUser(User user);
+
+
+//    Integer countByCurrentTimeEqualsAndStatusIsTrueAndUserIsNotNull(String currentTime);
+
+    Integer countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(String currentTime);
+
+//    long countByUserAndCurrentTimeEqualsAndUserIsNotNull(String current_time);
+
+    List<Rezervation> findByCurrentTimeEquals(String current_time);
+
+    List<Rezervation> findByUserIsNullAndStatusIsTrue();
 
 
     //?1 co to je a vytvorenie aj zrusenia
-    @Transactional
-    @Modifying
-    @Query("update Rezervation r set r.user = ?1 where r.user is null")
-    void newUserRezervation(@NonNull User user);
+//    @Transactional
+//    @Modifying
+//    @Query("update Rezervation r set r.user = ?1 where r.user is null")
+//    void newUserRezervation(@NonNull User user);
 
 
 }

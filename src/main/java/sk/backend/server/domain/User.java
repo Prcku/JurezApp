@@ -1,6 +1,7 @@
 package sk.backend.server.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class User {
     @Column(name = "email",unique = true, nullable = false)
     private String email;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Rezervation> rezervations = new ArrayList<>();
 
