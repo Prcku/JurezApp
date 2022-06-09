@@ -1,14 +1,14 @@
-package sk.backend.server.service.implementation;
+package sk.server.backend.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
-import sk.backend.server.repo.RezervationJpaRepo;
-import sk.backend.server.repo.UserJpaRepo;
-import sk.backend.server.service.RezervationService;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.domain.User;
+import sk.server.backend.repo.RezervationJpaRepo;
+import sk.server.backend.repo.UserJpaRepo;
+import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
 import java.util.List;

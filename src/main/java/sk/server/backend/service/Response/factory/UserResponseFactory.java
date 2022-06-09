@@ -1,10 +1,8 @@
-package sk.backend.server.service.Response.factory;
+package sk.server.backend.service.Response.factory;
 
-import lombok.Data;
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
-import sk.backend.server.service.Response.RezervationDto;
-import sk.backend.server.service.Response.UserDto;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.domain.User;
+import sk.server.backend.service.Response.UserDto;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package sk.backend.server.domain;
+package sk.server.backend.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;

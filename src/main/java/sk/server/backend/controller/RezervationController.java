@@ -1,11 +1,8 @@
-package sk.backend.server.controller;
+package sk.server.backend.controller;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
-import sk.backend.server.service.RezervationService;
-import sk.backend.server.service.UserService;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.service.RezervationService;
 
 import javax.annotation.Resource;
 import java.util.List;

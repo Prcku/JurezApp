@@ -1,7 +1,7 @@
-package sk.backend.server.service.Response;
+package sk.server.backend.service.Response;
 
 import lombok.Data;
-import sk.backend.server.domain.Rezervation;
+import sk.server.backend.domain.Rezervation;
 
 import java.util.List;
 

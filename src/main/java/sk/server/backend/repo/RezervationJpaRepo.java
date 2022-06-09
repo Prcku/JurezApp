@@ -1,13 +1,11 @@
-package sk.backend.server.repo;
+package sk.server.backend.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.domain.User;
 
 import java.util.List;
 import java.util.Optional;

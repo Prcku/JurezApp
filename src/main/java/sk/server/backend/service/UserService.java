@@ -1,10 +1,9 @@
-package sk.backend.server.service;
+package sk.server.backend.service;
 
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.domain.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     User create(User user);

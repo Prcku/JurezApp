@@ -1,4 +1,4 @@
-package sk.backend.server.controller.exceptions;
+package sk.server.backend.controller.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

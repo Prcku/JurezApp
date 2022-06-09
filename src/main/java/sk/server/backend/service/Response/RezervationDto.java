@@ -1,10 +1,7 @@
-package sk.backend.server.service.Response;
+package sk.server.backend.service.Response;
 
 import lombok.Data;
-import sk.backend.server.domain.User;
-
-import javax.persistence.*;
-import java.util.Date;
+import sk.server.backend.domain.User;
 
 @Data
 public class RezervationDto {

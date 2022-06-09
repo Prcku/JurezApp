@@ -1,7 +1,7 @@
-package sk.backend.server.service.Response.factory;
+package sk.server.backend.service.Response.factory;
 
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.service.Response.RezervationDto;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.service.Response.RezervationDto;
 
 public class RezervationResponseFactory {
 

@@ -1,9 +1,7 @@
-package sk.backend.server.service;
+package sk.server.backend.service;
 
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
+import sk.server.backend.domain.Rezervation;
 
-import java.util.Date;
 import java.util.List;
 
 public interface RezervationService {

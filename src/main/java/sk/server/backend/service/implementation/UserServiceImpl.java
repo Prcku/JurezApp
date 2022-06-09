@@ -1,16 +1,15 @@
-package sk.backend.server.service.implementation;
+package sk.server.backend.service.implementation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sk.backend.server.domain.Rezervation;
-import sk.backend.server.domain.User;
-import sk.backend.server.repo.UserJpaRepo;
-import sk.backend.server.service.UserService;
+import sk.server.backend.domain.Rezervation;
+import sk.server.backend.domain.User;
+import sk.server.backend.repo.UserJpaRepo;
+import sk.server.backend.service.UserService;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +54,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-
         return userJpaRepo.findAll();
     }
 
@@ -72,8 +70,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Rezervation> getUserRezervation(Long id) {
-        Optional<User> userRezervation = userJpaRepo.findById(id);
+        try {
+            Optional<User> userRezervation = userJpaRepo.findById(id);
+            log.info("get User Rezervation by ID: {}",id);
+            return userRezervation.get().getRezervations();
+        }catch (Exception e){
+            return null;
+        }
 
-        return null;
+
+
     }
 }

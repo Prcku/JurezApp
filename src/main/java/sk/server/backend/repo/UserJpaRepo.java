@@ -1,4 +1,4 @@
-package sk.backend.server.repo;
+package sk.server.backend.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import sk.backend.server.domain.User;
+import sk.server.backend.domain.User;
 
 import java.util.Optional;
 
