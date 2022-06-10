@@ -2,6 +2,7 @@ package sk.server.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import sk.server.backend.controller.exceptions.BadRequestException;
+import sk.server.backend.controller.exceptions.ConflictException;
 import sk.server.backend.controller.exceptions.EntityNotFoundException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
@@ -36,12 +37,12 @@ public class UserController {
     }
 
     @PostMapping()
-    public User createUser(@RequestBody User user) throws BadRequestException{
+    public User createUser(@RequestBody User user){
         if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null){
             throw new BadRequestException();
         }
         Optional<User> user1 = Optional.ofNullable(userService.create(user));
-        return user1.orElseThrow(BadRequestException::new);
+        return user1.orElseThrow(ConflictException::new);
     }
 
     @PutMapping("/{id}")

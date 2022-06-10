@@ -49,6 +49,9 @@ export class UserService {
       case 403: {
         return `Access Denied: ${error.message}`;
       }
+      case 409: {
+        return `Duplicity: ${error.message}`;
+      }
       case 500: {
         return `Internal Server Error: ${error.message}`;
       }

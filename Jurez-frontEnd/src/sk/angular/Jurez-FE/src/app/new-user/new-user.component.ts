@@ -24,7 +24,7 @@ export class NewUserComponent  {
 
     this.users.add(this.item).subscribe(
       $data => (this.router.navigate(['/adminpage'])),
-      error => (console.log(error.message()))
+      error => (error.message)
 
     )
   }
