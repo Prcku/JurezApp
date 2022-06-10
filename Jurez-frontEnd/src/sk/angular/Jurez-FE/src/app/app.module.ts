@@ -10,6 +10,7 @@ import {FormsModule} from "@angular/forms";
 import { AdminComponent } from './admin/admin.component';
 import { NewUserComponent } from './new-user/new-user.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     LoginComponent,
     AdminComponent,
     NewUserComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    EditUserComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
