@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserController {
 
     @Resource()
@@ -57,7 +57,10 @@ public class UserController {
             user1.setLastName(user.getLastName());
         }
         if(user.getEmail() != null ){
-            user1.setEmail(user1.getEmail());
+            user1.setEmail(user.getEmail());
+        }
+        if(user.getPassword() != null){
+            user1.setPassword(user.getPassword());
         }
         userService.update(user1);
         return userService.get(id);

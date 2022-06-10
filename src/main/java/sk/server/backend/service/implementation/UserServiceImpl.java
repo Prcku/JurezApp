@@ -3,6 +3,8 @@ package sk.server.backend.service.implementation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
@@ -13,21 +15,40 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+
 @Service
 @Transactional
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-
     @Autowired
-    private final UserJpaRepo userJpaRepo;
+    private UserJpaRepo userJpaRepo;
+
+//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+    public UserServiceImpl() {
+        User user = new User();
+        if(getByEmail("admin@admin.sk") == null) {
+            user.setFirstName("Admin");
+            user.setLastName("Pan");
+            user.setEmail("admin@admin.sk");
+            user.setPassword("admin123");
+            create(user);
+        }
+    }
+
+//    public UserServiceImpl(UserJpaRepo userJpaRepo) {
+//        this.userJpaRepo = userJpaRepo;
+//    }
 
     @Override
     public User create(User user) {
         try {
             if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
+//                user.setPassword(this.passwordEncoder.encode(user.getPassword()));
                 User user1 = userJpaRepo.save(user);
+//                user.setPassword();
                 log.info("Create new User: {}",user.getEmail());
                 return user1;
             }
@@ -59,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-        userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getId());
+        userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getId());
     }
 
     @Override
@@ -80,5 +101,15 @@ public class UserServiceImpl implements UserService {
 
 
 
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        try {
+            Optional<User> user = userJpaRepo.findByEmailEquals(email);
+            return user.get();
+        }catch (Exception e){
+            return null;
+        }
     }
 }

@@ -1,0 +1,21 @@
+<form (submit)="submit(formElement)" #formElement=ngForm [class.was-validated]="formElement.submitted || formElement.touched">
+  <div class="mb-3">
+    <label for="firstName" class="form-label">Meno</label>
+    <input type="text" class="form-control" id="firstName" name="firstName"
+           [(ngModel)]="item.firstName" aria-describedby="firstName"
+           required>
+    <label for="firstName" class="form-label">Priezvisko</label>
+    <input type="text" class="form-control" id="lastName" name="lastName"
+           [(ngModel)]="item.lastName" aria-describedby="lastName"
+           required>
+    <label for="firstName" class="form-label">Email</label>
+    <input type="text" class="form-control" id="email" name="email"
+           [(ngModel)]="item.email" aria-describedby="email"
+           required>
+    <label for="firstName" class="form-label">Heslo</label>
+    <input type="text" class="form-control" id="password" name="password"
+           [(ngModel)]="item.password" aria-describedby="password"
+           required>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

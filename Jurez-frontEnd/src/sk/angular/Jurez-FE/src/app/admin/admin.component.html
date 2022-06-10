@@ -1,0 +1,29 @@
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Meno</th>
+      <th>Priezvisko</th>
+      <th>Email</th>
+      <th>Heslo</th>
+      <th class="icon icon-link-colum"></th>
+      <th class="icon icon-link-colum"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items">
+<!--      <td><a [routerLink]="[item.id]">{{item.firstName}}</a></td>-->
+      <td>{{item.firstName}}</td>
+      <td>{{item.lastName}}</td>
+      <td>{{item.email}}</td>
+      <td>{{item.password}}</td>
+
+      <!--    <td>{{item.rezervations?.c}}</td>-->
+      <td><a [routerLink]="[item.id,'edit']" ><i class="fa-solid fa-pen-to-square"></i></a></td>
+      <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>
+    </tr>
+    </tbody>
+  </table>
+
+<a class="btn btn-primary" routerLink="newUser">New</a>
+
