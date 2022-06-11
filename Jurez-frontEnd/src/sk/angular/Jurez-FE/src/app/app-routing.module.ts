@@ -9,7 +9,7 @@ import {EditUserComponent} from "./edit-user/edit-user.component";
 
 const routes: Routes = [
   {path:'home', component: DashboardComponent},
-  {path:'authentification', component: LoginComponent},
+  {path:'login', component: LoginComponent},
   {path:'adminpage', component: AdminComponent},
   {path:'adminpage/newUser', component: NewUserComponent },
   {path:'adminpage/:id/editUser', component: EditUserComponent},

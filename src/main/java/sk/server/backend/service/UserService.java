@@ -13,4 +13,5 @@ public interface UserService {
     void delete(Long id);
     List<Rezervation> getUserRezervation(Long id);
     User getByEmail(String email);
+    User authentification(String email, String password);
 }

@@ -72,4 +72,18 @@ public class UserController {
          userService.delete(id);
     }
 
+
+    @GetMapping("/auth/{email}/{password}")
+    public Boolean authentificationUser(@PathVariable String email,@PathVariable String password){
+        if (email == null || password == null){
+            throw new BadRequestException();
+        }
+        if (userService.authentification(email, password) != null){
+            return true;
+        }
+        else {
+            throw new EntityNotFoundException();
+        }
+    }
+
 }

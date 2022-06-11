@@ -27,6 +27,20 @@ export class UserService {
     return this.http.get<Rezervation>('/api/user/rezervation/' + id);
   }
 
+  isAutorized(email: string | undefined, password: string | undefined){
+    return this.http.get<Boolean>('/api/user/auth/' + email + '/' + password).pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    )
+  }
+
   add(user: User){
       return this.http.post('/api/user', user).pipe(
         catchError(error => {
@@ -62,9 +76,9 @@ export class UserService {
     }
   }
 
-  handleError(error: HttpErrorResponse) {
-    return throwError(error);
-  }
+  // handleError(error: HttpErrorResponse) {
+  //   return throwError(error);
+  // }
 
   edit(user: User) {
     return  this.http.put<void>(`/api/user/${user.id}`, user)

@@ -112,4 +112,13 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public User authentification(String email, String password) {
+        try {
+            return userJpaRepo.findByEmailEqualsAndPasswordEquals(email,password).get();
+        }catch (Exception e){
+            return  null;
+        }
+    }
 }
