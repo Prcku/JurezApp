@@ -49,7 +49,7 @@ public class RezervationController {
             return rezervationService.create(rezervation);
         }
 
-        @PutMapping("time/{date}/{id}")
+        @PutMapping("time/cancel/{date}/{id}")
         public void deleteUser(@PathVariable String date ,@PathVariable Long id){
             rezervationService.cancelRezervation(date, id);
         }

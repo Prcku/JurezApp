@@ -29,7 +29,7 @@ export class RezervationService {
   }
 
   getfreeRezervations(){
-    return this.http.get<Rezervation>('/api/rezervation/free/').pipe(
+    return this.http.get<Rezervation[]>('/api/rezervation/free/').pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -43,7 +43,7 @@ export class RezervationService {
   }
 
   getRezervationOnThisTime(date: string){
-    return this.http.get<Rezervation>('/api/rezervation/time/' +date).pipe(
+    return this.http.get<Rezervation[]>('/api/rezervation/time/' +date).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -72,7 +72,7 @@ export class RezervationService {
   }
 
   getHowManyUserIsOnThisRezervation(date: string){
-      return this.http.get<Rezervation>('/api/rezervation/free/' + date).pipe(
+      return this.http.get<number>('/api/rezervation/free/' + date).pipe(
         catchError(error => {
           let errorMsg: string;
           if (error.error instanceof ErrorEvent) {
@@ -84,8 +84,8 @@ export class RezervationService {
         })
       );
   }
-  createRezervation(user: User){
-    return this.http.post<Rezervation>('/api/rezervation/free/', user).pipe(
+  createRezervation(rezervation: Rezervation){
+    return this.http.post<Rezervation>('/api/rezervation/free/', rezervation).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -122,7 +122,7 @@ export class RezervationService {
 
   cancelRezervation(date: string, id:number){
     // @ts-ignore
-    return this.http.put<void>("/api/rezervation/time/" + date + '/' + id ).pipe(
+    return this.http.put<void>("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
