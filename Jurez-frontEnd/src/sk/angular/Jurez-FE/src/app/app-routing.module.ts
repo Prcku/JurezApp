@@ -13,7 +13,7 @@ const routes: Routes = [
   {path:'adminpage', component: AdminComponent},
   {path:'adminpage/newUser', component: NewUserComponent },
   {path:'adminpage/:id/editUser', component: EditUserComponent},
-  {path:'', redirectTo: 'home', pathMatch: 'full'},
+  {path:'', redirectTo: 'login', pathMatch: 'full'},
   {path:'**', component: NotFoundComponent}
 ];
 

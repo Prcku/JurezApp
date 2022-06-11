@@ -24,7 +24,7 @@ export class LoginComponent {
    }
    // tu bude treba userovu stranku
    this.userService.isAutorized(this.email,this.password).subscribe(
-     $data => (this.router.navigate(['/adminpage'])),
+     $data => (this.router.navigate(['/home'])),
       error => (error.message())
    );
 

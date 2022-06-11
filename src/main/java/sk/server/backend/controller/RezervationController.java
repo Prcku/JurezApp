@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rezervation")
+@RequestMapping("api/rezervation")
 public class RezervationController {
 
         @Resource()
@@ -49,7 +49,7 @@ public class RezervationController {
             return rezervationService.create(rezervation);
         }
 
-        @DeleteMapping("time/{date}/{id}")
+        @PutMapping("time/{date}/{id}")
         public void deleteUser(@PathVariable String date ,@PathVariable Long id){
             rezervationService.cancelRezervation(date, id);
         }
