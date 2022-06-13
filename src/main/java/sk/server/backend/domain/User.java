@@ -31,6 +31,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "token")
+    private String token;
+
     @JsonManagedReference
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Rezervation> rezervations = new ArrayList<>();
