@@ -24,7 +24,30 @@ export class UserService {
   }
 
   getUserRezervation(id:number){
-    return this.http.get<Rezervation>('/api/user/rezervation/' + id);
+    return this.http.get<Rezervation[]>('/api/user/rezervation/' + id).pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    )
+  }
+  getByEmail(email: string){
+    return this.http.get<User>('/api/user/'+email).pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    )
   }
 
   isAutorized(email: string | undefined, password: string | undefined){

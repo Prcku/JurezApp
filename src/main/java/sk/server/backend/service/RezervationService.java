@@ -9,7 +9,7 @@ public interface RezervationService {
     Rezervation get(Long id);
     List<Rezervation> availibleRezervation();
 //    Rezervation rezerveTerm(Date date, Long id);
-
+    List<Rezervation> UserRezervations(Long id);
     Rezervation rezerveTerm(String date, Long id);
     Rezervation cancelRezervation(String date, Long id);
     Integer howManyPlaceIsNotFree(String current_time);

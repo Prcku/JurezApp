@@ -30,6 +30,12 @@ public class UserController {
         return user.orElseThrow(EntityNotFoundException::new);
     }
 
+    @GetMapping("/{email}")
+    public User getUser(@PathVariable String email){
+        Optional<User> user = Optional.ofNullable(userService.getByEmail(email));
+        return user.orElseThrow(EntityNotFoundException::new);
+    }
+
     @GetMapping("rezervation/{id}")
     public List<Rezervation> getUserRezervation(@PathVariable Long id){
         return userService.getUserRezervation(id);

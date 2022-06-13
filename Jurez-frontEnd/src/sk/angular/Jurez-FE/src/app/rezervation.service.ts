@@ -134,4 +134,17 @@ export class RezervationService {
       })
     );
   }
+  getUserRezervation(id: number){
+    return this.http.get("api/rezervation/user/" +id).pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    );
+  }
 }

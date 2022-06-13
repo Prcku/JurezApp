@@ -1,10 +1,10 @@
 
-
+<button [routerLink]="'/home'" class="btn btn-primary">Home</button>
 <table class="table table-striped">
   <thead>
   <tr>
     <th>Cas</th>
-    <th>Obsadenost</th>
+<!--    <th>Obsadenost</th>-->
     <th class="icon icon-link-colum"></th>
     <th class="icon icon-link-colum"></th>
   </tr>
@@ -15,10 +15,11 @@
     <td>{{item.currentTime}}</td>
 
     <!--    <td>{{item.rezervations?.c}}</td>-->
-<!--    <td><a [routerLink]="[item.id,'editUser']" ><i class="fa-solid fa-pen-to-square"></i></a></td>-->
-<!--    <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>-->
+    <!--    <td><a [routerLink]="[item.id,'editUser']" ><i class="fa-solid fa-pen-to-square"></i></a></td>-->
+    <!--    <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>-->
+
   </tr>
   </tbody>
 </table>
 
-    <button [routerLink]="['mojerezervacie',item.id]" class="btn btn-primary">Moje rezervácie</button>
+<!--<a class="btn btn-primary" routerLink="newUser">New</a>-->

@@ -27,5 +27,7 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
 
     List<Rezervation> findByUserIsNullAndStatusIsTrue();
 
+    List<Rezervation> findByUser_IdEquals(Long id);
+
 
 }

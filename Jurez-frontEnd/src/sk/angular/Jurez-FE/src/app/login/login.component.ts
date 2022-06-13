@@ -22,9 +22,15 @@ export class LoginComponent {
    if (formElemnt.invalid){
      return
    }
-   // tu bude treba userovu stranku
+   // admin
+    if (this.email == "branislavsocha159@gmail.com" && this.password == "123"){
+      this.router.navigate(['/adminpage'])
+      return
+    }
+    //user
    this.userService.isAutorized(this.email,this.password).subscribe(
-     $data => (this.router.navigate(['/home'])),
+     $data => (
+       this.router.navigate(['/home'])),
       error => (error.message())
    );
 

@@ -53,5 +53,9 @@ public class RezervationController {
         public void deleteUser(@PathVariable String date ,@PathVariable Long id){
             rezervationService.cancelRezervation(date, id);
         }
+        @GetMapping("/user/{id}")
+        public List<Rezervation> getUserRezervation(@PathVariable Long id){
+            return rezervationService.UserRezervations(id);
+        }
 
 }

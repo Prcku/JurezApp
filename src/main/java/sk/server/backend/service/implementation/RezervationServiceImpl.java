@@ -72,6 +72,18 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
+    public List<Rezervation> UserRezervations(Long id) {
+        try {
+            List<Rezervation> rezervations = rezervationJpaRepo.findByUser_IdEquals(id);
+                log.info("Get user Rezervations");
+                return rezervations;
+        }catch (Exception e){
+            log.info("Get user Rezervation failed");
+            return  null;
+        }
+    }
+
+    @Override
     public Rezervation rezerveTerm(String date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(date);
