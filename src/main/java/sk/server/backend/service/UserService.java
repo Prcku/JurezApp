@@ -14,4 +14,5 @@ public interface UserService {
     List<Rezervation> getUserRezervation(Long id);
     User getByEmail(String email);
     User authentification(String email, String password);
+    User updateUserToken(String token,String email);
 }

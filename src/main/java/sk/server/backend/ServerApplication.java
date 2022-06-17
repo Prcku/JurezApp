@@ -18,6 +18,7 @@ public class ServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ServerApplication.class, args);
 	}
+
 	@EnableWebSecurity
 	@Configuration
 	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,7 +28,7 @@ public class ServerApplication {
 			http.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/api/user/auth").permitAll()
+					.antMatchers(HttpMethod.POST, "/api/user/auth/").permitAll()
 					.anyRequest().authenticated();
 		}
 	}

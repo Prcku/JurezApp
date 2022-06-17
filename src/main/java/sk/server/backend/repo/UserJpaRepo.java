@@ -14,12 +14,17 @@ import java.util.Optional;
 public interface UserJpaRepo extends JpaRepository<User,Long> {
     @Transactional
     @Modifying
-    @Query("update User u set u.firstName = ?1, u.lastName = ?2 ,u.email = ?3, u.password = ?4 where u.id = ?5")
+    @Query("update User u set u.firstName = ?1, u.lastName = ?2 ,u.email = ?3, u.password = ?4  where u.id = ?5")
     void updateUser(@NonNull String firstName, @NonNull String lastName, @NonNull String email,@NonNull  String password, Long id);
 
     Optional<User> findByEmailEquals(String email);
 
     Optional<User> findByEmailEqualsAndPasswordEquals(String email, String password);
+
+    @Transactional
+    @Modifying
+    @Query("update User u set u.token = ?1 where u.email = ?2")
+    void updateUserToken(String token, String email);
 
 
 

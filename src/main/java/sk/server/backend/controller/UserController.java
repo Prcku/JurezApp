@@ -8,6 +8,7 @@ import sk.server.backend.controller.exceptions.ConflictException;
 import sk.server.backend.controller.exceptions.EntityNotFoundException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
+import sk.server.backend.service.Response.UserDto;
 import sk.server.backend.service.UserService;
 
 
@@ -37,8 +38,8 @@ public class UserController {
         return user.orElseThrow(EntityNotFoundException::new);
     }
 
-    @GetMapping("/{email}")
-    public User getUser(@PathVariable String email){
+    @GetMapping("email/{email}")
+    public User getUserByEmail(@PathVariable String email){
         Optional<User> user = Optional.ofNullable(userService.getByEmail(email));
         return user.orElseThrow(EntityNotFoundException::new);
     }
@@ -86,30 +87,32 @@ public class UserController {
     }
 
     //zmenil si return y boolean na user
-    @PostMapping("/auth")
-    public User authentificationUser(@RequestParam("email") String email,@RequestParam("password") String password){
-        if (email == null || password == null){
+    @PostMapping(value = "/auth/", produces = "text/plain")
+    public String authentificationUser( @RequestBody UserDto user){
+        System.out.println(user.getEmail());
+        if (user.getEmail() == null || user.getPassword() == null){
+
             throw new BadRequestException();
         }
-        if (userService.authentification(email, password) != null){
-            String token = getJWTToken(email);
-            User user = userService.getByEmail(email);
-            user.setToken(token);
-            return user;
+        User user1 = userService.authentification(user.getEmail(),user.getPassword());
+        if (user1 != null){
+            String token = getJWTToken(user1);
+            userService.updateUserToken(token,user.getEmail());
+            return token;
         }
         else {
             throw new EntityNotFoundException();
         }
     }
-    private String getJWTToken(String username) {
+    private String getJWTToken(User user) {
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 
         String token = Jwts
                 .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
+                .setId(String.valueOf(user.getId()))
+                .setSubject(user.getEmail())
                 .claim("authorities",
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
@@ -119,6 +122,6 @@ public class UserController {
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 
-        return "Bearer " + token;
+        return token;
     }
 }

@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {UserService} from "../user.service";
 import { Router} from "@angular/router";
+import {UserDTO} from "../userDTO";
 
 @Component({
   selector: 'app-login',
@@ -10,29 +11,33 @@ import { Router} from "@angular/router";
 })
 export class LoginComponent {
 
-  email: string | undefined;
-  password: string | undefined;
+  item = {} as UserDTO;
 
   constructor(private userService: UserService,
               private router: Router) { }
 
   check(formElemnt: NgForm){
-   this.email = formElemnt.value.email;
-   this.password = formElemnt.value.password;
+    this.item.email = formElemnt.value.email;
+    this.item.password = formElemnt.value.password;
+
    if (formElemnt.invalid){
      return
    }
    // admin
-    if (this.email == "branislavsocha159@gmail.com" && this.password == "123"){
+    if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
       this.router.navigate(['/adminpage'])
       return
     }
     //user
-   this.userService.isAutorized(this.email,this.password).subscribe(
-     $data => (
-       this.router.navigate(['/home'])),
-      error => (error.message())
-   );
+   this.userService.isAutorized(this.item).subscribe(value => {
+     if (value){
+       this.router.navigate(['/home'])
+     }
+     }
+   )
+
+      // error => (console.log(error))
+
 
 
 

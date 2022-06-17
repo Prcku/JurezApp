@@ -1,16 +1,17 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Rezervation} from "./rezervation";
 import {User} from "./user";
-import {catchError, throwError} from "rxjs";
+import {UserDTO} from "./userDTO";
+import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-
-  // uri = 'http://localhost:8080'
+  token: string | undefined
+  private userSubject = new BehaviorSubject<User | undefined>(undefined);
   constructor(private http: HttpClient) {
 
   }
@@ -36,8 +37,17 @@ export class UserService {
       })
     )
   }
-  getByEmail(email: string){
-    return this.http.get<User>('/api/user/'+email).pipe(
+
+  getByEmail(email: string, token: string | undefined){
+    // let headers = new HttpHeaders()
+    //   .set('content-type','application/json')
+    //   .set('Authorization',`Bearer ${token}`)
+    //   .set('Access-Control-Allow-Origin', '*')
+    // const headers = new Headers({
+    //   'Content-Type': 'application/json',
+    //   'Authorization': `Bearer ${token}`
+    // })
+    return this.http.get<User>('/api/user/email/'+email).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -45,25 +55,52 @@ export class UserService {
         } else {
           errorMsg = this.getServerErrorMessage(error);
         }
+        console.log(errorMsg)
         throw new Error(errorMsg);
       })
     )
   }
 
-  isAutorized(email: string | undefined, password: string | undefined){
-    return this.http.get<Boolean>('/api/user/auth/' + email + '/' + password).pipe(
-      catchError(error => {
-        let errorMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = this.getServerErrorMessage(error);
+  isAutorized(userdto: UserDTO){
+
+    return this.http.post('/api/user/auth/',userdto, {responseType: 'text'})
+      .pipe(map(token => {
+        if (!token) {
+          return undefined
         }
-        throw new Error(errorMsg);
-      })
-    )
+        this.token = token
+        return JSON.parse(atob(token.split('.')[1]))
+        }))
+      .pipe(tap(user => {
+        this.getByEmail(user.sub,this.token).subscribe(value => {console.log(value)
+          console.log("asdhoasdjoashdoahsdoasd")
+          console.log(value)
+        this.userSubject.next(value)});
+      }))
+      // .pipe(
+      // catchError(error => {
+      //   let errorMsg: string;
+      //   if (error.error instanceof ErrorEvent) {
+      //     errorMsg = `Error: ${error.error.message}`;
+      //   } else {
+      //     errorMsg = this.getServerErrorMessage(error);
+      //   }
+      //   throw new Error(errorMsg);
+      // }))
   }
 
+  get(){
+    return this.userSubject.getValue();
+  }
+  onUserChange(){
+    return this.userSubject.asObservable();
+}
+  logout() {
+    this.userSubject.next(undefined);
+  }
+  getToken(){
+    return this.token;
+  }
   add(user: User){
       return this.http.post('/api/user', user).pipe(
         catchError(error => {

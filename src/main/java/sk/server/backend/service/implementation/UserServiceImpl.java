@@ -121,4 +121,14 @@ public class UserServiceImpl implements UserService {
             return  null;
         }
     }
+
+    @Override
+    public User updateUserToken(String token, String email) {
+        try {
+            userJpaRepo.updateUserToken(token,email);
+            return userJpaRepo.findByEmailEquals(email).get();
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

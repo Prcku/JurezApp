@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container">
-    <a class="navbar-brand" routerLink="home">JuRez</a>
+     <span *ngIf="user$ | async as user; else loginHome">
+       <a class="navbar-brand" routerLink="home">JuRez</a>
+     </span>
+     <ng-template #loginHome>
+      <a class="navbar-brand" routerLink="login">JuRez</a>
+    </ng-template>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,7 +21,15 @@
         <!--          <a class="nav-link" routerLink="rezervation" routerLinkActive="active">Moje Rezervacie</a>-->
         <!--        </li>-->
       </ul>
+<!--      <span class="navbar-text mx-3">{{(user$ | async)?.firstName}}</span>-->
+      <span *ngIf="user$ | async as user; else logoutTmp">
+        <span class="navbar-text mx-2">{{user.firstName}}</span>
+        <a class="btn btn-secondary" routerLink="login" (click)="logout()">Logout</a>
+      </span>
 
+      <ng-template #logoutTmp>
+        <a class="btn btn-primary" routerLink="login">Login</a>
+      </ng-template>
     </div>
   </div>
 </nav>
