@@ -11,6 +11,8 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +50,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<Rezervation> findByDate(String date) {
+    public List<Rezervation> findByDate(Date date) {
         try {
             List<Rezervation> rezervation = rezervationJpaRepo.findByCurrentTimeEquals(date);
             log.info("Get rezeration by Date: {}",date);
@@ -84,7 +86,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public Rezervation rezerveTerm(String date, Long id) {
+    public Rezervation rezerveTerm(Date date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(date);
             log.info("Get first rezervation by date : {}", date);
@@ -100,7 +102,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public Rezervation cancelRezervation(String date, Long id) {
+    public Rezervation cancelRezervation(Date date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(date,id);
             log.info("Get first rezervation by date {}", date , "and user id : {}",id);
@@ -114,7 +116,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public Integer howManyPlaceIsNotFree(String currentTime) {
+    public Integer howManyPlaceIsNotFree(Date currentTime) {
         try{
             Integer number = rezervationJpaRepo.countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(currentTime);
             log.info("Get user of this rezervations: {}", currentTime);

@@ -20,5 +20,4 @@
   </tr>
   </tbody>
 </table>
-
-    <button [routerLink]="['mojerezervacie',item.id]" class="btn btn-primary">Moje rezervácie</button>
+    <button *ngIf="user$ | async as user;" [routerLink]="['mojerezervacie',user.id]" class="btn btn-primary">Moje rezervácie</button>

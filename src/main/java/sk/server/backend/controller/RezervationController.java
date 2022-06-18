@@ -5,6 +5,7 @@ import sk.server.backend.domain.Rezervation;
 import sk.server.backend.service.RezervationService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,17 +31,17 @@ public class RezervationController {
         }
 
         @GetMapping("/time/{date}")
-        public List<Rezervation> getRezervationByDate(@PathVariable String date){
+        public List<Rezervation> getRezervationByDate(@PathVariable Date date){
             return rezervationService.findByDate(date);
         }
 
         @PutMapping("/time/{date}/{id}")
-        public Rezervation bookRezervation(@PathVariable String date,@PathVariable Long id){
+        public Rezervation bookRezervation(@PathVariable Date date,@PathVariable Long id){
             return rezervationService.rezerveTerm(date,id);
         }
 
         @GetMapping("/free/{date}")
-        public Integer gethowManyPlaceIsNotFree(@PathVariable String date){
+        public Integer gethowManyPlaceIsNotFree(@PathVariable Date date){
             return rezervationService.howManyPlaceIsNotFree(date);
         }
 
@@ -50,7 +51,7 @@ public class RezervationController {
         }
 
         @PutMapping("time/cancel/{date}/{id}")
-        public void deleteUser(@PathVariable String date ,@PathVariable Long id){
+        public void deleteUser(@PathVariable Date date ,@PathVariable Long id){
             rezervationService.cancelRezervation(date, id);
         }
         @GetMapping("/user/{id}")

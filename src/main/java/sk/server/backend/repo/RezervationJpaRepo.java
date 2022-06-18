@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +18,13 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
     @Query("update Rezervation r set r.user = ?1 where r.id = ?2")
     void rezerveTerm(User user, Long id);
 
-    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(String currentTime, Long id);
+    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(Date currentTime, Long id);
 
-    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(String currentTime);
+    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(Date currentTime);
 
-    Integer countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(String currentTime);
+    Integer countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(Date currentTime);
 
-    List<Rezervation> findByCurrentTimeEquals(String current_time);
+    List<Rezervation> findByCurrentTimeEquals(Date current_time);
 
     List<Rezervation> findByUserIsNullAndStatusIsTrue();
 

@@ -15,7 +15,7 @@ export class DashboardComponent {
 
   items: Rezervation[] | undefined;
   item = {} as Rezervation;
-  user = {} as User;
+  // user: User | undefined = {} as User;
   user$: Observable<User | undefined>;
 
   constructor(private rezervationService: RezervationService
@@ -23,6 +23,9 @@ export class DashboardComponent {
     , private userService: UserService) {
     this.user$ =this.userService.onUserChange()
     if (this.user$){
+      // this.user$.subscribe(value => {
+      //   this.user = value;
+      // })
       this.reload();
     }
   }

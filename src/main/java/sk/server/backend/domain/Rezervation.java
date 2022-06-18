@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -21,9 +22,9 @@ public class Rezervation {
     private Long id;
 
     @Column(name = "currentTime", nullable = false )
-//    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Europe/Bratislava")
-    private String currentTime;
+    private Date currentTime;
 
     @Column(name = "status")
     private Boolean status;
