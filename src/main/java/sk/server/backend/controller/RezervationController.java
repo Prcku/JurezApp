@@ -5,6 +5,8 @@ import sk.server.backend.domain.Rezervation;
 import sk.server.backend.service.RezervationService;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +53,9 @@ public class RezervationController {
         }
 
         @PutMapping("time/cancel/{date}/{id}")
-        public void deleteUser(@PathVariable Date date ,@PathVariable Long id){
-            rezervationService.cancelRezervation(date, id);
+        public void deleteUser(@PathVariable String date ,@PathVariable Long id) throws ParseException {
+            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            rezervationService.cancelRezervation(date1, id);
         }
         @GetMapping("/user/{id}")
         public List<Rezervation> getUserRezervation(@PathVariable Long id){

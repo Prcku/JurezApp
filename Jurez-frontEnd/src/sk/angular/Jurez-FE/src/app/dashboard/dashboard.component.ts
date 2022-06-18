@@ -17,18 +17,21 @@ export class DashboardComponent {
   item = {} as Rezervation;
   days: string[] = ['Nedeľa', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota'];
   user$: Observable<User | undefined>;
+  countUser: number | undefined;
+
 
   constructor(private rezervationService: RezervationService
     , private router: Router
     , private userService: UserService) {
     this.user$ =this.userService.onUserChange()
-    if (this.user$){
+    if (this.user$ != undefined) {
       this.reload();
     }
   }
 
   reload(){
     this.rezervationService.getfreeRezervations().subscribe(value => {this.items = value})
+    // this.rezervationService.getHowManyUserIsOnThisRezervation(this.item.currentTime).subscribe(value => {this.countUser = value});
     // console.log(this.item)
     // console.log(this.item.currentTime.getTime())
     // console.log("nech ti nejebe")

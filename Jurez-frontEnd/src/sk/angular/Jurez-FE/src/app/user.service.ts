@@ -72,7 +72,7 @@ export class UserService {
         return JSON.parse(atob(token.split('.')[1]))
         }))
       .pipe(tap(user => {
-        this.getByEmail(user.sub,this.token).subscribe(value => {console.log(value)
+        this.getByEmail(user.sub,this.token).subscribe(value => {
         this.userSubject.next(value)});
       }))
       // .pipe(

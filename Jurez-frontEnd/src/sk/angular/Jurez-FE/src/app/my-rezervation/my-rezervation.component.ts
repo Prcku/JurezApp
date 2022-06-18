@@ -3,6 +3,7 @@ import {User} from "../user";
 import {UserService} from "../user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Rezervation} from "../rezervation";
+import {RezervationService} from "../rezervation.service";
 
 @Component({
   selector: 'app-my-rezervation',
@@ -11,20 +12,19 @@ import {Rezervation} from "../rezervation";
 })
 export class MyRezervationComponent  {
 
-  item = {} as User;
+  user = {} as User;
   items: Rezervation[] | undefined;
   private id: number;
 
   constructor(private route: ActivatedRoute,
               private userService: UserService,
+              private rezervationService: RezervationService,
               private router: Router) {
     this.id = Number(route.snapshot.paramMap.get('id'));
     userService.getById(this.id)
       .subscribe(
         value => {
-          console.log(value)
-          this.item = value;
-          console.log(this.item)
+          this.user = value;
           this.reload();
         })
   }
@@ -36,7 +36,15 @@ export class MyRezervationComponent  {
   // }
 
   reload(){
-    this.userService.getUserRezervation(this.item.id).subscribe(value => {this.items = value})
+    this.userService.getUserRezervation(this.user.id).subscribe(value => {this.items = value})
+  }
+
+  delete(rezervation: Rezervation) {
+    if (confirm(`Chcete zrušiť túto rezerváciu ${rezervation.currentTime} ?`)) {
+      this.rezervationService.cancelRezervation(rezervation.currentTime, this.id).subscribe(() =>{
+          this.reload();
+      })
+    }
   }
 
 }

@@ -1,25 +1,39 @@
 
-<!--<button [routerLink]="'/home'" class="btn btn-primary">Home</button>-->
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Cas</th>
-<!--    <th>Obsadenost</th>-->
-    <th class="icon icon-link-colum"></th>
-    <th class="icon icon-link-colum"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let item of items">
-    <!--      <td><a [routerLink]="[item.id]">{{item.firstName}}</a></td>-->
-    <td>{{item.currentTime}}</td>
+<div>
+  <h1>Aktuálne rezervácie</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Cas</th>
+      <th class="icon icon-link-colum"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items">
+      <td *ngIf="item.status == true">{{item.currentTime}}</td>
+      <td *ngIf="item.status == true">
+        <a (click)="delete(item)" >
+          <i class="fa-solid fa-trash-can"></i>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-    <!--    <td>{{item.rezervations?.c}}</td>-->
-    <!--    <td><a [routerLink]="[item.id,'editUser']" ><i class="fa-solid fa-pen-to-square"></i></a></td>-->
-    <!--    <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>-->
+<div>
+  <h1>Historia</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Cas</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items">
+      <td *ngIf="item.status == false">{{item.currentTime}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
-  </tr>
-  </tbody>
-</table>
-
-<!--<a class="btn btn-primary" routerLink="newUser">New</a>-->

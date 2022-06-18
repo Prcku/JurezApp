@@ -25,8 +25,12 @@ export class LoginComponent {
    }
    // admin
     if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
-      this.router.navigate(['/adminpage'])
-      return
+      this.userService.isAutorized(this.item).subscribe(value => {
+        if (value) {
+          this.router.navigate(['/adminpage'])
+        }
+      })
+      return;
     }
     //user
    this.userService.isAutorized(this.item).subscribe(value => {
