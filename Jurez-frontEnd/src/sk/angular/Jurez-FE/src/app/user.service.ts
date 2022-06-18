@@ -73,8 +73,6 @@ export class UserService {
         }))
       .pipe(tap(user => {
         this.getByEmail(user.sub,this.token).subscribe(value => {console.log(value)
-          console.log("asdhoasdjoashdoahsdoasd")
-          console.log(value)
         this.userSubject.next(value)});
       }))
       // .pipe(

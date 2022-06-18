@@ -15,7 +15,7 @@ export class DashboardComponent {
 
   items: Rezervation[] | undefined;
   item = {} as Rezervation;
-  // user: User | undefined = {} as User;
+  days: string[] = ['Nedeľa', 'Pondelok', 'Utorok', 'Streda', 'Štvrtok', 'Piatok', 'Sobota'];
   user$: Observable<User | undefined>;
 
   constructor(private rezervationService: RezervationService
@@ -23,15 +23,14 @@ export class DashboardComponent {
     , private userService: UserService) {
     this.user$ =this.userService.onUserChange()
     if (this.user$){
-      // this.user$.subscribe(value => {
-      //   this.user = value;
-      // })
       this.reload();
     }
   }
 
   reload(){
     this.rezervationService.getfreeRezervations().subscribe(value => {this.items = value})
+    // console.log(this.item)
+    // console.log(this.item.currentTime.getTime())
     // console.log("nech ti nejebe")
     // this.userService.get().subscribe((value: User) => {
     //   console.log("hodnota")

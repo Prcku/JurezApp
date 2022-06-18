@@ -42,7 +42,7 @@ export class RezervationService {
     );
   }
 
-  getRezervationOnThisTime(date: string){
+  getRezervationOnThisTime(date: Date){
     return this.http.get<Rezervation[]>('/api/rezervation/time/' +date).pipe(
       catchError(error => {
         let errorMsg: string;
@@ -56,7 +56,7 @@ export class RezervationService {
     );
   }
 
-  bookRezervation(date: string, id: number){
+  bookRezervation(date: Date, id: number){
     // @ts-ignore
     return this.http.put<Rezervation>('/api/rezervation/time/' + date + '/' + id).pipe(
       catchError(error => {
@@ -71,7 +71,7 @@ export class RezervationService {
     );
   }
 
-  getHowManyUserIsOnThisRezervation(date: string){
+  getHowManyUserIsOnThisRezervation(date: Date){
       return this.http.get<number>('/api/rezervation/free/' + date).pipe(
         catchError(error => {
           let errorMsg: string;
@@ -120,7 +120,7 @@ export class RezervationService {
     }
   }
 
-  cancelRezervation(date: string, id:number){
+  cancelRezervation(date: Date, id:number){
     // @ts-ignore
     return this.http.put<void>("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
       catchError(error => {

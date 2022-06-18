@@ -1,5 +1,5 @@
 export interface Rezervation {
   id: number;
-  currentTime: string;
+  currentTime: Date;
   status: boolean;
 }

@@ -64,6 +64,7 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public List<Rezervation> availibleRezervation() {
         try{
+            whatTimeIsIt();
          List<Rezervation> rezervations = rezervationJpaRepo.findByUserIsNullAndStatusIsTrue();
             log.info("Get freeRezervation: {}");
          return rezervations;
@@ -88,7 +89,7 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public Rezervation rezerveTerm(Date date, Long id) {
         try{
-            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(date);
+            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(date);
             log.info("Get first rezervation by date : {}", date);
             Optional<User> user = userJpaRepo.findById(id);
             log.info("Get user by id : {}", id);
@@ -124,6 +125,16 @@ public class RezervationServiceImpl implements RezervationService {
         }catch (Exception e){
             log.info("Get user of this rezervations faild: {}" , currentTime);
             return null;
+        }
+    }
+
+    private void whatTimeIsIt(){
+        Date now = new Date();
+        List<Rezervation> rezervations = rezervationJpaRepo.findAll();
+        for (Rezervation rezervation:rezervations) {
+            if (rezervation.getCurrentTime().getTime() < now.getTime()){
+                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
+            }
         }
     }
 }

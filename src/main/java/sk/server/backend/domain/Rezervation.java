@@ -23,7 +23,7 @@ public class Rezervation {
 
     @Column(name = "currentTime", nullable = false )
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Europe/Bratislava")
+    @JsonFormat(pattern = "EEEE yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Europe/Bratislava")
     private Date currentTime;
 
     @Column(name = "status")

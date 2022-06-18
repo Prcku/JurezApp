@@ -1,23 +1,59 @@
 
+<div class="row" >
+  <div class="col" *ngFor="let item of items">
+    <div>{{item.currentTime}}</div>
+  </div>
+  <div class="col-12">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Cas</th>
+        <th>Obsadenost</th>
+        <th class="icon icon-link-colum"></th>
+        <th class="icon icon-link-colum"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of items">
+        <td>{{item.currentTime}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<!--  <div class="col-12">-->
+<!--    <table class="table table-striped">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Cas</th>-->
+<!--        <th>Obsadenost</th>-->
+<!--        <th class="icon icon-link-colum"></th>-->
+<!--        <th class="icon icon-link-colum"></th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let item of items">-->
+<!--        <td>{{item.currentTime}}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--  <div class="col-12">-->
+<!--    <table class="table table-striped">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Cas</th>-->
+<!--        <th>Obsadenost</th>-->
+<!--        <th class="icon icon-link-colum"></th>-->
+<!--        <th class="icon icon-link-colum"></th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr *ngFor="let item of items">-->
+<!--        <td>{{item.currentTime}}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
+</div>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Cas</th>
-    <th>Obsadenost</th>
-    <th class="icon icon-link-colum"></th>
-    <th class="icon icon-link-colum"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let item of items">
-    <!--      <td><a [routerLink]="[item.id]">{{item.firstName}}</a></td>-->
-    <td>{{item.currentTime}}</td>
 
-    <!--    <td>{{item.rezervations?.c}}</td>-->
-<!--    <td><a [routerLink]="[item.id,'editUser']" ><i class="fa-solid fa-pen-to-square"></i></a></td>-->
-<!--    <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>-->
-  </tr>
-  </tbody>
-</table>
-    <button *ngIf="user$ | async as user;" [routerLink]="['mojerezervacie',user.id]" class="btn btn-primary">Moje rezervácie</button>

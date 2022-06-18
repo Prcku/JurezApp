@@ -18,9 +18,16 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
     @Query("update Rezervation r set r.user = ?1 where r.id = ?2")
     void rezerveTerm(User user, Long id);
 
+    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(Date currentTime);
+
     Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(Date currentTime, Long id);
 
-    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(Date currentTime);
+    @Transactional
+    @Modifying
+    @Query("update Rezervation r set r.status = false where r.id = ?1")
+    void updateStatusFalse(Long id);
+
+//    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(Date currentTime);
 
     Integer countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(Date currentTime);
 
