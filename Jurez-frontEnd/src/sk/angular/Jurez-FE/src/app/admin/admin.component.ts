@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import {UserService} from '../user.service';
 import {Router} from "@angular/router";
 import {User} from "../user";
+import {Subject} from "rxjs";
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -9,7 +10,8 @@ import {User} from "../user";
 })
 export class AdminComponent {
 
-
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
   items: User[] | undefined;
   item = {} as User;
   constructor(private userService: UserService
@@ -18,7 +20,8 @@ export class AdminComponent {
   }
 
   reload(){
-    this.userService.getAll().subscribe(value => {this.items = value})
+    this.userService.getAll().subscribe(value => {this.items = value
+    this.dtTrigger.next(value);})
   }
 
 
@@ -30,4 +33,9 @@ export class AdminComponent {
         })
     }
   }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+
 }

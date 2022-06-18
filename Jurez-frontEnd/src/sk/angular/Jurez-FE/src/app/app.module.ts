@@ -13,12 +13,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { MyRezervationComponent } from './my-rezervation/my-rezervation.component';
 import {UserInterceptor} from "./user.interceptor";
+import {DataTablesModule} from "angular-datatables";
+
 
 @NgModule({
   imports: [
-
     BrowserModule,
     AppRoutingModule,
+    DataTablesModule,
     FormsModule,
     HttpClientModule,
   ],
@@ -30,6 +32,7 @@ import {UserInterceptor} from "./user.interceptor";
     NewUserComponent,
     NotFoundComponent,
     EditUserComponent,
+
     MyRezervationComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true}],

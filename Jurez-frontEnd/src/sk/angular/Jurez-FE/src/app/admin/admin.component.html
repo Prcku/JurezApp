@@ -1,29 +1,30 @@
 
-  <table class="table table-striped">
+
+<a class="btn btn-primary mb-5" routerLink="newUser">New</a>
+
+
+  <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
     <thead>
     <tr>
       <th>Meno</th>
       <th>Priezvisko</th>
       <th>Email</th>
       <th>Heslo</th>
-      <th class="icon icon-link-colum"></th>
-      <th class="icon icon-link-colum"></th>
+      <th class="icon icon-link-colum">Editovanie</th>
+      <th class="icon icon-link-colum">Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let item of items">
-<!--      <td><a [routerLink]="[item.id]">{{item.firstName}}</a></td>-->
       <td>{{item.firstName}}</td>
       <td>{{item.lastName}}</td>
       <td>{{item.email}}</td>
       <td>{{item.password}}</td>
-
-      <!--    <td>{{item.rezervations?.c}}</td>-->
       <td><a [routerLink]="[item.id,'editUser']" ><i class="fa-solid fa-pen-to-square"></i></a></td>
       <td><a (click)="delete(item)" ><i class="fa-solid fa-trash-can"></i></a></td>
     </tr>
     </tbody>
   </table>
 
-<a class="btn btn-primary" routerLink="newUser">New</a>
+
 

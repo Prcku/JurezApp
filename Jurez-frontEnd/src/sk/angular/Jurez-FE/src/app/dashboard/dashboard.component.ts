@@ -50,12 +50,10 @@ export class DashboardComponent {
         if (confirm(`Naozaj sa chcete zaregistrovat na tento čas ${rezervation.currentTime} ?`)) {
           this.rezervationService.bookRezervation(rezervation.currentTime, value.id).subscribe(error =>{
             console.log(error)
+            this.reload()
           });
-          this.reload()
         }
       }
     })
   }
-
-
 }
