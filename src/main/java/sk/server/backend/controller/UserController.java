@@ -89,9 +89,7 @@ public class UserController {
     //zmenil si return y boolean na user
     @PostMapping(value = "/auth/", produces = "text/plain")
     public String authentificationUser( @RequestBody UserDto user){
-        System.out.println(user.getEmail());
         if (user.getEmail() == null || user.getPassword() == null){
-
             throw new BadRequestException();
         }
         User user1 = userService.authentification(user.getEmail(),user.getPassword());

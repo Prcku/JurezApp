@@ -62,7 +62,6 @@ export class UserService {
   }
 
   isAutorized(userdto: UserDTO){
-
     return this.http.post('/api/user/auth/',userdto, {responseType: 'text'})
       .pipe(map(token => {
         if (!token) {

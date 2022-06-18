@@ -87,7 +87,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public Rezervation rezerveTerm(Date date, Long id) {
+    public void rezerveTerm(Date date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(date);
             log.info("Get first rezervation by date : {}", date);
@@ -95,10 +95,8 @@ public class RezervationServiceImpl implements RezervationService {
             log.info("Get user by id : {}", id);
             rezervationJpaRepo.rezerveTerm(user.get(),rezervation.get().getId());
             log.info("update rezervation : {}");
-            return rezervationJpaRepo.findById(rezervation.get().getId()).get();
         }catch (Exception e){
             log.info("Get first rezervation by date FAILED: {}", date);
-            return null;
         }
     }
 

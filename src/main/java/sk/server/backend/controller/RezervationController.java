@@ -33,18 +33,21 @@ public class RezervationController {
         }
 
         @GetMapping("/time/{date}")
-        public List<Rezervation> getRezervationByDate(@PathVariable Date date){
-            return rezervationService.findByDate(date);
+        public List<Rezervation> getRezervationByDate(@PathVariable String date) throws ParseException {
+            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            return rezervationService.findByDate(date1);
         }
 
-        @PutMapping("/time/{date}/{id}")
-        public Rezervation bookRezervation(@PathVariable Date date,@PathVariable Long id){
-            return rezervationService.rezerveTerm(date,id);
+        @PutMapping("/time/{id}/{date}")
+        public void bookRezervation(@PathVariable String date,@PathVariable Long id) throws ParseException {
+            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            rezervationService.rezerveTerm(date1,id);
         }
 
         @GetMapping("/free/{date}")
-        public Integer gethowManyPlaceIsNotFree(@PathVariable Date date){
-            return rezervationService.howManyPlaceIsNotFree(date);
+        public Integer gethowManyPlaceIsNotFree(@PathVariable String date) throws ParseException {
+            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            return rezervationService.howManyPlaceIsNotFree(date1);
         }
 
         @PostMapping()

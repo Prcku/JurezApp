@@ -58,7 +58,7 @@ export class RezervationService {
 
   bookRezervation(date: Date, id: number){
     // @ts-ignore
-    return this.http.put<Rezervation>('/api/rezervation/time/' + date + '/' + id).pipe(
+    return this.http.put("/api/rezervation/time/" + id + '/' + date).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -122,7 +122,7 @@ export class RezervationService {
 
   cancelRezervation(date: Date, id:number){
     // @ts-ignore
-    return this.http.put<void>("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
+    return this.http.put("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
