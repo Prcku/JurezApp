@@ -14,6 +14,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { MyRezervationComponent } from './my-rezervation/my-rezervation.component';
 import {UserInterceptor} from "./user.interceptor";
 import {DataTablesModule} from "angular-datatables";
+import {DatePipe} from "@angular/common";
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import {DataTablesModule} from "angular-datatables";
     AppRoutingModule,
     DataTablesModule,
     FormsModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -32,7 +33,6 @@ import {DataTablesModule} from "angular-datatables";
     NewUserComponent,
     NotFoundComponent,
     EditUserComponent,
-
     MyRezervationComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true}],

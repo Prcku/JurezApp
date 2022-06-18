@@ -34,19 +34,19 @@ public class RezervationController {
 
         @GetMapping("/time/{date}")
         public List<Rezervation> getRezervationByDate(@PathVariable String date) throws ParseException {
-            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             return rezervationService.findByDate(date1);
         }
 
         @PutMapping("/time/{id}/{date}")
         public void bookRezervation(@PathVariable String date,@PathVariable Long id) throws ParseException {
-            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             rezervationService.rezerveTerm(date1,id);
         }
 
         @GetMapping("/free/{date}")
         public Integer gethowManyPlaceIsNotFree(@PathVariable String date) throws ParseException {
-            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             return rezervationService.howManyPlaceIsNotFree(date1);
         }
 
@@ -57,7 +57,7 @@ public class RezervationController {
 
         @PutMapping("time/cancel/{date}/{id}")
         public void deleteUser(@PathVariable String date ,@PathVariable Long id) throws ParseException {
-            Date date1 = new SimpleDateFormat("EEEE yyyy-MM-dd HH:mm").parse(date);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             rezervationService.cancelRezervation(date1, id);
         }
         @GetMapping("/user/{id}")
