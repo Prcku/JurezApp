@@ -31,7 +31,7 @@
       </ul>
 <!--      <span class="navbar-text mx-3">{{(user$ | async)?.firstName}}</span>-->
       <span *ngIf="user$ | async as user; else logoutTmp">
-        <span class="navbar-text mx-2">{{user.firstName}}</span>
+        <span class="navbar-text mx-2">{{user.firstName}} {{user.lastName}}</span>
         <a class="btn btn-secondary" routerLink="login" (click)="logout()">Logout</a>
       </span>
 

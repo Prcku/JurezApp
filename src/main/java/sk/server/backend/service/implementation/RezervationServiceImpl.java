@@ -29,15 +29,19 @@ public class RezervationServiceImpl implements RezervationService {
 
     @Override
     public Rezervation create(Rezervation rezervation) {
-        log.info("Create new User: {}",rezervation.toString());
-        rezervation.getUser().getId();
-        return rezervationJpaRepo.save(rezervation);
+        try {
+            log.info("Create new Rezervation: {}",rezervation.toString());
+            return rezervationJpaRepo.save(rezervation);
+        }catch (Exception e){
+            log.info("Create new Rezervation FAILED error = {}", e.getMessage());
+            return null;
+        }
+
     }
 
     //toto asi nebude treba
     @Override
     public Rezervation get(Long id) {
-
         try {
             Rezervation rezervation = rezervationJpaRepo.findById(id).get();
             log.info("Get rezeration: {}",id);
@@ -64,19 +68,11 @@ public class RezervationServiceImpl implements RezervationService {
     public List<Rezervation> availibleRezervation() {
         try{
             whatTimeIsIt();
-//         List<Object> rezervations = rezervationJpaRepo.freeRezervation().stream().map(p -> (RezervationDto) p).collect(Collectors.toList());;
             List<Rezervation> rezervations  =  rezervationJpaRepo.freeRezervation();
-//            for (RezervationDto rezervation : rezervations) {
-//                System.out.println(rezervation.toString());
-//            }
-            log.info("Get freeRezervation: {}", rezervations.get(0));
-//         for (RezervationDto rezervationDto: rezervations){
-//             System.out.println(rezervationDto.toString());
-//         }
+            log.info("Get freeRezervation {}", rezervations.size());
          return rezervations;
         }catch (Exception e){
-            System.out.println(e.getMessage());
-            log.info("Get freeRezervation faild: {}");
+            log.info("Get freeRezervation faild: {}",e.getMessage());
             return null;
         }
     }
@@ -111,7 +107,8 @@ public class RezervationServiceImpl implements RezervationService {
     public Rezervation cancelRezervation(Date date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(date,id);
-            log.info("Get first rezervation by date {}", date , "and user id : {}",id);
+            log.info("Get first rezervation by date = {}", date );
+            log.info("and by user id = {}", id);
             rezervationJpaRepo.rezerveTerm(null,rezervation.get().getId());
             log.info("update rezervation : {}",rezervation.get().getId());
             return rezervationJpaRepo.findById(rezervation.get().getId()).get();
@@ -135,6 +132,7 @@ public class RezervationServiceImpl implements RezervationService {
 
     private void whatTimeIsIt(){
         Date now = new Date();
+        log.info("check which rezervation already not availible");
         List<Rezervation> rezervations = rezervationJpaRepo.findAll();
         for (Rezervation rezervation:rezervations) {
             if (rezervation.getCurrentTime().getTime() < now.getTime()){

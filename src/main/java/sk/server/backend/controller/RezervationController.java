@@ -1,6 +1,7 @@
 package sk.server.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
+import sk.server.backend.controller.exceptions.BadRequestException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.service.RezervationService;
 
@@ -39,9 +40,17 @@ public class RezervationController {
         }
 
         @PutMapping("/time/{id}/{date}")
-        public void bookRezervation(@PathVariable String date,@PathVariable Long id) throws ParseException {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-            rezervationService.rezerveTerm(date1,id);
+        public void bookRezervation(@PathVariable String date,@PathVariable Long id)  {
+            if (id == null || date == null){
+                throw new BadRequestException();
+            }
+            try {
+                Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+                rezervationService.rezerveTerm(date1,id);
+            }catch (Exception e){
+                throw new BadRequestException();
+            }
+
         }
 
         @GetMapping("/free/{date}")
@@ -56,9 +65,16 @@ public class RezervationController {
         }
 
         @PutMapping("time/cancel/{date}/{id}")
-        public void deleteUser(@PathVariable String date ,@PathVariable Long id) throws ParseException {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-            rezervationService.cancelRezervation(date1, id);
+        public void deleteUser(@PathVariable String date ,@PathVariable Long id){
+            if (date == null || id == null){
+                throw new BadRequestException();
+            }
+            try {
+                Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+                rezervationService.cancelRezervation(date1, id);
+            }catch (Exception e){
+                throw new BadRequestException();
+            }
         }
         @GetMapping("/user/{id}")
         public List<Rezervation> getUserRezervation(@PathVariable Long id){
