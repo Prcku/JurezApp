@@ -28,13 +28,19 @@ public class RezervationServiceImpl implements RezervationService {
     private final UserJpaRepo userJpaRepo;
 
     @Override
-    public Rezervation create(Rezervation rezervation) {
+    public void create(Date date) {
         try {
-            log.info("Create new Rezervation: {}",rezervation.toString());
-            return rezervationJpaRepo.save(rezervation);
+            log.info("Create new Rezervation: {}",date);
+
+            for (int i =0 ; i < 4; i++){
+                Rezervation rezervation = new Rezervation();
+                rezervation.setCurrentTime(date);
+                rezervation.setStatus(true);
+                log.info("create new Rezervation {}",i);
+                rezervationJpaRepo.save(rezervation);
+            }
         }catch (Exception e){
             log.info("Create new Rezervation FAILED error = {}", e.getMessage());
-            return null;
         }
 
     }

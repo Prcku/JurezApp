@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface RezervationService {
-    Rezervation create(Rezervation rezervation);
+    void create(Date rezervation);
     Rezervation get(Long id);
     List<Rezervation> availibleRezervation();
 //    Rezervation rezerveTerm(Date date, Long id);

@@ -1,8 +1,11 @@
 
 
 <a class="btn btn-primary mb-5" routerLink="newUser">New</a>
-
-
+<label for="rezervation-time">
+  Zadaj datum
+  <input type="datetime-local" id="rezervation-time" name="rezervation-time" #inputElement>
+  <button type="button" (click)="createRez(inputElement)">Vytvor</button>
+</label>
   <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
     <thead>
     <tr>

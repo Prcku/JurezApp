@@ -84,9 +84,12 @@ export class RezervationService {
         })
       );
   }
-  createRezervation(rezervation: Rezervation){
-    return this.http.post<Rezervation>('/api/rezervation/free/', rezervation).pipe(
+
+  createRezervation(rezervation: string){
+    console.log(rezervation);
+    return this.http.post('/api/rezervation', rezervation).pipe(
       catchError(error => {
+        console.log(error)
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
