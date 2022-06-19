@@ -61,10 +61,10 @@ public class RezervationController {
 
         @PostMapping()
         public void createRezervation(@RequestBody String date) throws ParseException {
-            String[] format = date.split("T");
-            String rezervation = format[0].concat(" ").concat(format[1]);
-            System.out.println(rezervation);
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(rezervation);
+//            String[] format = date.split("T");
+//            String rezervation = format[0].concat(" ").concat(format[1]);
+//            System.out.println(rezervation);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
             rezervationService.create(date1);
         }
 

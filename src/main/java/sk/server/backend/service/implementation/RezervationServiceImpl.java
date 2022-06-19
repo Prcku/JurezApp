@@ -11,6 +11,7 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,13 +32,18 @@ public class RezervationServiceImpl implements RezervationService {
     public void create(Date date) {
         try {
             log.info("Create new Rezervation: {}",date);
-
-            for (int i =0 ; i < 4; i++){
-                Rezervation rezervation = new Rezervation();
-                rezervation.setCurrentTime(date);
-                rezervation.setStatus(true);
-                log.info("create new Rezervation {}",i);
-                rezervationJpaRepo.save(rezervation);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.HOUR,5);
+            for (int i=0 ; i < 17 ;i++){
+                calendar.add(Calendar.HOUR,1);
+                for (int j =0 ; j < 4; j++){
+                    Rezervation rezervation = new Rezervation();
+                    rezervation.setCurrentTime(calendar.getTime());
+                    rezervation.setStatus(true);
+                    log.info("create new Rezervation {}",j);
+                    rezervationJpaRepo.save(rezervation);
+                }
             }
         }catch (Exception e){
             log.info("Create new Rezervation FAILED error = {}", e.getMessage());
