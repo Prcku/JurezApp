@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 import sk.server.backend.repo.UserJpaRepo;
@@ -24,31 +26,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserJpaRepo userJpaRepo;
 
-//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
-    public UserServiceImpl() {
-        User user = new User();
-        if(getByEmail("admin@admin.sk") == null) {
-            user.setFirstName("Admin");
-            user.setLastName("Pan");
-            user.setEmail("admin@admin.sk");
-            user.setPassword("admin123");
-            create(user);
-        }
-    }
-
-//    public UserServiceImpl(UserJpaRepo userJpaRepo) {
-//        this.userJpaRepo = userJpaRepo;
+//    public UserServiceImpl() {
+//        User user = new User();
+//        if(getByEmail("admin@admin.sk") == null) {
+//            user.setFirstName("Admin");
+//            user.setLastName("Pan");
+//            user.setEmail("admin@admin.sk");
+//            user.setPassword("admin123");
+//            create(user);
+//        }
 //    }
+
 
     @Override
     public User create(User user) {
         try {
             if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
-//                user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
                 User user1 = userJpaRepo.save(user);
-//                user.setPassword();
                 log.info("Create new User: {}",user.getEmail());
                 return user1;
             }
@@ -75,11 +71,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
+//        List<User> users = userJpaRepo.findAll();
+//        for (User user:
+//             ) {
+//
+//        }
         return userJpaRepo.findAll();
     }
 
     @Override
     public void update(User user) {
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
         userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getId());
     }
 
@@ -116,7 +118,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authentification(String email, String password) {
         try {
-            return userJpaRepo.findByEmailEqualsAndPasswordEquals(email,password).get();
+            if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
+                log.info("Password is Right");
+                return userJpaRepo.findByEmailEquals(email).get();
+            }
+            else {
+                log.info("Wrong password");
+                return null;
+            }
         }catch (Exception e){
             return  null;
         }

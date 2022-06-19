@@ -7,14 +7,15 @@ import {NewUserComponent} from "./new-user/new-user.component";
 import {NotFoundComponent} from "./not-found/not-found.component";
 import {EditUserComponent} from "./edit-user/edit-user.component";
 import {MyRezervationComponent} from "./my-rezervation/my-rezervation.component";
+import {UserGuard} from "./user.guard";
 
 const routes: Routes = [
-  {path:'home', component: DashboardComponent},
+  {path:'home', component: DashboardComponent , canActivate: [UserGuard]},
   {path:'login', component: LoginComponent},
-  {path: 'home/mojerezervacie/:id', component: MyRezervationComponent},
-  {path:'adminpage', component: AdminComponent},
-  {path:'adminpage/newUser', component: NewUserComponent },
-  {path:'adminpage/:id/editUser', component: EditUserComponent},
+  {path: 'home/mojerezervacie/:id', component: MyRezervationComponent , canActivate: [UserGuard]},
+  {path:'adminpage', component: AdminComponent , canActivate: [UserGuard]},
+  {path:'adminpage/newUser', component: NewUserComponent , canActivate: [UserGuard]},
+  {path:'adminpage/:id/editUser', component: EditUserComponent , canActivate: [UserGuard]},
   {path:'', redirectTo: 'login', pathMatch: 'full'},
   {path:'**', component: NotFoundComponent}
 ];

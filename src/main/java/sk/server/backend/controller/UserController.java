@@ -52,7 +52,7 @@ public class UserController {
 
     @PostMapping()
     public User createUser(@RequestBody User user){
-        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null){
+        if(user.getFirstName() == null || user.getLastName() == null || user.getEmail() == null || user.getPassword() == null){
             throw new BadRequestException();
         }
         Optional<User> user1 = Optional.ofNullable(userService.create(user));

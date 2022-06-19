@@ -15,6 +15,8 @@ import { MyRezervationComponent } from './my-rezervation/my-rezervation.componen
 import {UserInterceptor} from "./user.interceptor";
 import {DataTablesModule} from "angular-datatables";
 import {DatePipe} from "@angular/common";
+import {UserGuard} from "./user.guard";
+import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confirm.component';
 
 
 @NgModule({
@@ -33,9 +35,11 @@ import {DatePipe} from "@angular/common";
     NewUserComponent,
     NotFoundComponent,
     EditUserComponent,
-    MyRezervationComponent
+    MyRezervationComponent,
+    NgbdModalConfirmComponent
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true}],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true},
+  UserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

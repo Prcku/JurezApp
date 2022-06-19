@@ -22,6 +22,8 @@ export class AdminComponent {
   reload(){
     this.userService.getAll().subscribe(value => {this.items = value
     this.dtTrigger.next(value);})
+    window.location.reload();
+
   }
 
 
