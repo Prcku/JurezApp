@@ -1,8 +1,5 @@
 package sk.server.backend.service.Response.factory;
 
-import sk.server.backend.domain.Rezervation;
-import sk.server.backend.service.Response.RezervationDto;
-
 public class RezervationResponseFactory {
 
 //    public RezervationDto transformToDto(Rezervation rezervation){

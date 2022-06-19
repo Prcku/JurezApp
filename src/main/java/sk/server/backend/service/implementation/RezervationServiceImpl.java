@@ -11,7 +11,6 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -65,10 +64,18 @@ public class RezervationServiceImpl implements RezervationService {
     public List<Rezervation> availibleRezervation() {
         try{
             whatTimeIsIt();
-         List<Rezervation> rezervations = rezervationJpaRepo.findByUserIsNullAndStatusIsTrue();
-            log.info("Get freeRezervation: {}");
+//         List<Object> rezervations = rezervationJpaRepo.freeRezervation().stream().map(p -> (RezervationDto) p).collect(Collectors.toList());;
+            List<Rezervation> rezervations  =  rezervationJpaRepo.freeRezervation();
+//            for (RezervationDto rezervation : rezervations) {
+//                System.out.println(rezervation.toString());
+//            }
+            log.info("Get freeRezervation: {}", rezervations.get(0));
+//         for (RezervationDto rezervationDto: rezervations){
+//             System.out.println(rezervationDto.toString());
+//         }
          return rezervations;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             log.info("Get freeRezervation faild: {}");
             return null;
         }

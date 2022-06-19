@@ -3,28 +3,27 @@
   <div class="col">
     Pondelok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Monday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
-      <span></span>
+      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Monday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}    {{item.count}}/4</button>
     </div>
   </div>
 
   <div class="col">
     Utorok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
+      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
 
   <div class="col">
     Streda
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Wednesday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
+      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Wednesday'" (click)="rezerveTerm(item)">Cas:{{item.currentTime | date: 'HH:mm'}} Ludí{{item.count}}/4</button>
     </div>
   </div>
   <div class="col">
     Štvrtok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Thursday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
+      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Thursday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
   <div class="col">

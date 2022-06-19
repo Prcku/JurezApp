@@ -35,6 +35,13 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
 
     List<Rezervation> findByUserIsNullAndStatusIsTrue();
 
+    @Transactional
+    @Modifying
+    @Query( value = "select" +
+            " new sk.server.backend.domain.Rezervation(count(r),r.currentTime) " +
+            " from Rezervation r where r.status = true and r.user is null GROUP BY r.currentTime order by r.currentTime")
+    List<Rezervation> freeRezervation();
+
     List<Rezervation> findByUser_IdEquals(Long id);
 
 
