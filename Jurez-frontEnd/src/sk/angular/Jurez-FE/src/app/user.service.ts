@@ -74,16 +74,16 @@ export class UserService {
         this.getByEmail(user.sub,this.token).subscribe(value => {
         this.userSubject.next(value)});
       }))
-      // .pipe(
-      // catchError(error => {
-      //   let errorMsg: string;
-      //   if (error.error instanceof ErrorEvent) {
-      //     errorMsg = `Error: ${error.error.message}`;
-      //   } else {
-      //     errorMsg = this.getServerErrorMessage(error);
-      //   }
-      //   throw new Error(errorMsg);
-      // }))
+      .pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      }))
   }
 
   get(){

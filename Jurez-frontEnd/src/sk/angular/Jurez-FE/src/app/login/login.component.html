@@ -1,17 +1,28 @@
 
 
-
-<form (ngSubmit)="check(formElement)" #formElement=ngForm [class.was-validated]="formElement.submitted || formElement.touched">
-  <!-- Email input -->
-  <div class="form-outline mb-4">
-
-    <label class="form-label" for="email">Email</label>
-    <input name="email" id="email" class="form-control" ngModel required #email="ngModel">
-
-
-    <label class="form-label" for="form2Example2">Heslo</label>
-    <input type="password" name="password" id="form2Example2" class="form-control" ngModel required #password="ngModel"/>
+<div class="row mt-5" >
+  <div class="col">
+    <div class="TitleDiv" >
+      <h1 class="display-1">JuRez</h1>
+      <h1 class="display-2">YouRezervation</h1>
+    </div>
   </div>
+  <div class="col">
+    <form (ngSubmit)="check(formElement)" #formElement=ngForm [class.was-validated]="formElement.submitted || formElement.touched">
+      <!-- Email input -->
+      <div class="form-outline mb-4">
 
-  <button type="submit" class="btn btn-primary btn-block mb-4">Prihlasit</button>
-</form>
+        <label class="form-label" for="email">Email</label>
+        <input name="email" id="email" class="form-control" ngModel required #email="ngModel">
+
+        <label class="form-label" for="form2Example2">Heslo</label>
+        <input type="password" name="password" id="form2Example2" class="form-control" ngModel required #password="ngModel"/>
+      </div>
+      <div *ngIf="error != undefined " class="alert alert-danger" role="alert">
+        Zadal si zly email alebo heslo
+      </div>
+      <button type="submit" class="btn btn-primary btn-block mb-4">Prihlasit</button>
+    </form>
+  </div>
+</div>
+

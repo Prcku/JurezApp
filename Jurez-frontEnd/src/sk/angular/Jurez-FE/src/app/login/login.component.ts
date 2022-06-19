@@ -3,6 +3,8 @@ import {NgForm} from "@angular/forms";
 import {UserService} from "../user.service";
 import { Router} from "@angular/router";
 import {UserDTO} from "../userDTO";
+import {error} from "jquery";
+import {stringify} from "@angular/compiler/src/util";
 
 @Component({
   selector: 'app-login',
@@ -12,9 +14,11 @@ import {UserDTO} from "../userDTO";
 export class LoginComponent {
 
   item = {} as UserDTO;
-
+  error: string | undefined;
   constructor(private userService: UserService,
-              private router: Router) { }
+              private router: Router) {
+    this.error = undefined;
+  }
 
   check(formElemnt: NgForm){
     this.item.email = formElemnt.value.email;
@@ -37,6 +41,11 @@ export class LoginComponent {
      if (value){
        this.router.navigate(['/home'])
      }
+     },
+     error => {
+        if (error){
+          this.error = error;
+        }
      }
    )
 

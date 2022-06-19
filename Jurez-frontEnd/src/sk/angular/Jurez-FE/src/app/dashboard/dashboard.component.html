@@ -3,45 +3,45 @@
   <div class="col">
     Pondelok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Monday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}    {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Monday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}    {{item.count}}/4</button>
     </div>
   </div>
 
   <div class="col">
     Utorok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
 
   <div class="col">
     Streda
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Wednesday'" (click)="rezerveTerm(item)">Cas:{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Wednesday'" (click)="rezerveTerm(item)">Cas:{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
   <div class="col">
     Štvrtok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Thursday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Thursday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
   <div class="col">
    Piatok
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Friday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Friday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
   <div class="col">
     Sobota
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Saturday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Saturday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
   <div class="col">
     Nedeľa
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Sunday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Sunday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
     </div>
   </div>
 </div>
@@ -59,18 +59,18 @@
 <!--<div class="row">-->
 <!--  Pondelok-->
 <!--  <div class="col" *ngFor="let item of items" >-->
-<!--      <button class="btn btn-primary " (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
+<!--      <button class="btn btn-outline-info " (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
 <!--    </div>-->
 <!--</div>-->
 <!--Utorok-->
 <!--<div class="row"  *ngFor="let item of items">-->
-<!--      <button class="btn btn-primary col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
+<!--      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday'" (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
 <!--  </div>-->
 
 <!--<div class="row"  >-->
 <!--  Streda-->
 <!--  <div class="col" *ngFor="let item of Wednesday ">-->
-<!--        <button class="btn btn-primary col "  (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
+<!--        <button class="btn btn-outline-info col "  (click)="rezerveTerm(item)">{{item.currentTime}}</button>-->
 <!--  </div>-->
 
 <!--</div>-->
