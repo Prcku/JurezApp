@@ -1,15 +1,17 @@
 
 <div>
   <h1>Aktuálne rezervácie</h1>
-  <table class="table table-striped">
+  <table class="table table-sm">
     <thead>
     <tr>
-      <th>Cas</th>
-      <th class="icon icon-link-colum"></th>
+      <th scope="col">#</th>
+      <th scope="col">ČAS</th>
+      <th scope="col">Zrušit</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of items">
+    <tr *ngFor="let item of items ">
+      <th *ngIf="item.status == true" scope="row">#</th>
       <td *ngIf="item.status == true">{{item.currentTime}}</td>
       <td *ngIf="item.status == true">
         <a (click)="delete(item)" >
@@ -23,14 +25,16 @@
 
 <div>
   <h1>Historia</h1>
-  <table class="table table-striped">
+  <table class="table table-sm">
     <thead>
     <tr>
-      <th>Cas</th>
+      <th scope="col">#</th>
+      <th scope="col">ČAS</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of items">
+    <tr *ngFor="let item of items; let j = index">
+      <th *ngIf="item.status == false" scope="row">{{j}}</th>
       <td *ngIf="item.status == false">{{item.currentTime}}</td>
     </tr>
     </tbody>

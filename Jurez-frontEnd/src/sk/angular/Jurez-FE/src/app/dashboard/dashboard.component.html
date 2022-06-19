@@ -41,7 +41,7 @@
   <div class="col">
     Nedeľa
     <div class="col m-1"  *ngFor="let item of items">
-      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Sunday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}}</button>
+      <button class="btn btn-outline-info col " *ngIf="(item.currentTime | date: 'EEEE') == 'Sunday'" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} {{item.count}}/4</button>
     </div>
   </div>
 </div>
