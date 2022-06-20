@@ -6,7 +6,7 @@ import {UserService} from "../user.service";
 import {User} from "../user";
 import {Observable} from "rxjs";
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {DatePipe} from "@angular/common";
+import {DatePipe, formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-dashboard',
@@ -19,13 +19,19 @@ export class DashboardComponent{
   // private daysName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   user$: Observable<User | undefined>;
   countUser: number | undefined;
+
   // Monday: Rezervation[] | undefined;
   // Wednesday: Rezervation[] | undefined;
+
+  // today= new Date();
+  // newToday = new Date();
 
   constructor(private rezervationService: RezervationService
     , private router: Router
     , private userService: UserService
     , public  _modalService: NgbModal) {
+
+    // this.newToday.setDate( this.today.getDate() + 3 );
     this.user$ =this.userService.onUserChange()
     if (this.user$ != undefined) {
       this.reload();

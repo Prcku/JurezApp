@@ -1,10 +1,12 @@
 
+
+
 <div class="row row-cols-auto">
-  <div class="col-xl-auto col-lg-2 col-sm-3" >
+  <div class="col-xl-auto col-lg-2 col-sm-3">
     <h3 class="  text-primary p-3" >Pondelok</h3>
     <div class="col-1.5  m-1 "  *ngFor="let item of items">
       <div class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Monday'" >
-          <button class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+          <button class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
             <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -31,7 +33,7 @@
     <h3 class="  text-primary p-3" >Utorok</h3>
     <div class="col-1.5  m-1 "  *ngFor="let item of items">
       <div class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Tuesday' " >
-          <button class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+          <button class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
             <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -58,7 +60,7 @@
     <h3 class="  text-primary p-3" >Streda</h3>
     <div class="col  m-1 "  *ngFor="let item of items">
         <div class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Wednesday'" >
-          <button  class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+          <button  class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
             <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -85,7 +87,7 @@
     <h3 class="  text-primary p-3" >Štvrtok</h3>
     <div class="col-1  m-1 "  *ngFor="let item of items">
       <div class="buttonDiv" class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Thursday'">
-        <button  class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+        <button  class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
           <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -112,7 +114,7 @@
     <h3 class="  text-primary p-3" >Piatok</h3>
     <div class="col-1.5  m-1 "  *ngFor="let item of items" >
       <div class="buttonDiv" class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Friday'" >
-        <button  class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+        <button  class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
           <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -139,7 +141,7 @@
     <h3 class="  text-primary p-3" >Sobota</h3>
     <div class="col-1.5  m-1 "  *ngFor="let item of items" >
       <div class="buttonDiv" class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Saturday'" >
-        <button  class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+        <button  class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
           <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>
@@ -166,7 +168,7 @@
     <h3 class="  text-primary p-3" >Nedeľa</h3>
     <div class="col-1.5  m-1 "  *ngFor="let item of items" >
       <div class="buttonDiv" class="buttonDiv" *ngIf="(item.currentTime | date: 'EEEE') == 'Sunday'" >
-        <button  class="blob-btn" (click)="rezerveTerm(item)">{{item.currentTime | date: 'HH:mm'}} <br> {{item.count}}/4
+        <button  class="blob-btn" (click)="rezerveTerm(item)"><span> <span class="text-info">{{item.currentTime | date: 'dd.MM'}}</span><br>{{item.currentTime | date: 'HH:mm'}}<br> {{item.count}}/4</span>
           <span class="blob-btn__inner">
               <span class="blob-btn__blobs">
                 <span class="blob-btn__blob"></span>

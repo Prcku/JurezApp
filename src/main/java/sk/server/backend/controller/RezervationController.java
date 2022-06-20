@@ -18,11 +18,6 @@ public class RezervationController {
         @Resource()
         private RezervationService rezervationService;
 
-//        @GetMapping
-//        public List<User> getUsers(){
-//            return userService.getAll();
-//        }
-
         @GetMapping("/{id}")
         public Rezervation getRezervation(@PathVariable Long id){
             return rezervationService.get(id);
@@ -54,18 +49,24 @@ public class RezervationController {
         }
 
         @GetMapping("/free/{date}")
-        public Integer gethowManyPlaceIsNotFree(@PathVariable String date) throws ParseException {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-            return rezervationService.howManyPlaceIsNotFree(date1);
+        public Integer gethowManyPlaceIsNotFree(@PathVariable String date)  {
+            try {
+                Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+                return rezervationService.howManyPlaceIsNotFree(date1);
+            }
+            catch (Exception e){
+                throw new BadRequestException();
+            }
         }
 
         @PostMapping()
-        public void createRezervation(@RequestBody String date) throws ParseException {
-//            String[] format = date.split("T");
-//            String rezervation = format[0].concat(" ").concat(format[1]);
-//            System.out.println(rezervation);
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-            rezervationService.create(date1);
+        public void createRezervation(@RequestBody String date) {
+            try {
+                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                rezervationService.create(date1);
+            }catch (Exception e){
+                throw new BadRequestException();
+            }
         }
 
         @PutMapping("time/cancel/{date}/{id}")

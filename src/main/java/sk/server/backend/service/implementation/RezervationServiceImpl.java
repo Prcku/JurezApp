@@ -34,15 +34,21 @@ public class RezervationServiceImpl implements RezervationService {
             log.info("Create new Rezervation: {}",date);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            calendar.add(Calendar.HOUR,5);
-            for (int i=0 ; i < 17 ;i++){
-                calendar.add(Calendar.HOUR,1);
-                for (int j =0 ; j < 4; j++){
-                    Rezervation rezervation = new Rezervation();
-                    rezervation.setCurrentTime(calendar.getTime());
-                    rezervation.setStatus(true);
-                    log.info("create new Rezervation {}",j);
-                    rezervationJpaRepo.save(rezervation);
+            Date now = new Date();
+            if(date.getTime() <= now.getTime()){
+                throw new Exception();
+            }
+            else {
+                calendar.add(Calendar.HOUR,5);
+                for (int i=0 ; i < 17 ;i++){
+                    calendar.add(Calendar.HOUR,1);
+                    for (int j =0 ; j < 4; j++){
+                        Rezervation rezervation = new Rezervation();
+                        rezervation.setCurrentTime(calendar.getTime());
+                        rezervation.setStatus(true);
+                        log.info("create new Rezervation {}",j);
+                        rezervationJpaRepo.save(rezervation);
+                    }
                 }
             }
         }catch (Exception e){
