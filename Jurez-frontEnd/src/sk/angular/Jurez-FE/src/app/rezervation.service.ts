@@ -71,20 +71,6 @@ export class RezervationService {
     );
   }
 
-  getHowManyUserIsOnThisRezervation(date: Date){
-      return this.http.get<number>('/api/rezervation/free/' + date).pipe(
-        catchError(error => {
-          let errorMsg: string;
-          if (error.error instanceof ErrorEvent) {
-            errorMsg = `Error: ${error.error.message}`;
-          } else {
-            errorMsg = this.getServerErrorMessage(error);
-          }
-          throw new Error(errorMsg);
-        })
-      );
-  }
-
   createRezervation(rezervation: string){
     console.log(rezervation);
     return this.http.post('/api/rezervation', rezervation).pipe(
@@ -126,19 +112,6 @@ export class RezervationService {
   cancelRezervation(date: Date, id:number){
     // @ts-ignore
     return this.http.put("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
-      catchError(error => {
-        let errorMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = this.getServerErrorMessage(error);
-        }
-        throw new Error(errorMsg);
-      })
-    );
-  }
-  getUserRezervation(id: number){
-    return this.http.get("api/rezervation/user/" +id).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {

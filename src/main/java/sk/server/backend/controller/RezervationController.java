@@ -48,17 +48,6 @@ public class RezervationController {
 
         }
 
-        @GetMapping("/free/{date}")
-        public Integer gethowManyPlaceIsNotFree(@PathVariable String date)  {
-            try {
-                Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-                return rezervationService.howManyPlaceIsNotFree(date1);
-            }
-            catch (Exception e){
-                throw new BadRequestException();
-            }
-        }
-
         @PostMapping()
         public void createRezervation(@RequestBody String date) {
             try {
@@ -80,10 +69,6 @@ public class RezervationController {
             }catch (Exception e){
                 throw new BadRequestException();
             }
-        }
-        @GetMapping("/user/{id}")
-        public List<Rezervation> getUserRezervation(@PathVariable Long id){
-            return rezervationService.UserRezervations(id);
         }
 
 }

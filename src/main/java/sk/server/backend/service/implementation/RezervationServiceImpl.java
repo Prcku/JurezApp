@@ -96,18 +96,6 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<Rezervation> UserRezervations(Long id) {
-        try {
-            List<Rezervation> rezervations = rezervationJpaRepo.findByUser_IdEquals(id);
-                log.info("Get user Rezervations");
-                return rezervations;
-        }catch (Exception e){
-            log.info("Get user Rezervation failed");
-            return  null;
-        }
-    }
-
-    @Override
     public void rezerveTerm(Date date, Long id) {
         try{
             Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(date);
@@ -132,18 +120,6 @@ public class RezervationServiceImpl implements RezervationService {
             return rezervationJpaRepo.findById(rezervation.get().getId()).get();
         }catch (Exception e){
             log.info("Get first rezervation by date FAILED: {}", date);
-            return null;
-        }
-    }
-
-    @Override
-    public Integer howManyPlaceIsNotFree(Date currentTime) {
-        try{
-            Integer number = rezervationJpaRepo.countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(currentTime);
-            log.info("Get user of this rezervations: {}", currentTime);
-            return number;
-        }catch (Exception e){
-            log.info("Get user of this rezervations faild: {}" , currentTime);
             return null;
         }
     }
