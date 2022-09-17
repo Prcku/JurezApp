@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserResponseFactory {
+    // pre pripad zmenenia requestu a na response zmenenej enitity
+
 //    public UserDto transformToDto(User user){
 //        UserDto dto = new UserDto();
 //        dto.setId(user.getId());

@@ -17,6 +17,7 @@ import {DataTablesModule} from "angular-datatables";
 import {DatePipe} from "@angular/common";
 import {UserGuard} from "./user.guard";
 import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confirm.component';
+import { KalendarComponent } from './kalendar/kalendar.component';
 
 
 @NgModule({
@@ -36,10 +37,11 @@ import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confi
     NotFoundComponent,
     EditUserComponent,
     MyRezervationComponent,
-    NgbdModalConfirmComponent
+    NgbdModalConfirmComponent,
+    KalendarComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true},
-  UserGuard],
+  UserGuard,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

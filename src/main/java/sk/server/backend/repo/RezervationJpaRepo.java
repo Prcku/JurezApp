@@ -13,27 +13,22 @@ import java.util.Optional;
 
 public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
 
+    long countByCurrentTimeEquals(Date currentTime);
+
+    @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2")
+    boolean onlyOneRezervation(Date currentTime, Long id);
+
     @Transactional
     @Modifying
     @Query("update Rezervation r set r.user = ?1 where r.id = ?2")
-    void rezerveTerm(User user, Long id);
 
-    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(Date currentTime);
-
-    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(Date currentTime, Long id);
+    long deleteByCurrentTimeEqualsAndUserEquals(Date currentTime, Optional<User> user);
 
     @Transactional
     @Modifying
     @Query("update Rezervation r set r.status = false where r.id = ?1")
     void updateStatusFalse(Long id);
 
-//    Optional<Rezervation> findFirstByCurrentTimeEqualsAndStatusIsTrueAndUserIsNull(Date currentTime);
-
-    Integer countByCurrentTimeEqualsAndUserIsNotNullAndStatusIsTrue(Date currentTime);
-
-    List<Rezervation> findByCurrentTimeEquals(Date current_time);
-
-    List<Rezervation> findByUserIsNullAndStatusIsTrue();
 
     @Transactional
     @Modifying
@@ -42,7 +37,6 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
             " from Rezervation r where r.status = true and r.user is null GROUP BY r.currentTime order by r.currentTime")
     List<Rezervation> freeRezervation();
 
-    List<Rezervation> findByUser_IdEquals(Long id);
 
 
 }

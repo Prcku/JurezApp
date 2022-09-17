@@ -10,6 +10,7 @@ public interface RezervationService {
     Rezervation get(Long id);
     List<Rezervation> availibleRezervation();
     void rezerveTerm(Date date, Long id);
-    Rezervation cancelRezervation(Date date, Long id);
-    List<Rezervation> findByDate(Date date);
+    void cancelRezervation(Date date, Long id);
+    long findByDate(Date date);
+    List<List<Date>> createRezervationByTime();
 }

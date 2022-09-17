@@ -11,6 +11,9 @@
         <li *ngIf="user$ | async as user; else loginMyRezervation">
           <a class="text-white text-decoration-none" [routerLink]="['home/mojerezervacie',user.id]">Moje Rezervácie</a>
         </li>
+        <li *ngIf="user$ | async as user; else loginMyRezervation">
+          <a class="text-white text-decoration-none m-5" [routerLink]="['kalendar']">Kalendar</a>
+        </li>
         <li>
           <ng-template #loginMyRezervation>
           </ng-template>

@@ -2,6 +2,9 @@ package sk.server.backend.service.Response.factory;
 
 public class RezervationResponseFactory {
 
+// pre pripad zmenenia requestu a na response zmenenej enitity
+
+
 //    public RezervationDto transformToDto(Rezervation rezervation){
 //        RezervationDto rezervationDto = new RezervationDto();
 //        rezervationDto.setId(rezervation.getId());

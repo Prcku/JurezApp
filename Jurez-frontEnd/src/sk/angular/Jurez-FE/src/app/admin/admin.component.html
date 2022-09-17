@@ -1,11 +1,14 @@
 
-
-<a class="btn btn-primary mb-5" routerLink="newUser">New</a>
-<label for="rezervation-time">
-  Zadaj datum
-  <input type="date" id="rezervation-time" name="rezervation-time" #inputElement>
-  <button type="button" (click)="createRez(inputElement)">Vytvor</button>
+<div style="display: flex; align-items: center">
+  <span>
+    <a class="btn btn-primary mb-5" routerLink="newUser">New</a>
+  </span>
+  <label for="rezervation-time" class="ms-5  mb-5">
+    Zadaj datum
+    <input type="date" id="rezervation-time" name="rezervation-time" #inputElement>
+    <button type="button" class="btn btn-primary m-3" (click)="createRez(inputElement)">Vytvor</button>
 </label>
+</div>
   <table class="table table-bordered table-striped table-hover" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
     <thead>
     <tr>

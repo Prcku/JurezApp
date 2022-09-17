@@ -1,13 +1,9 @@
 package sk.server.backend.service.implementation;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 import sk.server.backend.repo.UserJpaRepo;
@@ -25,19 +21,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserJpaRepo userJpaRepo;
-
-
-//    public UserServiceImpl() {
-//        User user = new User();
-//        if(getByEmail("admin@admin.sk") == null) {
-//            user.setFirstName("Admin");
-//            user.setLastName("Pan");
-//            user.setEmail("admin@admin.sk");
-//            user.setPassword("admin123");
-//            create(user);
-//        }
-//    }
-
 
     @Override
     public User create(User user) {
@@ -71,11 +54,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-//        List<User> users = userJpaRepo.findAll();
-//        for (User user:
-//             ) {
-//
-//        }
         return userJpaRepo.findAll();
     }
 

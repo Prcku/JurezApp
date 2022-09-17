@@ -20,18 +20,11 @@ export class DashboardComponent{
   user$: Observable<User | undefined>;
   countUser: number | undefined;
 
-  // Monday: Rezervation[] | undefined;
-  // Wednesday: Rezervation[] | undefined;
-
-  // today= new Date();
-  // newToday = new Date();
-
   constructor(private rezervationService: RezervationService
     , private router: Router
     , private userService: UserService
     , public  _modalService: NgbModal) {
 
-    // this.newToday.setDate( this.today.getDate() + 3 );
     this.user$ =this.userService.onUserChange()
     if (this.user$ != undefined) {
       this.reload();
@@ -41,45 +34,19 @@ export class DashboardComponent{
   reload(){
     this.rezervationService.getfreeRezervations().subscribe(
       value => {this.items = value
-        // this.items.forEach(value1 => {
-        //   if (this.daysName[new Date(value1.currentTime).getDay()] == 'Monday'){
-        //     this.Monday?.push(value1);
-        //   }
-        //   if (this.daysName[new Date(value1.currentTime).getDay()] == 'Wednesday'){
-        //     console.log(value1.currentTime)
-        //     this.Wednesday?.push(value1);
-        //   }
-        // })
       },
     error => {console.log(error)})
-    // this.rezervationService.getHowManyUserIsOnThisRezervation(this.item.currentTime).subscribe(value => {this.countUser = value});
-    // console.log(this.item)
-    // console.log(this.item.currentTime.getTime())
-    // console.log("nech ti nejebe")
-    // this.userService.get().subscribe((value: User) => {
-    //   console.log("hodnota")
-    //   console.log(value)
-    //   this.user = value;
-    // });
-    // console.log(this.user)
   }
-
-  // const MODALS: {[name: string]: Type<any>} = {
-  //   focusFirst: NgbdModalConfirm,
-  //   autofocus: NgbdModalConfirmAutofocus
-  // };
-  //
-  // open(name: string) { this._modalService.open(MODALS[name]); }
 
   rezerveTerm(rezervation: Rezervation){
     console.log("preco som tu < ? ")
     this.user$.subscribe(value => {
       if (value){
         if (confirm(`Naozaj sa chcete zaregistrovat na tento čas ${rezervation.currentTime} ?`)) {
-          this.rezervationService.bookRezervation(rezervation.currentTime, value.id).subscribe(error =>{
-            this.reload()
+          // this.rezervationService.bookRezervation(rezervation.currentTime, value.id).subscribe(error =>{
+          //   this.reload()
             // window.location.reload();
-          });
+          // });
         }
       }
     })
@@ -87,6 +54,8 @@ export class DashboardComponent{
 
 }
 
+
+//bug #1
 // import { Type} from '@angular/core';
 //
 // @Component({

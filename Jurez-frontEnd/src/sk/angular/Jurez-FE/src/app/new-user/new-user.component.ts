@@ -7,7 +7,6 @@ import {NgForm} from "@angular/forms";
 @Component({
   selector: 'app-new-user',
   templateUrl: './new-user.component.html'
-  // styleUrls: ['./new-user.component.scss']
 })
 export class NewUserComponent  {
 
@@ -25,7 +24,6 @@ export class NewUserComponent  {
     this.users.add(this.item).subscribe(
       $data => (this.router.navigate(['/adminpage'])),
       error => (error.message)
-
     )
   }
 }

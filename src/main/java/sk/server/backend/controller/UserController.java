@@ -95,7 +95,7 @@ public class UserController {
         User user1 = userService.authentification(user.getEmail(),user.getPassword());
         if (user1 != null){
             String token = getJWTToken(user1);
-            userService.updateUserToken(token,user.getEmail());
+//            userService.updateUserToken(token,user.getEmail());
             return token;
         }
         else {

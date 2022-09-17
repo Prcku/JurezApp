@@ -28,12 +28,6 @@ export class MyRezervationComponent  {
           this.reload();
         })
   }
-  // items: User[] | undefined;
-  // item = {} as User;
-  // constructor(private userService: UserService
-  //   , private router: Router) {
-  //   this.reload();
-  // }
 
   reload(){
     this.userService.getUserRezervation(this.user.id).subscribe(value => {this.items = value})

@@ -21,12 +21,11 @@ export class LoginComponent {
   }
 
   check(formElemnt: NgForm){
-    this.item.email = formElemnt.value.email;
-    this.item.password = formElemnt.value.password;
-
    if (formElemnt.invalid){
      return
    }
+    this.item.email = formElemnt.value.email;
+    this.item.password = formElemnt.value.password;
    // admin
     if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
       this.userService.isAutorized(this.item).subscribe(value => {
@@ -36,7 +35,7 @@ export class LoginComponent {
       })
       return;
     }
-    //user
+
    this.userService.isAutorized(this.item).subscribe(value => {
      if (value){
        this.router.navigate(['/home'])
@@ -48,11 +47,6 @@ export class LoginComponent {
         }
      }
    )
-
-      // error => (console.log(error))
-
-
-
 
 
   }

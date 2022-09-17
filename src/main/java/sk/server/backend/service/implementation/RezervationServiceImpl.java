@@ -1,5 +1,6 @@
 package sk.server.backend.service.implementation;
 
+import org.apache.commons.lang.time.DateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,15 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
 @Slf4j
 public class RezervationServiceImpl implements RezervationService {
+
+    private Date lastNow = new Date(2022,9,7,12,0,0);
 
     @Autowired
     private final RezervationJpaRepo rezervationJpaRepo;
@@ -71,14 +71,17 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<Rezervation> findByDate(Date date) {
+    public long findByDate(Date date) {
         try {
-            List<Rezervation> rezervation = rezervationJpaRepo.findByCurrentTimeEquals(date);
-            log.info("Get rezeration by Date: {}",date);
-            return rezervation;
+//            Calendar calendar = Calendar.getInstance();   // pre dodanie konkretneho casu
+//            calendar.setTime(date);
+//            Date now = new Date();
+//            Date nearestMinute = DateUtils.round(now, Calendar.MINUTE);   // potrebne este podmienka na porovnanie casu
+            log.info("search rezervation by date {}", date);
+            return rezervationJpaRepo.countByCurrentTimeEquals(date);
         }catch (Exception e){
             log.info("Get rezeration by Date faild {}",date);
-            return null;
+            return 0;
         }
     }
 
@@ -98,29 +101,33 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public void rezerveTerm(Date date, Long id) {
         try{
-            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusTrueAndUserIsNullOrderByCurrentTimeAsc(date);
-            log.info("Get first rezervation by date : {}", date);
-            Optional<User> user = userJpaRepo.findById(id);
-            log.info("Get user by id : {}", id);
-            rezervationJpaRepo.rezerveTerm(user.get(),rezervation.get().getId());
-            log.info("update rezervation : {}");
+            long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
+            if (fullRezervation != 4 && !rezervationJpaRepo.onlyOneRezervation(date,id)){
+                Optional<User> user = userJpaRepo.findById(id);
+                log.info("Get user by id : {}", id);
+                Rezervation rezervation = new Rezervation();
+                rezervation.setCurrentTime(date);
+                rezervation.setStatus(true);
+                rezervation.setUser(user.get());
+                rezervationJpaRepo.save(rezervation);
+                log.info("update rezervation : {}");
+            }else {
+                log.info("rezervacie su mna tento cas full", date);
+            }
         }catch (Exception e){
             log.info("Get first rezervation by date FAILED: {}", date);
         }
     }
 
     @Override
-    public Rezervation cancelRezervation(Date date, Long id) {
+    public void cancelRezervation(Date date, Long id) {
         try{
-            Optional<Rezervation> rezervation = rezervationJpaRepo.findFirstByCurrentTimeEqualsAndStatusIsTrueAndUser_IdEquals(date,id);
-            log.info("Get first rezervation by date = {}", date );
-            log.info("and by user id = {}", id);
-            rezervationJpaRepo.rezerveTerm(null,rezervation.get().getId());
-            log.info("update rezervation : {}",rezervation.get().getId());
-            return rezervationJpaRepo.findById(rezervation.get().getId()).get();
+            Optional<User> user = userJpaRepo.findById(id);
+            log.info("Get user by id : {}", id);
+            rezervationJpaRepo.deleteByCurrentTimeEqualsAndUserEquals(date,user);
+            log.info("DELETE first rezervation by date SUCESS = {}", date );
         }catch (Exception e){
-            log.info("Get first rezervation by date FAILED: {}", date);
-            return null;
+            log.info("DELETE first rezervation by date FAILED: {}", date);
         }
     }
 
@@ -133,5 +140,30 @@ public class RezervationServiceImpl implements RezervationService {
                 rezervationJpaRepo.updateStatusFalse(rezervation.getId());
             }
         }
+    }
+    @Override
+    public List<List<Date>> createRezervationByTime(){
+        Date now = new Date();
+        Date nearestDay = DateUtils.round(now, Calendar.DAY_OF_MONTH);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(nearestDay);
+        if (now.getTime() < nearestDay.getTime()){
+            calendar.add(Calendar.DATE,-1);
+        }
+        log.info("Created new session for excercies ... ");
+        calendar.add(Calendar.MINUTE,285);
+        List<List<Date>> kalendar2D = new ArrayList<>();
+        for(int i=0; i<3;i++){
+            List<Date> kalendar = new ArrayList<>();
+            for (int j=0;j<13;j++){
+                calendar.add(Calendar.MINUTE, 75);
+                kalendar.add(calendar.getTime());
+
+            }
+            kalendar2D.add(kalendar);
+            calendar.add(Calendar.MINUTE,465);
+        }
+            return kalendar2D;
+
     }
 }

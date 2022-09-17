@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/rezervation")
@@ -28,13 +29,16 @@ public class RezervationController {
             return rezervationService.availibleRezervation();
         }
 
+        @GetMapping("/kalendar")
+        public List<List<Date>> getNewTimes(){return rezervationService.createRezervationByTime();}
+
         @GetMapping("/time/{date}")
-        public List<Rezervation> getRezervationByDate(@PathVariable String date) throws ParseException {
+        public long getRezervationByDate(@PathVariable String date) throws ParseException {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             return rezervationService.findByDate(date1);
         }
 
-        @PutMapping("/time/{id}/{date}")
+        @PostMapping("/time/{id}/{date}")
         public void bookRezervation(@PathVariable String date,@PathVariable Long id)  {
             if (id == null || date == null){
                 throw new BadRequestException();
@@ -58,7 +62,7 @@ public class RezervationController {
             }
         }
 
-        @PutMapping("time/cancel/{date}/{id}")
+        @DeleteMapping("time/cancel/{date}/{id}")
         public void deleteUser(@PathVariable String date ,@PathVariable Long id){
             if (date == null || id == null){
                 throw new BadRequestException();

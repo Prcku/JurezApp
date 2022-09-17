@@ -11,6 +11,7 @@
 	<groupId>sk.backend</groupId>
 	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>server</name>
 	<description>Server manager application</description>
 	<properties>
@@ -63,6 +64,17 @@
 			<artifactId>jwt_2.13</artifactId>
 			<version>0.7.0</version>
 			<scope>compile</scope>
+		</dependency>
+        <dependency>
+            <groupId>me.xethh.utils</groupId>
+            <artifactId>DateUtils</artifactId>
+            <version>4.0.0-RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
 		</dependency>
 	</dependencies>
 
