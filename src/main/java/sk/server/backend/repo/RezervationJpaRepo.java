@@ -13,16 +13,14 @@ import java.util.Optional;
 
 public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
 
-    long countByCurrentTimeEquals(Date currentTime);
+    Integer countByCurrentTimeEquals(Date currentTime);
 
     @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2")
     boolean onlyOneRezervation(Date currentTime, Long id);
 
-    @Transactional
-    @Modifying
-    @Query("update Rezervation r set r.user = ?1 where r.id = ?2")
 
-    long deleteByCurrentTimeEqualsAndUserEquals(Date currentTime, Optional<User> user);
+
+    void deleteByCurrentTimeEqualsAndUser_IdEquals(Date currentTime, Long id);
 
     @Transactional
     @Modifying

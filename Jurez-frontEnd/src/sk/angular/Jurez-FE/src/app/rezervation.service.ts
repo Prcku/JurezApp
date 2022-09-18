@@ -14,19 +14,19 @@ export class RezervationService {
   }
 
 
-  getById(id:number){
-    return this.http.get<Rezervation>('/api/rezervation/' + id).pipe(
-      catchError(error => {
-        let errorMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = this.getServerErrorMessage(error);
-        }
-        throw new Error(errorMsg);
-      })
-    );
-  }
+  // getById(id:number){
+  //   return this.http.get<Rezervation>('/api/rezervation/' + id).pipe(
+  //     catchError(error => {
+  //       let errorMsg: string;
+  //       if (error.error instanceof ErrorEvent) {
+  //         errorMsg = `Error: ${error.error.message}`;
+  //       } else {
+  //         errorMsg = this.getServerErrorMessage(error);
+  //       }
+  //       throw new Error(errorMsg);
+  //     })
+  //   );
+  // }
 
   getfreeRezervations(){
     return this.http.get<Rezervation[]>('/api/rezervation/free/').pipe(
@@ -43,7 +43,7 @@ export class RezervationService {
   }
 
   getGeneratedRezervation(){
-    return this.http.get<Date[][]>('/api/rezervation/kalendar/').pipe(
+    return this.http.get<Rezervation[][]>('/api/rezervation/kalendar/').pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -85,21 +85,21 @@ export class RezervationService {
     );
   }
 
-  createRezervation(rezervation: string){
-    console.log(rezervation);
-    return this.http.post('/api/rezervation', rezervation).pipe(
-      catchError(error => {
-        console.log(error)
-        let errorMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = this.getServerErrorMessage(error);
-        }
-        throw new Error(errorMsg);
-      })
-    );
-  }
+  // createRezervation(rezervation: string){
+  //   console.log(rezervation);
+  //   return this.http.post('/api/rezervation', rezervation).pipe(
+  //     catchError(error => {
+  //       console.log(error)
+  //       let errorMsg: string;
+  //       if (error.error instanceof ErrorEvent) {
+  //         errorMsg = `Error: ${error.error.message}`;
+  //       } else {
+  //         errorMsg = this.getServerErrorMessage(error);
+  //       }
+  //       throw new Error(errorMsg);
+  //     })
+  //   );
+  // }
 
 
   private getServerErrorMessage(error: HttpErrorResponse): string {

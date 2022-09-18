@@ -30,11 +30,6 @@ export class AdminComponent {
 
   }
 
-  createRez(input: HTMLInputElement){
-    this.rezervationService.createRezervation(input.value).subscribe();
-
-  }
-
   delete(item: User) {
     if (confirm(`Delete ${item.firstName} ?`)) {
       this.userService.delete(item.id)
