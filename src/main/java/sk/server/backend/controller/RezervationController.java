@@ -2,6 +2,7 @@ package sk.server.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import sk.server.backend.controller.exceptions.BadRequestException;
+import sk.server.backend.controller.exceptions.ConflictException;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.service.Response.RezervationDto;
 import sk.server.backend.service.RezervationService;
@@ -20,15 +21,10 @@ public class RezervationController {
         @Resource()
         private RezervationService rezervationService;
 
-//        @GetMapping("/{id}")
-//        public Rezervation getRezervation(@PathVariable Long id){
-//            return rezervationService.get(id);
+//        @GetMapping("/free")
+//        public List<Rezervation> getAvalible(){
+//            return rezervationService.availibleRezervation();
 //        }
-
-        @GetMapping("/free")
-        public List<Rezervation> getAvalible(){
-            return rezervationService.availibleRezervation();
-        }
 
         @GetMapping("/kalendar")
         public List<List<RezervationDto>> getNewTimes(){return rezervationService.createRezervationByTime();}
@@ -42,26 +38,19 @@ public class RezervationController {
         @PostMapping("/time/{id}/{date}")
         public void bookRezervation(@PathVariable String date,@PathVariable Long id)  {
             if (id == null || date == null){
+                System.out.println("preco som tu <???  aslasasldasdasdasd");
                 throw new BadRequestException();
             }
+            Date date1;
             try {
-                Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-                rezervationService.rezerveTerm(date1,id);
+                date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
             }catch (Exception e){
                 throw new BadRequestException();
             }
-
+            if (!rezervationService.rezerveTerm(date1, id)){
+                throw new ConflictException();
+            }
         }
-
-//        @PostMapping()
-//        public void createRezervation(@RequestBody String date) {
-//            try {
-//                Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//                rezervationService.create(date1);
-//            }catch (Exception e){
-//                throw new BadRequestException();
-//            }
-//        }
 
         @DeleteMapping("time/cancel/{date}/{id}")
         public void deleteUser(@PathVariable String date ,@PathVariable Long id){

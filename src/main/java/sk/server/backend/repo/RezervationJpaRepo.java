@@ -5,20 +5,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.Rezervation;
-import sk.server.backend.domain.User;
-
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
+public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
 
     Integer countByCurrentTimeEquals(Date currentTime);
 
     @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2")
     boolean onlyOneRezervation(Date currentTime, Long id);
-
-
 
     void deleteByCurrentTimeEqualsAndUser_IdEquals(Date currentTime, Long id);
 
@@ -27,14 +22,6 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation, Long> {
     @Query("update Rezervation r set r.status = false where r.id = ?1")
     void updateStatusFalse(Long id);
 
-
-    @Transactional
-    @Modifying
-    @Query( value = "select" +
-            " new sk.server.backend.domain.Rezervation(count(r),r.currentTime) " +
-            " from Rezervation r where r.status = true and r.user is null GROUP BY r.currentTime order by r.currentTime")
-    List<Rezervation> freeRezervation();
-
-
+    List<Rezervation> findByUser_IdEquals(Long id);
 
 }

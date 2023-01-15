@@ -13,35 +13,6 @@ export class RezervationService {
 
   }
 
-
-  // getById(id:number){
-  //   return this.http.get<Rezervation>('/api/rezervation/' + id).pipe(
-  //     catchError(error => {
-  //       let errorMsg: string;
-  //       if (error.error instanceof ErrorEvent) {
-  //         errorMsg = `Error: ${error.error.message}`;
-  //       } else {
-  //         errorMsg = this.getServerErrorMessage(error);
-  //       }
-  //       throw new Error(errorMsg);
-  //     })
-  //   );
-  // }
-
-  getfreeRezervations(){
-    return this.http.get<Rezervation[]>('/api/rezervation/free/').pipe(
-      catchError(error => {
-        let errorMsg: string;
-        if (error.error instanceof ErrorEvent) {
-          errorMsg = `Error: ${error.error.message}`;
-        } else {
-          errorMsg = this.getServerErrorMessage(error);
-        }
-        throw new Error(errorMsg);
-      })
-    );
-  }
-
   getGeneratedRezervation(){
     return this.http.get<Rezervation[][]>('/api/rezervation/kalendar/').pipe(
       catchError(error => {
@@ -51,6 +22,8 @@ export class RezervationService {
         } else {
           errorMsg = this.getServerErrorMessage(error);
         }
+        console.log("all rezervation")
+        console.log(errorMsg)
         throw new Error(errorMsg);
       })
     );
@@ -80,27 +53,12 @@ export class RezervationService {
         } else {
           errorMsg = this.getServerErrorMessage(error);
         }
+        console.log("book rezervation")
+        console.log(errorMsg)
         throw new Error(errorMsg);
       })
     );
   }
-
-  // createRezervation(rezervation: string){
-  //   console.log(rezervation);
-  //   return this.http.post('/api/rezervation', rezervation).pipe(
-  //     catchError(error => {
-  //       console.log(error)
-  //       let errorMsg: string;
-  //       if (error.error instanceof ErrorEvent) {
-  //         errorMsg = `Error: ${error.error.message}`;
-  //       } else {
-  //         errorMsg = this.getServerErrorMessage(error);
-  //       }
-  //       throw new Error(errorMsg);
-  //     })
-  //   );
-  // }
-
 
   private getServerErrorMessage(error: HttpErrorResponse): string {
     switch (error.status) {
@@ -133,6 +91,8 @@ export class RezervationService {
         } else {
           errorMsg = this.getServerErrorMessage(error);
         }
+        console.log("cancel rezervation")
+        console.log(errorMsg)
         throw new Error(errorMsg);
       })
     );

@@ -37,6 +37,7 @@ export class MyRezervationComponent  {
     if (confirm(`Chcete zrušiť túto rezerváciu ${rezervation.currentTime} ?`)) {
       this.rezervationService.cancelRezervation(rezervation.currentTime, this.id).subscribe(() =>{
           this.reload();
+          window.location.reload();
       })
     }
   }

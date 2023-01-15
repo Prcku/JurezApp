@@ -3,7 +3,8 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Rezervation} from "./rezervation";
 import {User} from "./user";
 import {UserDTO} from "./userDTO";
-import {BehaviorSubject, catchError, map, Observable, tap, throwError} from "rxjs";
+import {BehaviorSubject, catchError, map, tap} from "rxjs";
+import {LocalStorageService} from "angular-2-local-storage";
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,13 @@ export class UserService {
 
   token: string | undefined
   private userSubject = new BehaviorSubject<User | undefined>(undefined);
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+  private localStorageService: LocalStorageService) {
 
   }
 
   getAll(){
+    console.log("ziskanie vsetkych userov")
     return this.http.get<User[]>('/api/user');
   }
 
@@ -39,15 +42,10 @@ export class UserService {
   }
 
   getByEmail(email: string, token: string | undefined){
-    // let headers = new HttpHeaders()
-    //   .set('content-type','application/json')
-    //   .set('Authorization',`Bearer ${token}`)
-    //   .set('Access-Control-Allow-Origin', '*')
-    // const headers = new Headers({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': `Bearer ${token}`
-    // })
-    return this.http.get<User>('/api/user/email/'+email).pipe(
+    let headers = new HttpHeaders({
+      Authorization: 'Bearer ' + token
+    });
+    return this.http.get<User>('/api/user/email/'+email, {headers}).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
@@ -68,11 +66,16 @@ export class UserService {
           return undefined
         }
         this.token = token
+        this.localStorageService.set("token", token);
         return JSON.parse(atob(token.split('.')[1]))
         }))
       .pipe(tap(user => {
         this.getByEmail(user.sub,this.token).subscribe(value => {
-        this.userSubject.next(value)});
+          if (this.token != null) {
+            value.token = this.token;
+          }
+          this.localStorageService.set("user",value)
+          this.userSubject.next(value)});
       }))
       .pipe(
       catchError(error => {
@@ -89,15 +92,24 @@ export class UserService {
   get(){
     return this.userSubject.getValue();
   }
+
+  //tato funkcia nam zabezpeci novu subscripciu a v pripade ze sa stranka reloadne
+  // tak uchova v localstorage Usera ktory tu bol vytvoreny
   onUserChange(){
+    if (this.localStorageService.get('user') != null){
+      this.userSubject.next(this.localStorageService.get("user"));
+    }
     return this.userSubject.asObservable();
-}
+  }
+
+
   logout() {
+    this.localStorageService.clearAll();
     this.userSubject.next(undefined);
   }
-  getToken(){
-    return this.token;
-  }
+  // getToken(){
+  //   return this.token;
+  // }
   add(user: User){
       return this.http.post('/api/user', user).pipe(
         catchError(error => {
@@ -132,10 +144,6 @@ export class UserService {
 
     }
   }
-
-  // handleError(error: HttpErrorResponse) {
-  //   return throwError(error);
-  // }
 
   edit(user: User) {
     return  this.http.put<void>(`/api/user/${user.id}`, user)

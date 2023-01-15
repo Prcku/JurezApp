@@ -57,7 +57,7 @@ export class KalendarComponent  {
         if (confirm(`Naozaj sa chcete zaregistrovat na tento čas ${time_In_format} ?`)) {
           this.rezervationService.bookRezervation(time_In_format, value.id).subscribe(error =>{
             this.reload()
-            // window.location.reload();
+            window.location.reload();
           });
         }
       }

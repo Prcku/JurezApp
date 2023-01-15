@@ -24,10 +24,9 @@ export class AdminComponent {
   }
 
   reload(){
+    this.userService.onUserChange()
     this.userService.getAll().subscribe(value => {this.items = value
     this.dtTrigger.next(value);})
-    // window.location.reload(); // pre bug #1
-
   }
 
   delete(item: User) {
@@ -37,6 +36,7 @@ export class AdminComponent {
           this.reload();
         })
     }
+    window.location.reload()
   }
 
   ngOnDestroy(): void {

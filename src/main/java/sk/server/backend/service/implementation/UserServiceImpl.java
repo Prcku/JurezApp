@@ -6,10 +6,12 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
+import sk.server.backend.repo.RezervationJpaRepo;
 import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.UserService;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserJpaRepo userJpaRepo;
+
+    @Autowired
+    private RezervationJpaRepo rezervationJpaRepo;
 
     @Override
     public User create(User user) {
@@ -72,15 +77,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Rezervation> getUserRezervation(Long id) {
         try {
+            Date now = new Date();
             Optional<User> userRezervation = userJpaRepo.findById(id);
             log.info("get User Rezervation by ID: {}",id);
-            return userRezervation.get().getRezervations();
+            log.info("check which rezervation already not availible");
+            for (Rezervation rezervation:userRezervation.get().getRezervations()) {
+                if (rezervation.getCurrentTime().getTime() < now.getTime()){
+                    rezervationJpaRepo.updateStatusFalse(rezervation.getId());
+                }
+            }
+            return rezervationJpaRepo.findByUser_IdEquals(id);
         }catch (Exception e){
             return null;
         }
-
-
-
     }
 
     @Override
@@ -96,26 +105,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authentification(String email, String password) {
         try {
+            System.out.println(userJpaRepo.findByEmailEquals(email).get().getPassword());
             if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
                 log.info("Password is Right");
                 return userJpaRepo.findByEmailEquals(email).get();
-            }
+          }
             else {
                 log.info("Wrong password");
                 return null;
             }
         }catch (Exception e){
+            log.info("nieco je naozaj zle");
             return  null;
         }
     }
 
-    @Override
-    public User updateUserToken(String token, String email) {
-        try {
-            userJpaRepo.updateUserToken(token,email);
-            return userJpaRepo.findByEmailEquals(email).get();
-        }catch (Exception e){
-            return null;
-        }
-    }
+//    @Override
+//    public User updateUserToken(String token, String email) {
+//        try {
+//            userJpaRepo.updateUserToken(token,email);
+//            return userJpaRepo.findByEmailEquals(email).get();
+//        }catch (Exception e){
+//            return null;
+//        }
+//    }
 }

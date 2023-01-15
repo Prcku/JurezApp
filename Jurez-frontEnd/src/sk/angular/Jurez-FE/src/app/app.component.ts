@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {UserService} from "./user.service";
 import {User} from "./user";
 import {Observable, Subscription} from "rxjs";
+import {LocalStorageService} from "angular-2-local-storage";
 
 @Component({
   selector: 'app-root',
@@ -10,24 +11,23 @@ import {Observable, Subscription} from "rxjs";
 })
 export class AppComponent {
   title = 'Jurez-FE';
-  // private user: User | undefined
-  // private subscription: Subscription;
   user$: Observable<User | undefined>;
 
-  constructor(private userService: UserService) {
-     // this.subscription = userService.onUserChange()
-     //  .subscribe(value => {
-     //    this.user = value
-     //  })
+  constructor(private userService: UserService,
+              private localStorageService: LocalStorageService) {
     this.user$ =this.userService.onUserChange();
+    if (this.user$ == undefined){
+      this.user$ = this.localStorageService.get("user")
+    }
   }
 
 
   ngOnDestroy(){
-    // this.subscription.unsubscribe();
+     // this.subscription.unsubscribe();
   }
 
   logout() {
+    this.localStorageService.clearAll();
     this.userService.logout()
   }
 }

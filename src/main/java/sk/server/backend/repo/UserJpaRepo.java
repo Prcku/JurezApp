@@ -7,8 +7,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.User;
-
 import java.util.Optional;
+
 
 @Repository
 public interface UserJpaRepo extends JpaRepository<User,Long> {
@@ -18,14 +18,5 @@ public interface UserJpaRepo extends JpaRepository<User,Long> {
     void updateUser(@NonNull String firstName, @NonNull String lastName, @NonNull String email,@NonNull  String password, Long id);
 
     Optional<User> findByEmailEquals(String email);
-
-    Optional<User> findByEmailEqualsAndPasswordEquals(String email, String password);
-
-    @Transactional
-    @Modifying
-    @Query("update User u set u.token = ?1 where u.email = ?2")
-    void updateUserToken(String token, String email);
-
-
 
 }

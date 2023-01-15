@@ -29,17 +29,10 @@ public class Rezervation {
     @Column(name = "status")
     private Boolean status;
 
-    private Long count;
-
     @ManyToOne()
     @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
-
-    public Rezervation( Long count ,Date currentTime) {
-        this.currentTime = currentTime;
-        this.count = count;
-    }
 
     public User getUser() {
         return user;

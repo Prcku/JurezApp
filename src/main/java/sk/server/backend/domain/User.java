@@ -31,8 +31,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "token")
-    private String token;
+    @Column(name = "role")
+    private String role;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -42,7 +42,7 @@ public class User {
         return rezervations;
     }
 
-    public void setRezervations(List<Rezervation> rezervations) {
-        this.rezervations = rezervations;
-    }
+//    public void setRezervations(List<Rezervation> rezervations) {
+//        this.rezervations = rezervations;
+//    }
 }

@@ -28,48 +28,6 @@ public class RezervationServiceImpl implements RezervationService {
     @Autowired
     private final UserJpaRepo userJpaRepo;
 
-//    @Override
-//    public void create(Date date) {
-//        try {
-//            log.info("Create new Rezervation: {}",date);
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(date);
-//            Date now = new Date();
-//            if(date.getTime() <= now.getTime()){
-//                throw new Exception();
-//            }
-//            else {
-//                calendar.add(Calendar.HOUR,5);
-//                for (int i=0 ; i < 17 ;i++){
-//                    calendar.add(Calendar.HOUR,1);
-//                    for (int j =0 ; j < 4; j++){
-//                        Rezervation rezervation = new Rezervation();
-//                        rezervation.setCurrentTime(calendar.getTime());
-//                        rezervation.setStatus(true);
-//                        log.info("create new Rezervation {}",j);
-//                        rezervationJpaRepo.save(rezervation);
-//                    }
-//                }
-//            }
-//        }catch (Exception e){
-//            log.info("Create new Rezervation FAILED error = {}", e.getMessage());
-//        }
-//
-//    }
-
-//    //toto asi nebude treba
-//    @Override
-//    public Rezervation get(Long id) {
-//        try {
-//            Rezervation rezervation = rezervationJpaRepo.findById(id).get();
-//            log.info("Get rezeration: {}",id);
-//            return rezervation;
-//        }catch (Exception e){
-//            log.info("Get rezeration faild: {}",id);
-//            return null;
-//        }
-//    }
-
     @Override
     public long findByDate(Date date) {
         try {
@@ -82,20 +40,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<Rezervation> availibleRezervation() {
-        try{
-//            whatTimeIsIt();
-            List<Rezervation> rezervations  =  rezervationJpaRepo.freeRezervation();
-            log.info("Get freeRezervation {}", rezervations.size());
-         return rezervations;
-        }catch (Exception e){
-            log.info("Get freeRezervation faild: {}",e.getMessage());
-            return null;
-        }
-    }
-
-    @Override
-    public void rezerveTerm(Date date, Long id) {
+    public boolean rezerveTerm(Date date, Long id) {
         try{
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && !rezervationJpaRepo.onlyOneRezervation(date,id)){
@@ -107,11 +52,14 @@ public class RezervationServiceImpl implements RezervationService {
                 rezervation.setUser(user.get());
                 rezervationJpaRepo.save(rezervation);
                 log.info("update rezervation : {}");
+                return true;
             }else {
                 log.info("rezervacie su mna tento cas full", date);
+                return false;
             }
         }catch (Exception e){
             log.info("Get first rezervation by date FAILED: {}", date);
+            return false;
         }
     }
 
@@ -124,17 +72,6 @@ public class RezervationServiceImpl implements RezervationService {
             log.info("DELETE first rezervation by date FAILED: {} excepotion -> {}", date,e.getMessage());
         }
     }
-
-//    private void whatTimeIsIt(){
-//        Date now = new Date();
-//        log.info("check which rezervation already not availible");
-//        List<Rezervation> rezervations = rezervationJpaRepo.findAll();
-//        for (Rezervation rezervation:rezervations) {
-//            if (rezervation.getCurrentTime().getTime() < now.getTime()){
-//                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
-//            }
-//        }
-//    }
 
     @Override
     public List<List<RezervationDto>> createRezervationByTime(){
@@ -166,7 +103,6 @@ public class RezervationServiceImpl implements RezervationService {
             rezervationDtos2D.add(rezervationDtos);
             calendar.add(Calendar.MINUTE,465);
         }
-        System.out.println(rezervationDtos2D);
         return rezervationDtos2D;
 
     }
