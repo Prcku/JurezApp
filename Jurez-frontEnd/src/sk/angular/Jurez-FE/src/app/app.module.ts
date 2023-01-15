@@ -19,6 +19,7 @@ import {UserGuard} from "./user.guard";
 import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { KalendarComponent } from './kalendar/kalendar.component';
 import {LocalStorageModule} from "angular-2-local-storage";
+import { WatcherComponent } from './watcher/watcher.component';
 
 
 @NgModule({
@@ -35,7 +36,6 @@ import {LocalStorageModule} from "angular-2-local-storage";
   ],
   declarations: [
     AppComponent,
-    // DashboardComponent,
     LoginComponent,
     AdminComponent,
     NewUserComponent,
@@ -43,7 +43,8 @@ import {LocalStorageModule} from "angular-2-local-storage";
     EditUserComponent,
     MyRezervationComponent,
     NgbdModalConfirmComponent,
-    KalendarComponent
+    KalendarComponent,
+    WatcherComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true},
   UserGuard,DatePipe],

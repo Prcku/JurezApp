@@ -12,10 +12,12 @@ import {LocalStorageService} from "angular-2-local-storage";
 export class AppComponent {
   title = 'Jurez-FE';
   user$: Observable<User | undefined>;
+  user: any;
 
   constructor(private userService: UserService,
               private localStorageService: LocalStorageService) {
     this.user$ =this.userService.onUserChange();
+    console.log(this.user$)
     if (this.user$ == undefined){
       this.user$ = this.localStorageService.get("user")
     }

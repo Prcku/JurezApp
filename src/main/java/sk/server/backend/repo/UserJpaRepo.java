@@ -7,6 +7,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.User;
+
+import java.util.List;
 import java.util.Optional;
 
 

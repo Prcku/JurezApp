@@ -71,9 +71,9 @@ export class UserService {
         }))
       .pipe(tap(user => {
         this.getByEmail(user.sub,this.token).subscribe(value => {
-          if (this.token != null) {
-            value.token = this.token;
-          }
+          // if (this.token != null) {
+          //   value.token = this.token;
+          // }
           this.localStorageService.set("user",value)
           this.userSubject.next(value)});
       }))

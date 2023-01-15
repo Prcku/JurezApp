@@ -48,9 +48,7 @@ public class ServerApplication {
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/api/user/auth/").permitAll()
-					.antMatchers(HttpMethod.GET, "/api/user/1").permitAll()
-//					.antMatchers(HttpMethod.GET,"/api/rezervation/kalendar").permitAll()
-//					.antMatchers(HttpMethod.GET,"/api/rezervation/free").permitAll()
+					.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 					.anyRequest().authenticated();
 		}
 	}

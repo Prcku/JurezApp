@@ -11,6 +11,7 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.UserService;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
         try {
             if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
                 user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+                user.setRole("ROLE_WATCHER");
                 User user1 = userJpaRepo.save(user);
                 log.info("Create new User: {}",user.getEmail());
                 return user1;
@@ -77,15 +79,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Rezervation> getUserRezervation(Long id) {
         try {
-            Date now = new Date();
-            Optional<User> userRezervation = userJpaRepo.findById(id);
-            log.info("get User Rezervation by ID: {}",id);
-            log.info("check which rezervation already not availible");
-            for (Rezervation rezervation:userRezervation.get().getRezervations()) {
-                if (rezervation.getCurrentTime().getTime() < now.getTime()){
-                    rezervationJpaRepo.updateStatusFalse(rezervation.getId());
-                }
-            }
             return rezervationJpaRepo.findByUser_IdEquals(id);
         }catch (Exception e){
             return null;

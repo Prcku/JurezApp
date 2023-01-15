@@ -103,6 +103,12 @@ public class RezervationServiceImpl implements RezervationService {
             rezervationDtos2D.add(rezervationDtos);
             calendar.add(Calendar.MINUTE,465);
         }
+        log.info("check which rezervation already not availible");
+        for (Rezervation rezervation:rezervationJpaRepo.findByStatusTrue()) {
+            if (rezervation.getCurrentTime().getTime() < now.getTime()){
+                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
+            }
+        }
         return rezervationDtos2D;
 
     }

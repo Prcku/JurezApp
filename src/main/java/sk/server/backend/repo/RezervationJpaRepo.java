@@ -10,10 +10,13 @@ import java.util.List;
 
 public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
 
+    List<Rezervation> findByStatusTrue();
+
     Integer countByCurrentTimeEquals(Date currentTime);
 
     @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2")
     boolean onlyOneRezervation(Date currentTime, Long id);
+
 
     void deleteByCurrentTimeEqualsAndUser_IdEquals(Date currentTime, Long id);
 

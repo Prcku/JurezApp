@@ -1,32 +1,32 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
   <div class="container-sm">
-     <span *ngIf="user$ | async as user; else loginHome">
-       <a class="navbar-brand" routerLink="home">JuRez</a>
+     <span *ngIf="user$ | async as user; else loginHome" >
+       <a *ngIf="user.role == 'ROLE_WATCHER'; else loginHome  " class="navbar-brand" routerLink="home">JuRez</a>
      </span>
-     <ng-template #loginHome>
+     <ng-template #loginHome class="bg-primary text-white">
       <a class="navbar-brand" routerLink="login">JuRez</a>
     </ng-template>
     <div class="collapse navbar-collapse" id="navbarNav" style="display: flex">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li *ngIf="user$ | async as user; else loginMyRezervation">
-          <a class="text-white text-decoration-none" [routerLink]="['home/mojerezervacie',user.id]">Moje Rezervácie</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="user$ | async as user ; else loginMyRezervation">
+        <li *ngIf="user.role == 'ROLE_ADMIN'; else AdminMod">
+            <a class="text-white text-decoration-none me-3" [routerLink]="['home/mojerezervacie',user.id]">Moje Rezervácie</a>
+            <a class="text-white text-decoration-none" [routerLink]="['adminpage']">Admin Page</a>
         </li>
-<!--        <li *ngIf="user$ | async as user; else loginMyRezervation">-->
-<!--          <a class="text-white text-decoration-none m-5" [routerLink]="['kalendar']">Kalendar</a>-->
-<!--        </li>-->
-        <li>
-          <ng-template #loginMyRezervation>
+          <ng-template #AdminMod >
+            <li *ngIf="user.role == 'ROLE_USER'; else loginMyRezervation">
+              <a  class="text-white text-decoration-none" [routerLink]="['home/mojerezervacie',user.id]">Moje Rezervácie</a>
+            </li>
           </ng-template>
-        </li>
+
       </ul>
-      <span *ngIf="user$ | async as user; else logoutTmp">
-        <span class="navbar-text mx-2">{{user.firstName}} {{user.lastName}}</span>
+      <ul>
+        <ng-template #loginMyRezervation>
+        </ng-template>
+      </ul>
+      <span *ngIf="user$ | async as user;">
+        <span class="navbar-text mx-2">{{user.firstName}}</span>
         <a class="btn btn-secondary" routerLink="login" (click)="logout()">Logout</a>
       </span>
-
-      <ng-template #logoutTmp>
-        <a class="btn btn-primary" routerLink="login">Login</a>
-      </ng-template>
     </div>
   </div>
 </nav>

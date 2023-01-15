@@ -22,7 +22,7 @@ export class NewUserComponent  {
     }
 
     this.users.add(this.item).subscribe(
-      $data => (this.router.navigate(['/adminpage'])),
+      () => (this.router.navigate(['/login'])),
       error => (error.message)
     )
   }

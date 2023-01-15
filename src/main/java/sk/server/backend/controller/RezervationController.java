@@ -38,7 +38,6 @@ public class RezervationController {
         @PostMapping("/time/{id}/{date}")
         public void bookRezervation(@PathVariable String date,@PathVariable Long id)  {
             if (id == null || date == null){
-                System.out.println("preco som tu <???  aslasasldasdasdasd");
                 throw new BadRequestException();
             }
             Date date1;

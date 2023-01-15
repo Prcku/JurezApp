@@ -120,18 +120,24 @@ export class LoginComponent{
     this.item.email = formElemnt.value.email;
     this.item.password = formElemnt.value.password;
    // admin
-    if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
-      this.userService.isAutorized(this.item).subscribe(value => {
-        if (value) {
-          this.router.navigate(['/adminpage'])
-        }
-      })
-      return;
-    }
+   //  if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
+   //    this.userService.isAutorized(this.item).subscribe(value => {
+   //      if (value) {
+   //        this.router.navigate(['/adminpage'])
+   //      }
+   //    })
+   //    return;
+   //  }
 
    this.userService.isAutorized(this.item).subscribe(value => {
-     if (value){
+     if (value.authorities[0] == "ROLE_USER"){
        this.router.navigate(['/home'])
+     }
+     else if(value.authorities[0] == "ROLE_ADMIN"){
+       this.router.navigate(['/adminpage'])
+     }
+     else if(value.authorities[0] == "ROLE_WATCHER"){
+       this.router.navigate(['/info'])
      }
      },
      error => {

@@ -23,17 +23,15 @@ export class UserGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.user?.token != undefined){
-      console.log("som tam kde normalne")
+
+    console.log(this.router)
+    // @ts-ignore
+    if (JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == route.data.role || JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == "ROLE_ADMIN"){
       return true;
     }
-    else if (this.localStorageService.get("token")){
-      console.log("som tam kde je local storage")
-      return true;
-    }
-    else {
+      this.localStorageService.clearAll();
+      this.userService.logout();
       this.router.navigate(['/login'])
       return false;
-    }
   }
 }
