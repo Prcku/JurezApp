@@ -12,9 +12,7 @@ import sk.server.backend.service.UserService;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -45,6 +43,35 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
+    }
+
+    @Override
+    public List<User> findUsersInGym() {
+        try {
+            Calendar date = Calendar.getInstance();
+            long timeInSecs = date.getTimeInMillis();
+            Date startTime = new Date(timeInSecs - (75 * 60 * 1000));
+            Date endTime = new Date();
+            log.info("Searching user in Current time , {} ",endTime);
+            return userJpaRepo.findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(startTime,endTime);
+
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    //musi tu prichadzat parameter napriklad 00:00 a v tomto case vyhadze
+    @Override
+    public List<User> findAllUsersInGym(Date startTime){
+        try {
+            Calendar endTime = Calendar.getInstance();
+            endTime.setTime(startTime);
+            endTime.add(Calendar.HOUR, 23);
+            log.info("Searching user in Current day , {} ",endTime.getTime());
+            return userJpaRepo.findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(startTime,endTime.getTime());
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
@@ -108,7 +135,6 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
         }catch (Exception e){
-            log.info("nieco je naozaj zle");
             return  null;
         }
     }

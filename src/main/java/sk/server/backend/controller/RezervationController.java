@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/rezervation")
@@ -21,22 +20,16 @@ public class RezervationController {
         @Resource()
         private RezervationService rezervationService;
 
-//        @GetMapping("/free")
-//        public List<Rezervation> getAvalible(){
-//            return rezervationService.availibleRezervation();
-//        }
-
         @GetMapping("/kalendar")
         public List<List<RezervationDto>> getNewTimes(){return rezervationService.createRezervationByTime();}
 
-        @GetMapping("/time/{date}")
-        public long getRezervationByDate(@PathVariable String date) throws ParseException {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-            return rezervationService.findByDate(date1);
+        @GetMapping("/time")
+        public List<Rezervation> getCurrentRezervation(){
+            return rezervationService.findCurrentRezervation();
         }
 
         @PostMapping("/time/{id}/{date}")
-        public void bookRezervation(@PathVariable String date,@PathVariable Long id)  {
+        public void rezerveRezervation(@PathVariable String date,@PathVariable Long id)  {
             if (id == null || date == null){
                 throw new BadRequestException();
             }
@@ -46,19 +39,19 @@ public class RezervationController {
             }catch (Exception e){
                 throw new BadRequestException();
             }
-            if (!rezervationService.rezerveTerm(date1, id)){
+            if (!rezervationService.rezerveRezervation(date1, id)){
                 throw new ConflictException();
             }
         }
 
         @DeleteMapping("time/cancel/{date}/{id}")
-        public void deleteUser(@PathVariable String date ,@PathVariable Long id){
+        public void cancelUserRezervation(@PathVariable String date ,@PathVariable Long id){
             if (date == null || id == null){
                 throw new BadRequestException();
             }
             try {
                 Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
-                rezervationService.cancelRezervation(date1, id);
+                rezervationService.cancelUserRezervation(date1, id);
             }catch (Exception e){
                 throw new BadRequestException();
             }

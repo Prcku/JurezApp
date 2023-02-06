@@ -38,11 +38,4 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Rezervation> rezervations = new ArrayList<>();
 
-    public List<Rezervation> getRezervations() {
-        return rezervations;
-    }
-
-//    public void setRezervations(List<Rezervation> rezervations) {
-//        this.rezervations = rezervations;
-//    }
 }

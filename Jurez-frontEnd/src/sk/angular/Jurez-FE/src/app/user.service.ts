@@ -41,6 +41,34 @@ export class UserService {
     )
   }
 
+  getCurrentUsersInRezervation(){
+    return this.http.get<User[]>('/api/user/currentrezervation/').pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    )
+  }
+
+  getAllUsersInRezervationInDay(date:string){
+    return this.http.get<User[]>('/api/user/currentrezervation/'+date).pipe(
+      catchError(error => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.getServerErrorMessage(error);
+        }
+        throw new Error(errorMsg);
+      })
+    )
+  }
+
   getByEmail(email: string, token: string | undefined){
     let headers = new HttpHeaders({
       Authorization: 'Bearer ' + token
@@ -71,9 +99,6 @@ export class UserService {
         }))
       .pipe(tap(user => {
         this.getByEmail(user.sub,this.token).subscribe(value => {
-          // if (this.token != null) {
-          //   value.token = this.token;
-          // }
           this.localStorageService.set("user",value)
           this.userSubject.next(value)});
       }))
@@ -107,9 +132,7 @@ export class UserService {
     this.localStorageService.clearAll();
     this.userSubject.next(undefined);
   }
-  // getToken(){
-  //   return this.token;
-  // }
+
   add(user: User){
       return this.http.post('/api/user', user).pipe(
         catchError(error => {

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
   <div class="container-sm">
      <span *ngIf="user$ | async as user; else loginHome" >
-       <a *ngIf="user.role == 'ROLE_WATCHER'; else loginHome  " class="navbar-brand" routerLink="home">JuRez</a>
+       <a *ngIf="user.role != 'ROLE_WATCHER'; else loginHome  " class="navbar-brand" routerLink="home">JuRez</a>
      </span>
      <ng-template #loginHome class="bg-primary text-white">
       <a class="navbar-brand" routerLink="login">JuRez</a>
@@ -30,8 +30,8 @@
     </div>
   </div>
 </nav>
-<div class="container">
-  <router-outlet></router-outlet>
+<div class="container" style="padding: 10px ; box-shadow: 10px 5px 5px whitesmoke;">
+  <router-outlet style="padding: 10px" ></router-outlet>
 </div>
 
 

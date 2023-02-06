@@ -13,6 +13,7 @@ import sk.server.backend.service.UserService;
 
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,26 @@ public class UserController {
     @GetMapping
     public List<User> getUsers(){
         return userService.getAll();
+    }
+
+    @GetMapping("/currentrezervation")
+    public List<User> getUsersInGym(){
+        return userService.findUsersInGym();
+    }
+
+    @GetMapping("/currentrezervation/{time}")
+    public List<User> getAllUsersInGym(@PathVariable String time){
+        if (time == null){
+            throw new BadRequestException();
+        }
+        Date date;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+            return userService.findAllUsersInGym(date);
+        }catch (Exception e){
+            throw new BadRequestException();
+        }
+
     }
 
     @GetMapping("/{id}")

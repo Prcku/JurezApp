@@ -24,10 +24,11 @@ export class UserGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    console.log(this.router)
-    // @ts-ignore
-    if (JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == route.data.role || JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == "ROLE_ADMIN"){
-      return true;
+    if(this.localStorageService.get("token")) {
+      // @ts-ignore
+      if (JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == route.data.role || JSON.parse(atob(this.localStorageService.get("token").split('.')[1])).authorities[0] == "ROLE_ADMIN") {
+        return true;
+      }
     }
       this.localStorageService.clearAll();
       this.userService.logout();

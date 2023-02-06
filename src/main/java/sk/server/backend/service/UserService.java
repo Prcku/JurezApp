@@ -3,6 +3,8 @@ package sk.server.backend.service;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -14,5 +16,6 @@ public interface UserService {
     List<Rezervation> getUserRezervation(Long id);
     User getByEmail(String email);
     User authentification(String email, String password);
-//    User updateUserToken(String token,String email);
+    List<User>findUsersInGym();
+    List<User>findAllUsersInGym(Date startTime);
 }

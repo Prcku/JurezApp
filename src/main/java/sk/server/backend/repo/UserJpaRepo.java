@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.User;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,5 +21,12 @@ public interface UserJpaRepo extends JpaRepository<User,Long> {
     void updateUser(@NonNull String firstName, @NonNull String lastName, @NonNull String email,@NonNull  String password, Long id);
 
     Optional<User> findByEmailEquals(String email);
+
+    // Na zistenie kto sa ma aktualne rezervaciu na tento cas
+    List<User> findByRezervations_StatusFalse();
+
+    //na zistenie kto ma aktualne rezervaciu na tento cas
+    List<User> findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(Date currentTimeStart, Date currentTimeEnd);
+
 
 }

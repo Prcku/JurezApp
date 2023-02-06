@@ -17,13 +17,15 @@ export class AdminComponent {
   dtTrigger: Subject<any> = new Subject<any>();
   items: User[] | undefined;
   item = {} as User;
-  constructor(private userService: UserService,
-  private rezervationService: RezervationService,
-  private router: Router) {
+  Users: User[] |undefined;
+  constructor(private userService: UserService) {
     this.reload();
   }
 
   reload(){
+    this.userService.getCurrentUsersInRezervation().subscribe( value => {
+      this.Users = value;
+    })
     this.userService.onUserChange()
     this.userService.getAll().subscribe(value => {this.items = value
     this.dtTrigger.next(value);})

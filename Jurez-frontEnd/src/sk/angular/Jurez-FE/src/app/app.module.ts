@@ -20,6 +20,7 @@ import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confi
 import { KalendarComponent } from './kalendar/kalendar.component';
 import {LocalStorageModule} from "angular-2-local-storage";
 import { WatcherComponent } from './watcher/watcher.component';
+import {AllRezervationComponent} from "./all-rezervation/all-rezervation.component";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { WatcherComponent } from './watcher/watcher.component';
     MyRezervationComponent,
     NgbdModalConfirmComponent,
     KalendarComponent,
-    WatcherComponent
+    WatcherComponent,
+    AllRezervationComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: UserInterceptor, multi: true},
   UserGuard,DatePipe],

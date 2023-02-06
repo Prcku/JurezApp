@@ -1,16 +1,14 @@
 package sk.server.backend.service;
 
+import sk.server.backend.domain.Rezervation;
 import sk.server.backend.service.Response.RezervationDto;
 
 import java.util.Date;
 import java.util.List;
 
 public interface RezervationService {
-//    void create(Date rezervation);
-//    Rezervation get(Long id);
-//    List<Rezervation> availibleRezervation();
-    boolean rezerveTerm(Date date, Long id);
-    void cancelRezervation(Date date, Long id);
-    long findByDate(Date date);
+    boolean rezerveRezervation(Date date, Long id);
+    void cancelUserRezervation(Date date, Long id);
+    List<Rezervation> findCurrentRezervation();
     List<List<RezervationDto>> createRezervationByTime();
 }

@@ -15,6 +15,8 @@ import sk.server.backend.service.RezervationService;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static javax.xml.datatype.DatatypeConstants.MINUTES;
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -29,18 +31,33 @@ public class RezervationServiceImpl implements RezervationService {
     private final UserJpaRepo userJpaRepo;
 
     @Override
-    public long findByDate(Date date) {
+    public List<Rezervation> findCurrentRezervation() {
         try {
-            log.info("search rezervation by date {}", date);
-            return rezervationJpaRepo.countByCurrentTimeEquals(date);
+            /*
+                get now
+                get rezervation date with status true
+                compare with 1:15 + time
+                return User which are there
+
+             */
+            Date now = new Date();
+            List<Rezervation> rezervations;
+            List<Rezervation> currentRezervations = new ArrayList<>();
+            rezervations = rezervationJpaRepo.findByStatusFalse();
+            for (Rezervation rezervation:rezervations) {
+                Date endRezervation = new Date(rezervation.getCurrentTime().getTime() + 75*60*1000);
+                if(rezervation.getCurrentTime().getTime() < now.getTime() && now.getTime() < endRezervation.getTime()){
+                    currentRezervations.add(rezervation);
+                }
+            }
+            return currentRezervations;
         }catch (Exception e){
-            log.info("Get rezeration by Date faild {}",date);
-            return 0;
+            return null;
         }
     }
 
     @Override
-    public boolean rezerveTerm(Date date, Long id) {
+    public boolean rezerveRezervation(Date date, Long id) {
         try{
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && !rezervationJpaRepo.onlyOneRezervation(date,id)){
@@ -64,10 +81,10 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public void cancelRezervation(Date date, Long id) {
+    public void cancelUserRezervation(Date date, Long id) {
         try{
             rezervationJpaRepo.deleteByCurrentTimeEqualsAndUser_IdEquals(date,id);
-            log.info("DELETE first rezervation by date SUCESS = {}", date );
+            log.info("DELETE first rezervation by date SUCCESS = {}", date );
         }catch (Exception e){
             log.info("DELETE first rezervation by date FAILED: {} excepotion -> {}", date,e.getMessage());
         }

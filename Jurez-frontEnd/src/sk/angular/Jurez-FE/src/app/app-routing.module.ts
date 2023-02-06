@@ -9,6 +9,7 @@ import {MyRezervationComponent} from "./my-rezervation/my-rezervation.component"
 import {UserGuard} from "./user.guard";
 import {KalendarComponent} from "./kalendar/kalendar.component";
 import {WatcherComponent} from "./watcher/watcher.component";
+import {AllRezervationComponent} from "./all-rezervation/all-rezervation.component";
 
 const routes: Routes = [
   {path:'home',
@@ -42,6 +43,12 @@ const routes: Routes = [
     canActivate: [UserGuard],
     data: {
       role: 'ROLE_WATCHER'
+    }},
+  {path:'adminpage/allrezervation',
+    component: AllRezervationComponent,
+    canActivate: [UserGuard],
+    data: {
+      role: 'ROLE_ADMIN'
     }},
   {path:'', redirectTo: 'login', pathMatch: 'full'},
   {path:'**', component: NotFoundComponent}
