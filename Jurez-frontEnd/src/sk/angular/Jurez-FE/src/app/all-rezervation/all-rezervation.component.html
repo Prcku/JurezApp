@@ -2,18 +2,27 @@
   <h2>Aktualne v nemá nik rezerváciu ! </h2>
 </div>
 <ng-template #nobody >
-  <span style="display: flex; justify-content: space-between; align-items: flex-end">
-    <h2>Aktualne v má rezerváciu : </h2>
+  <span style="display: flex; justify-content: space-between; align-items: flex-end" class="m-2">
+    <h2>Zobraz rezervácie z :</h2>
+    <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedDate" (change)="reload()" style="width: 100px">
+       <option *ngFor="let o of options">
+          {{o.name}}
+       </option>
+    </select>
   </span>
-  <div class="row mt-3 mb-3" style="padding: 10px ; box-shadow: 10px 5px 5px whitesmoke;">
+  <div class="row mt-3 mb-3" style="padding: 10px ; box-shadow: 10px 5px 5px whitesmoke;" *ngFor="let data of timeoptions" >
+    <span>{{data | date:"HH:mm"}}</span>
     <div class="col-2 actualRezervation" *ngFor="let user of jojo">
-      <h6>
-        {{user.email}}
-        Meno:
-      </h6>
-      <span class="mb-1">
+      <div *ngFor="let rezervation of user.rezervations">
+        <div *ngIf="(rezervation.currentTime | date: 'yyyy-MM-dd HH:mm') == (data | date: 'yyyy-MM-dd HH:mm')">
+          <h6>
+            Meno:
+          </h6>
+          <span class="mb-1">
          {{user.firstName}} {{user.lastName}}
        </span>
+        </div>
+      </div>
     </div>
   </div>
 </ng-template>

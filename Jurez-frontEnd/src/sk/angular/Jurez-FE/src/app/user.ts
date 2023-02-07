@@ -6,6 +6,6 @@ export interface User {
   lastName: string;
   email: string;
   password: string;
-  rezervations: Rezervation;
+  rezervations: Rezervation[];
   role: string;
 }
