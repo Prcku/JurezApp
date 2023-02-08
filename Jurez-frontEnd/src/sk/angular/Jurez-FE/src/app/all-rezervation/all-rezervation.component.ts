@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user.service";
 import {DatePipe} from "@angular/common";
+import {UserHashMap} from "../userHashMap";
 
 @Component({
   selector: 'app-all-rezervation',
@@ -10,7 +11,7 @@ import {DatePipe} from "@angular/common";
 })
 export class AllRezervationComponent {
 
-    jojo: User[] | undefined;
+    jojo: UserHashMap | undefined;
     selectedDate: string | undefined;
     dateTimeNow: string | undefined;
     date = new Date();
@@ -41,7 +42,7 @@ export class AllRezervationComponent {
       }
       this.timeoptions[i].setHours(6+i, i*15, 0, 0);
     }
-    this.date.setHours(0, 1, 0, 0);
+    this.date.setHours(6, 59, 0, 0);
     this.dateTimeNow =
       this.format(this.date.getFullYear(), 4) +
       '-' +
@@ -58,6 +59,8 @@ export class AllRezervationComponent {
     console.log(this.dateTimeNow)
     this.userService.getAllUsersInRezervationInDay(this.dateTimeNow).subscribe( value => {
       this.jojo = value;
+      console.log("tu je to")
+      console.log(value)
     })
   }
 

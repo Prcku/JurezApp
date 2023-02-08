@@ -5,6 +5,7 @@ import {User} from "./user";
 import {UserDTO} from "./userDTO";
 import {BehaviorSubject, catchError, map, tap} from "rxjs";
 import {LocalStorageService} from "angular-2-local-storage";
+import {UserHashMap} from "./userHashMap";
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,7 @@ export class UserService {
   }
 
   getAllUsersInRezervationInDay(date:string){
-    return this.http.get<User[]>('/api/user/currentrezervation/'+date).pipe(
+    return this.http.get<UserHashMap>('/api/user/currentrezervation/'+date).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {

@@ -15,6 +15,7 @@ import sk.server.backend.service.UserService;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @GetMapping("/currentrezervation/{time}")
-    public List<User> getAllUsersInGym(@PathVariable String time){
+    public HashMap<Date, List<Optional<User>>> getAllUsersInGym(@PathVariable String time){
         if (time == null){
             throw new BadRequestException();
         }
@@ -115,9 +116,7 @@ public class UserController {
         }
         User user1 = userService.authentification(user.getEmail(),user.getPassword());
         if (user1 != null){
-            String token = getJWTToken(user1);
-//            userService.updateUserToken(token,user.getEmail());
-            return token;
+            return getJWTToken(user1);
         }
         else {
             throw new EntityNotFoundException();

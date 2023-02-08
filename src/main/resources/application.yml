@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://mysql-standalone:3306/VSA_PR1
+    url: jdbc:mysql://mysql-standalone:3306/JUREZ
     username: vsa
     password: vsa
     hikari:

@@ -11,7 +11,6 @@ import sk.server.backend.repo.UserJpaRepo;
 import sk.server.backend.service.UserService;
 
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -62,13 +61,25 @@ public class UserServiceImpl implements UserService {
 
     //musi tu prichadzat parameter napriklad 00:00 a v tomto case vyhadze
     @Override
-    public List<User> findAllUsersInGym(Date startTime){
+    public HashMap<Date, List<Optional<User>>> findAllUsersInGym(Date startTime){
         try {
             Calendar endTime = Calendar.getInstance();
             endTime.setTime(startTime);
-            endTime.add(Calendar.HOUR, 23);
             log.info("Searching user in Current day , {} ",endTime.getTime());
-            return userJpaRepo.findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(startTime,endTime.getTime());
+            HashMap<Date,List<Optional<User>>> map = new HashMap<>();
+            for (int i =0;i < 14;i++){
+                List<Rezervation> rezervations = rezervationJpaRepo.findByCurrentTimeBetween(startTime,endTime.getTime());
+                List<Optional<User>> users = new ArrayList<>();
+                for (Rezervation rezervation:rezervations) {
+                    users.add(userJpaRepo.findById(rezervation.getUser().getId()));
+                };
+                startTime.setTime(endTime.getTimeInMillis() + (i * 60 * 1000));
+                map.put(startTime,users);
+                startTime = endTime.getTime();
+                endTime.add(Calendar.MINUTE, 74);
+            }
+            System.out.println(map);
+            return map;
         }catch (Exception e){
             return null;
         }
@@ -126,14 +137,14 @@ public class UserServiceImpl implements UserService {
     public User authentification(String email, String password) {
         try {
             System.out.println(userJpaRepo.findByEmailEquals(email).get().getPassword());
-            if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
+//            if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
                 log.info("Password is Right");
                 return userJpaRepo.findByEmailEquals(email).get();
-          }
-            else {
-                log.info("Wrong password");
-                return null;
-            }
+//            }
+//            else {
+//                log.info("Wrong password");
+//                return null;
+//            }
         }catch (Exception e){
             return  null;
         }

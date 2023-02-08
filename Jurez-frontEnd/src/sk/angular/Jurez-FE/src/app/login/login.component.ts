@@ -119,17 +119,9 @@ export class LoginComponent{
    }
     this.item.email = formElemnt.value.email;
     this.item.password = formElemnt.value.password;
-   // admin
-   //  if (this.item.email == "branislavsocha159@gmail.com" && this.item.password == "123"){
-   //    this.userService.isAutorized(this.item).subscribe(value => {
-   //      if (value) {
-   //        this.router.navigate(['/adminpage'])
-   //      }
-   //    })
-   //    return;
-   //  }
-
+    console.log(this.item)
    this.userService.isAutorized(this.item).subscribe(value => {
+
      if (value.authorities[0] == "ROLE_USER"){
        this.router.navigate(['/home'])
      }

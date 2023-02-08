@@ -5,7 +5,9 @@ import sk.server.backend.domain.User;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     User create(User user);
@@ -17,5 +19,5 @@ public interface UserService {
     User getByEmail(String email);
     User authentification(String email, String password);
     List<User>findUsersInGym();
-    List<User>findAllUsersInGym(Date startTime);
+    HashMap<Date, List<Optional<User>>> findAllUsersInGym(Date startTime);
 }

@@ -35,4 +35,8 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
     //najdi rezervaciu ktoru vlastni user s danym id
     List<Rezervation> findByUser_IdEquals(Long id);
 
+    List<Rezervation> findByCurrentTimeBetween(Date currentTimeStart, Date currentTimeEnd);
+
+
+
 }

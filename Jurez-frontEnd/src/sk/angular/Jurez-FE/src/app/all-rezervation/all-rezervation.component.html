@@ -10,19 +10,18 @@
        </option>
     </select>
   </span>
-  <div class="row mt-3 mb-3" style="padding: 10px ; box-shadow: 10px 5px 5px whitesmoke;" *ngFor="let data of timeoptions" >
-    <span>{{data | date:"HH:mm"}}</span>
-    <div class="col-2 actualRezervation" *ngFor="let user of jojo">
-      <div *ngFor="let rezervation of user.rezervations">
-        <div *ngIf="(rezervation.currentTime | date: 'yyyy-MM-dd HH:mm') == (data | date: 'yyyy-MM-dd HH:mm')">
-          <h6>
-            Meno:
-          </h6>
-          <span class="mb-1">
-         {{user.firstName}} {{user.lastName}}
-       </span>
-        </div>
+  <ul>
+    <li *ngFor="let recipient of jojo | keyvalue">
+      {{recipient.key | date: "HH:mm"}}
+      <div *ngFor="let user of recipient.value">
+        {{user}}
       </div>
-    </div>
-  </div>
+    </li>
+  </ul>
+<!--    <div class="col-2 actualRezervation" *ngFor="let [key,value] of jojo">-->
+<!--      <h3>{{map.time}}</h3>-->
+<!--      <div *ngFor="let user of map.users">-->
+<!--        {{user.firstName}}-->
+<!--      </div>-->
+<!--      </div>-->
 </ng-template>

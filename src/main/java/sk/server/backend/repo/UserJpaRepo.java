@@ -28,5 +28,4 @@ public interface UserJpaRepo extends JpaRepository<User,Long> {
     //na zistenie kto ma aktualne rezervaciu na tento cas
     List<User> findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(Date currentTimeStart, Date currentTimeEnd);
 
-
 }
