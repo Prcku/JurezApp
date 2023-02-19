@@ -132,5 +132,7 @@
       }
     }
   },
-  "defaultProject": "Jurez-FE"
+  "cli": {
+    "analytics": "7a0fbebd-4b96-4e3f-ab03-ac092fa31247"
+  }
 }

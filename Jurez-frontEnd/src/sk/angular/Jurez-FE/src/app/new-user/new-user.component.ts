@@ -3,7 +3,7 @@ import {User} from "../user";
 import {UserService} from "../user.service";
 import {Router} from "@angular/router";
 import {NgForm} from "@angular/forms";
-// import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-new-user',
@@ -11,12 +11,12 @@ import {NgForm} from "@angular/forms";
 })
 export class NewUserComponent  {
 
-  // modalRef: BsModalRef | undefined;
+  // modalRef: BsModalRef;
   item = {} as User;
 
   constructor(private users: UserService,
               private router: Router,
-              //private modalService: BsModalService
+              private modalService: BsModalService
                 ) {
 
   }

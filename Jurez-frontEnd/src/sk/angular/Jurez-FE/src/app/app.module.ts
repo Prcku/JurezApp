@@ -16,15 +16,16 @@ import {UserInterceptor} from "./user.interceptor";
 import {DataTablesModule} from "angular-datatables";
 import {DatePipe} from "@angular/common";
 import {UserGuard} from "./user.guard";
-import { NgbdModalConfirmComponent } from './ngbd-modal-confirm/ngbd-modal-confirm.component';
 import { KalendarComponent } from './kalendar/kalendar.component';
 import {LocalStorageModule} from "angular-2-local-storage";
 import { WatcherComponent } from './watcher/watcher.component';
 import {AllRezervationComponent} from "./all-rezervation/all-rezervation.component";
+import {ModalModule} from "ngx-bootstrap/modal";
 
 
 @NgModule({
   imports: [
+    ModalModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     DataTablesModule,
@@ -43,7 +44,6 @@ import {AllRezervationComponent} from "./all-rezervation/all-rezervation.compone
     NotFoundComponent,
     EditUserComponent,
     MyRezervationComponent,
-    NgbdModalConfirmComponent,
     KalendarComponent,
     WatcherComponent,
     AllRezervationComponent
