@@ -11,8 +11,9 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class NewUserComponent  {
 
-  // modalRef: BsModalRef;
+  modalRef!: BsModalRef;
   item = {} as User;
+  infoText: string | undefined;
 
   constructor(private users: UserService,
               private router: Router,
@@ -21,9 +22,9 @@ export class NewUserComponent  {
 
   }
 
-  // openModal(template: TemplateRef<any>) {
-  //   this.modalRef = this.modalService.show(template);
-  // }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
   submit(formElemnt: NgForm){
     if (formElemnt.invalid){
@@ -32,10 +33,11 @@ export class NewUserComponent  {
 
 
     this.users.add(this.item).subscribe(
-      () => (console.log("ahoj")),
+      () => (this.infoText="Vytvorenie uživateľa prebehlo úspešne"),
       error => {
         if (error.message == "Duplicity"){
-        console.log("vypis na obrazovku zadal si rovanky mail zmen ho")
+          this.infoText="Zadaný email bol už zvolený, skús zadať nový"
+          return;
       }},
       () => (this.router.navigate(['/login']))
     )

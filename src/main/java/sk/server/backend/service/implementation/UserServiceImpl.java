@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User create(User user) {
         try {
             if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
-                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+//                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
                 user.setRole("ROLE_WATCHER");
                 User user1 = userJpaRepo.save(user);
                 log.info("Create new User: {}",user.getEmail());
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+//        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
         userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getId());
     }
 

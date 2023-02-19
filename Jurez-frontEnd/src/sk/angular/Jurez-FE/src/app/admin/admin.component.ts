@@ -15,7 +15,7 @@ export class AdminComponent {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
-  items: User[] | undefined;
+  items!: User[];
   item = {} as User;
   Users: User[] |undefined;
   constructor(private userService: UserService) {
@@ -29,6 +29,23 @@ export class AdminComponent {
     this.userService.onUserChange()
     this.userService.getAll().subscribe(value => {this.items = value
     this.dtTrigger.next(value);})
+    console.log(this.items)
+    //pre krajsie vypisanie ROLi
+    // for (let user of this.items){
+    //   switch (user.role){
+    //     case "ROLE_ADMIN": {
+    //       user.role = "ADMIN";
+    //       break;
+    //     }
+    //     case "ROLE_USER": {
+    //       user.role = "USER";
+    //       break;
+    //     }
+    //     default: {
+    //       user.role = "WATCHER";
+    //     }
+    //   }
+    // }
   }
 
   delete(item: User) {

@@ -99,6 +99,9 @@ public class UserController {
         if(user.getPassword() != null){
             user1.setPassword(user.getPassword());
         }
+        if(user.getRole() != null){
+            user1.setRole(user.getRole());
+        }
         userService.update(user1);
         return userService.get(id);
     }
