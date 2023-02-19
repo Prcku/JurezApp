@@ -1,8 +1,6 @@
 import { Component} from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user.service";
-import {DatePipe} from "@angular/common";
-import {UserHashMap} from "../userHashMap";
 
 @Component({
   selector: 'app-all-rezervation',
@@ -11,7 +9,7 @@ import {UserHashMap} from "../userHashMap";
 })
 export class AllRezervationComponent {
 
-    jojo: UserHashMap | undefined;
+    jojo: Map<string,User[]> | undefined;
     selectedDate: string | undefined;
     dateTimeNow: string | undefined;
     date = new Date();
@@ -69,6 +67,16 @@ export class AllRezervationComponent {
     { name: "Včera", value: 2 },
     { name: "Zajtra", value: 3 }
   ]
+
+  delete(item: User) {
+    if (confirm(`Delete ${item.firstName} ?`)) {
+      this.userService.delete(item.id)
+        .subscribe(() => {
+          this.reload();
+        })
+    }
+    window.location.reload()
+  }
 
 
 

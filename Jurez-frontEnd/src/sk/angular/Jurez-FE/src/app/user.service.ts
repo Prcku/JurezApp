@@ -5,7 +5,6 @@ import {User} from "./user";
 import {UserDTO} from "./userDTO";
 import {BehaviorSubject, catchError, map, tap} from "rxjs";
 import {LocalStorageService} from "angular-2-local-storage";
-import {UserHashMap} from "./userHashMap";
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,7 @@ export class UserService {
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          errorMsg = this.getServerErrorMessage(error);
+          errorMsg = UserService.getServerErrorMessage(error);
         }
         throw new Error(errorMsg);
       })
@@ -49,7 +48,7 @@ export class UserService {
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          errorMsg = this.getServerErrorMessage(error);
+          errorMsg = UserService.getServerErrorMessage(error);
         }
         throw new Error(errorMsg);
       })
@@ -57,13 +56,13 @@ export class UserService {
   }
 
   getAllUsersInRezervationInDay(date:string){
-    return this.http.get<UserHashMap>('/api/user/currentrezervation/'+date).pipe(
+    return this.http.get<Map<string,User[]>>('/api/user/currentrezervation/'+date).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          errorMsg = this.getServerErrorMessage(error);
+          errorMsg = UserService.getServerErrorMessage(error);
         }
         throw new Error(errorMsg);
       })
@@ -80,7 +79,7 @@ export class UserService {
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          errorMsg = this.getServerErrorMessage(error);
+          errorMsg = UserService.getServerErrorMessage(error);
         }
         console.log(errorMsg)
         throw new Error(errorMsg);
@@ -109,7 +108,7 @@ export class UserService {
         if (error.error instanceof ErrorEvent) {
           errorMsg = `Error: ${error.error.message}`;
         } else {
-          errorMsg = this.getServerErrorMessage(error);
+          errorMsg = UserService.getServerErrorMessage(error);
         }
         throw new Error(errorMsg);
       }))
@@ -141,32 +140,11 @@ export class UserService {
           if (error.error instanceof ErrorEvent) {
             errorMsg = `Error: ${error.error.message}`;
           } else {
-            errorMsg = this.getServerErrorMessage(error);
+            errorMsg = UserService.getServerErrorMessage(error);
           }
           throw new Error(errorMsg);
         })
       );
-  }
-
-  private getServerErrorMessage(error: HttpErrorResponse): string {
-    switch (error.status) {
-      case 400: {
-        return `Not Found: ${error.message}`;
-      }
-      case 403: {
-        return `Access Denied: ${error.message}`;
-      }
-      case 409: {
-        return `Duplicity: ${error.message}`;
-      }
-      case 500: {
-        return `Internal Server Error: ${error.message}`;
-      }
-      default: {
-        return `Unknown Server Error: ${error.message}`;
-      }
-
-    }
   }
 
   edit(user: User) {
@@ -176,5 +154,26 @@ export class UserService {
 
   delete(id:number){
     return this.http.delete<User>("/api/user/" + id )
+  }
+
+  private static getServerErrorMessage(error: HttpErrorResponse): string {
+    switch (error.status) {
+      case 400: {
+        return `Not Found}`;
+      }
+      case 403: {
+        return `Access Denied`;
+      }
+      case 409: {
+        return `Duplicity`;
+      }
+      case 500: {
+        return `Internal Server Error`;
+      }
+      default: {
+        return `Unknown Server Error`;
+      }
+
+    }
   }
 }
