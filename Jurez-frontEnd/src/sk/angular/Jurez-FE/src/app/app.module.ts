@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 // import { DashboardComponent } from './dashboard/dashboard.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './login/login.component';
-import {FormsModule} from "@angular/forms";
+import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AdminComponent } from './admin/admin.component';
 import { NewUserComponent } from './new-user/new-user.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -21,12 +21,16 @@ import {LocalStorageModule} from "angular-2-local-storage";
 import { WatcherComponent } from './watcher/watcher.component';
 import {AllRezervationComponent} from "./all-rezervation/all-rezervation.component";
 import {ModalModule} from "ngx-bootstrap/modal";
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   imports: [
     ModalModule.forRoot(),
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     DataTablesModule,
     FormsModule,

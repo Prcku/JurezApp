@@ -1,6 +1,8 @@
-import { Component} from '@angular/core';
+import {Component, TemplateRef} from '@angular/core';
 import {User} from "../user";
 import {UserService} from "../user.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-all-rezervation',
@@ -10,74 +12,52 @@ import {UserService} from "../user.service";
 export class AllRezervationComponent {
 
     jojo: Map<string,User[]> | undefined;
-    selectedDate: string | undefined;
-    dateTimeNow: string | undefined;
-    date = new Date();
     timeoptions: Date[] = [];
+    modalRef!: BsModalRef;
 
-  constructor(private userService: UserService) {
-    this.reload()
+    myForm: FormGroup;
+
+  constructor(private userService: UserService,
+              private modalService: BsModalService,
+              private fb: FormBuilder) {
+    this.myForm = this.fb.group({
+      date: new Date(),
+    });
+    this.selected_date()
   }
+
+
 
   format = (input: number, padLength: number): string => {
     return input.toString().padStart(padLength, '0');
   };
 
-  reload(){
-    if (this.selectedDate == "Zajtra"){
-      this.date = new Date(this.date.getTime() + (1000 * 60 * 60 * 24));
-    }
-    else if (this.selectedDate == "Včera"){
-      this.date = new Date(this.date.getTime() - (1000 * 60 * 60 * 24));
-    }
-    for (let i=0 ; i < 13; i++){
-      this.timeoptions[i] = new Date();
-      if (this.selectedDate == "Zajtra"){
-        this.timeoptions[i] = new Date(this.date.getTime() + (1000 * 60 * 60 * 24));
-      }
-      else if (this.selectedDate == "Včera"){
-        this.timeoptions[i] = new Date(this.date.getTime() - (1000 * 60 * 60 * 24));
-      }
-      this.timeoptions[i].setHours(6+i, i*15, 0, 0);
-    }
-    this.date.setHours(6, 59, 0, 0);
-    this.dateTimeNow =
-      this.format(this.date.getFullYear(), 4) +
-      '-' +
-      this.format(this.date.getMonth() + 1, 2) +
-      '-' +
-      this.format(this.date.getDate(), 2) +
-      ' ' +
-      this.format(this.date.getHours(), 2) +
-      ':' +
-      this.format(this.date.getMinutes(), 2) +
-      ':' +
-      this.format(this.date.getSeconds(), 2);
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
 
-    console.log(this.dateTimeNow)
-    this.userService.getAllUsersInRezervationInDay(this.dateTimeNow).subscribe( value => {
+  selected_date() {
+    this.myForm.value.date.setHours(6, 0, 0, 0);
+    console.log(this.myForm.value.date)
+    this.myForm.value.date =
+      this.format(this.myForm.value.date.getFullYear(), 4) +
+      '-' +
+      this.format(this.myForm.value.date.getMonth() + 1, 2) +
+      '-' +
+      this.format(this.myForm.value.date.getDate(), 2) +
+      ' ' +
+      this.format(this.myForm.value.date.getHours(), 2) +
+      ':' +
+      this.format(this.myForm.value.date.getMinutes(), 2) +
+      ':' +
+      this.format(this.myForm.value.date.getSeconds(), 2);
+
+    console.log(this.myForm.value.date)
+    this.userService.getAllUsersInRezervationInDay(this.myForm.value.date).subscribe( value => {
       this.jojo = value;
-      console.log("tu je to")
       console.log(value)
     })
   }
-
-  options = [
-    { name: "Dnes", value: 1 },
-    { name: "Včera", value: 2 },
-    { name: "Zajtra", value: 3 }
-  ]
-
-  delete(item: User) {
-    if (confirm(`Delete ${item.firstName} ?`)) {
-      this.userService.delete(item.id)
-        .subscribe(() => {
-          this.reload();
-        })
-    }
-    window.location.reload()
-  }
-
 
 
 }
