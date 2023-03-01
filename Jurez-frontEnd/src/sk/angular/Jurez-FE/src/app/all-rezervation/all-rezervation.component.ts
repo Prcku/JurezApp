@@ -3,6 +3,10 @@ import {User} from "../user";
 import {UserService} from "../user.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 import { FormBuilder, FormGroup } from '@angular/forms';
+import {RezervationService} from "../rezervation.service";
+import {moment} from "ngx-bootstrap/chronos/testing/chain";
+import {DATE} from "ngx-bootstrap/chronos/units/constants";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-all-rezervation',
@@ -14,26 +18,33 @@ export class AllRezervationComponent {
     jojo: Map<string,User[]> | undefined;
     timeoptions: Date[] = [];
     modalRef!: BsModalRef;
-
     myForm: FormGroup;
+    user!: User;
+    cancel_time!: string;
 
   constructor(private userService: UserService,
+              private rezervationService: RezervationService,
               private modalService: BsModalService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              public datepipe: DatePipe) {
     this.myForm = this.fb.group({
       date: new Date(),
     });
-    this.selected_date()
+    this.reload();
   }
 
-
+  reload(){
+    this.selected_date()
+  }
 
   format = (input: number, padLength: number): string => {
     return input.toString().padStart(padLength, '0');
   };
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+  openModal(template: TemplateRef<any>, user: User,cancel_Time: string) {
+    this.user = user;
+    this.cancel_time = cancel_Time;
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   selected_date() {
@@ -55,9 +66,21 @@ export class AllRezervationComponent {
     console.log(this.myForm.value.date)
     this.userService.getAllUsersInRezervationInDay(this.myForm.value.date).subscribe( value => {
       this.jojo = value;
-      console.log(value)
     })
   }
 
+  confirm(): void {
+    let format_date = this.datepipe.transform(this.cancel_time, 'yyyy-MM-dd HH:mm');
+    // @ts-ignore
+    this.rezervationService.cancelRezervation(format_date,this.user.id)
+      .subscribe(() => {
+        this.reload()
+      })
+    this.modalRef.hide();
+  }
+
+  decline(): void {
+    this.modalRef.hide();
+  }
 
 }

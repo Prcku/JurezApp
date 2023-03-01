@@ -65,18 +65,21 @@ public class UserServiceImpl implements UserService {
         try {
             Calendar endTime = Calendar.getInstance();
             endTime.setTime(startTime);
+            Calendar writeTime = Calendar.getInstance();
+            writeTime.setTime(startTime);
             log.info("Searching user in Current day , {} ",endTime.getTime());
             HashMap<Date,List<Optional<User>>> map = new HashMap<>();
             for (int i =0;i < 14;i++){
+                endTime.add(Calendar.MINUTE, 74);
                 List<Rezervation> rezervations = rezervationJpaRepo.findByCurrentTimeBetween(startTime,endTime.getTime());
                 List<Optional<User>> users = new ArrayList<>();
                 for (Rezervation rezervation:rezervations) {
                     users.add(userJpaRepo.findById(rezervation.getUser().getId()));
                 };
                 startTime.setTime(endTime.getTimeInMillis() + (i * 60 * 1000));
-                map.put(startTime,users);
+                map.put(writeTime.getTime(),users);
                 startTime = endTime.getTime();
-                endTime.add(Calendar.MINUTE, 74);
+                writeTime.add(Calendar.MINUTE,75);
             }
             System.out.println(map);
             return map;

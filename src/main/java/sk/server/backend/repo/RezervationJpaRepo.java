@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import sk.server.backend.domain.Rezervation;
+
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
     List<Rezervation> findByUser_IdEquals(Long id);
 
     List<Rezervation> findByCurrentTimeBetween(Date currentTimeStart, Date currentTimeEnd);
+
 
 
 

@@ -11,12 +11,20 @@
   </form>
 </div>
   </span>
+<div>
   <ul>
-    <li *ngFor="let recipient of jojo | keyvalue">
-      {{recipient.key | date: "HH:mm"}}
-      <div *ngFor="let user of recipient.value">
-        {{user.firstName}} {{user.lastName}}
-      </div>
+    <li *ngFor="let recipient of jojo | keyvalue" >
+      <h6> {{recipient.key | date: "HH:mm"}} </h6>
+      <span *ngFor="let user of recipient.value" class="p-3 m-5">
+        {{user.firstName}} {{user.lastName}} <a (click)="openModal(template,user,recipient.key)"><i class="fa-solid fa-trash-can"></i></a>
+      </span>
     </li>
   </ul>
-
+</div>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Naozaj chceš odstraniť zadanú rezerváciu ? {{cancel_time | date: "MM.dd HH:mm"}}</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>

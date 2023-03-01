@@ -81,7 +81,7 @@ export class RezervationService {
     }
   }
 
-  cancelRezervation(date: Date, id:number){
+  cancelRezervation(date: string, id:number){
     // @ts-ignore
     return this.http.delete("/api/rezervation/time/cancel/" + date + '/' + id ).pipe(
       catchError(error => {
