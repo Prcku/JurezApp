@@ -1,13 +1,26 @@
-
+<form [formGroup]="myForm">
+  <div class="row">
+    <div class="col-xs-12 col-12 col-sm-6 col-md-4 form-group">
+      <input type="text" class="form-control mb-3" placeholder="Datepicker" bsDatepicker formControlName="date" (ngModelChange)="reload()" />
+      <pre hidden *ngIf="myForm.value.date" ></pre>
+    </div>
+  </div>
+</form>
 <div class="row">
   <div class="col-4"  *ngFor="let item of items">
       <span class="mb-5"> {{item[0].currentTime | date:"EEEE dd.MM"}}</span>
       <div class=" m-2 "  *ngFor="let day of item" >
-        <button *ngIf="day.status == true" class="btn btn-primary" (click)="rezerveTerm(day.currentTime)">{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
-        <button *ngIf="day.status == false" class="btn btn-primary" type="button" disabled (click)="rezerveTerm(day.currentTime)">{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
+        <button *ngIf="day.status == true" class="btn btn-primary" type="button"(click)="openModal(template,day.currentTime)">{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
+        <button *ngIf="day.status == false" class="btn btn-primary" type="button" disabled >{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
       </div>
   </div>
 </div>
-
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Naozaj si chceš rezervovať zadaný termín ? {{cancel_time | date: "dd.MM HH:mm"}}</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>
 
 

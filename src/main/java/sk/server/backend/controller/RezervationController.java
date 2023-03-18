@@ -20,8 +20,19 @@ public class RezervationController {
         @Resource()
         private RezervationService rezervationService;
 
-        @GetMapping("/kalendar")
-        public List<List<RezervationDto>> getNewTimes(){return rezervationService.createRezervationByTime();}
+        @GetMapping("/kalendar/{date}")
+        public List<List<RezervationDto>> getNewRezervation(@PathVariable String date){
+            if (date == null){
+                throw new BadRequestException();
+            }
+            Date date1;
+            try {
+                date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date);
+                return rezervationService.createRezervationByTime(date1);
+            }catch (Exception e){
+                throw new BadRequestException();
+            }
+        }
 
         @GetMapping("/time")
         public List<Rezervation> getCurrentRezervation(){

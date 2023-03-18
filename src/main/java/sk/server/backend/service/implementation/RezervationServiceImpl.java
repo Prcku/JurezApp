@@ -91,8 +91,7 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<List<RezervationDto>> createRezervationByTime(){
-        Date now = new Date();
+    public List<List<RezervationDto>> createRezervationByTime(Date now){
         Date nearestDay = DateUtils.round(now, Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);

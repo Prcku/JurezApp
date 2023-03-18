@@ -7,6 +7,7 @@ import {RezervationService} from "../rezervation.service";
 import {moment} from "ngx-bootstrap/chronos/testing/chain";
 import {DATE} from "ngx-bootstrap/chronos/units/constants";
 import {DatePipe} from "@angular/common";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-all-rezervation',
@@ -15,12 +16,12 @@ import {DatePipe} from "@angular/common";
 })
 export class AllRezervationComponent {
 
-    jojo: Map<string,User[]> | undefined;
-    timeoptions: Date[] = [];
+    rezervations: Map<string,User[]> | undefined;
     modalRef!: BsModalRef;
     myForm: FormGroup;
     user!: User;
     cancel_time!: string;
+    admin$: Observable<User | undefined>;
 
   constructor(private userService: UserService,
               private rezervationService: RezervationService,
@@ -30,11 +31,16 @@ export class AllRezervationComponent {
     this.myForm = this.fb.group({
       date: new Date(),
     });
-    this.reload();
+
+    this.admin$ =this.userService.onUserChange()
+    if (this.admin$ != undefined) {
+      this.reload();
+    }
+
   }
 
   reload(){
-    this.selected_date()
+    this.selected_date();
   }
 
   format = (input: number, padLength: number): string => {
@@ -49,7 +55,6 @@ export class AllRezervationComponent {
 
   selected_date() {
     this.myForm.value.date.setHours(6, 0, 0, 0);
-    console.log(this.myForm.value.date)
     this.myForm.value.date =
       this.format(this.myForm.value.date.getFullYear(), 4) +
       '-' +
@@ -62,10 +67,8 @@ export class AllRezervationComponent {
       this.format(this.myForm.value.date.getMinutes(), 2) +
       ':' +
       this.format(this.myForm.value.date.getSeconds(), 2);
-
-    console.log(this.myForm.value.date)
     this.userService.getAllUsersInRezervationInDay(this.myForm.value.date).subscribe( value => {
-      this.jojo = value;
+      this.rezervations = value;
     })
   }
 
@@ -74,8 +77,12 @@ export class AllRezervationComponent {
     // @ts-ignore
     this.rezervationService.cancelRezervation(format_date,this.user.id)
       .subscribe(() => {
-        this.reload()
-      })
+          this.userService.getAllUsersInRezervationInDay(this.myForm.value.date).subscribe( value => {
+            this.rezervations = value;
+          })
+        },
+        () => {console.log("Neznama chyba")}
+      )
     this.modalRef.hide();
   }
 
