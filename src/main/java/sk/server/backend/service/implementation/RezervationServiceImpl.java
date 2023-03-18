@@ -15,8 +15,6 @@ import sk.server.backend.service.RezervationService;
 import javax.transaction.Transactional;
 import java.util.*;
 
-import static javax.xml.datatype.DatatypeConstants.MINUTES;
-
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -91,17 +89,16 @@ public class RezervationServiceImpl implements RezervationService {
     }
 
     @Override
-    public List<List<RezervationDto>> createRezervationByTime(Date now){
-        Date nearestDay = DateUtils.round(now, Calendar.DAY_OF_MONTH);
+    public List<RezervationDto> createRezervationByTime(Date date){
+        Date now = new Date();
+        Date nearestDay = DateUtils.round(date, Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);
         if (now.getTime() < nearestDay.getTime()){
             calendar.add(Calendar.DATE,-1);
         }
         log.info("Created new session for excercies ... ");
-        calendar.add(Calendar.MINUTE,285);
-        List<List<RezervationDto>> rezervationDtos2D = new ArrayList<>();
-        for(int i=0; i<3;i++){
+        calendar.add(Calendar.MINUTE,360);
             List<RezervationDto> rezervationDtos = new ArrayList<>();
             for (int j=0;j<13;j++){
                 calendar.add(Calendar.MINUTE, 75);
@@ -115,9 +112,6 @@ public class RezervationServiceImpl implements RezervationService {
                 }
                 rezervationDto.setUsersCount(rezervationJpaRepo.countByCurrentTimeEquals(calendar.getTime()));
                 rezervationDtos.add(rezervationDto);
-            }
-            rezervationDtos2D.add(rezervationDtos);
-            calendar.add(Calendar.MINUTE,465);
         }
         log.info("check which rezervation already not availible");
         for (Rezervation rezervation:rezervationJpaRepo.findByStatusTrue()) {
@@ -125,7 +119,7 @@ public class RezervationServiceImpl implements RezervationService {
                 rezervationJpaRepo.updateStatusFalse(rezervation.getId());
             }
         }
-        return rezervationDtos2D;
+        return rezervationDtos;
 
     }
 }

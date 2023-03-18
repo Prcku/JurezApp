@@ -21,7 +21,7 @@ public class RezervationController {
         private RezervationService rezervationService;
 
         @GetMapping("/kalendar/{date}")
-        public List<List<RezervationDto>> getNewRezervation(@PathVariable String date){
+        public List<RezervationDto> getNewRezervation(@PathVariable String date){
             if (date == null){
                 throw new BadRequestException();
             }

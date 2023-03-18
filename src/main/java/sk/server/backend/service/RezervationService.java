@@ -10,5 +10,5 @@ public interface RezervationService {
     boolean rezerveRezervation(Date date, Long id);
     void cancelUserRezervation(Date date, Long id);
     List<Rezervation> findCurrentRezervation();
-    List<List<RezervationDto>> createRezervationByTime(Date date);
+    List<RezervationDto> createRezervationByTime(Date date);
 }

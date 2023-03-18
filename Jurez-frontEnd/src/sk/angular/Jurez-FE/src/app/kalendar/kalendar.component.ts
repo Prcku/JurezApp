@@ -16,7 +16,6 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 })
 export class KalendarComponent  {
 
-  items!: Rezervation[][];
   item!: Rezervation[];
   user$: Observable<User | undefined>;
   countRezervation: number | undefined;
@@ -34,7 +33,7 @@ export class KalendarComponent  {
     this.myForm = this.fb.group({
       date: new Date(),
     });
-
+    // pri zmene usera sa obnovi novy observable
     this.user$ =this.userService.onUserChange()
     if (this.user$ != undefined) {
       this.reload();
@@ -42,19 +41,26 @@ export class KalendarComponent  {
 
   }
 
+  // reload stranky podla zvoleneho datumu
   reload(){
-    this.rezervationService.getGeneratedRezervation().subscribe(
-      value => {this.items = value
-        console.log(value)
-      },
-      error => {console.log(error)})
+    let time_In_format =this.datepipe.transform(this.myForm.value.date, 'yyyy-MM-dd HH:mm');
+    if (time_In_format != null) {
+      this.rezervationService.getGeneratedRezervation(time_In_format).subscribe(
+        value => {
+          this.item = value
+          console.log(value)
+        },
+        error => {
+          console.log(error)
+        })
+    }
   }
-
+  //pre zadanie premenich do Modal confirmu
   openModal(template: TemplateRef<any>, cancel_Time: Date) {
     this.cancel_time = cancel_Time;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
-
+  //confirm pre modal a rezervovanie rezervacie
   confirm(): void {
     this.user$.subscribe(value => {
       if (value){
@@ -66,7 +72,7 @@ export class KalendarComponent  {
     })
     this.modalRef.hide();
   }
-
+  //pri odmietnuti rezervacie
   decline(): void {
     this.modalRef.hide();
   }

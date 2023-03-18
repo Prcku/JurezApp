@@ -13,8 +13,8 @@ export class RezervationService {
 
   }
 
-  getGeneratedRezervation(){
-    return this.http.get<Rezervation[][]>('/api/rezervation/kalendar/').pipe(
+  getGeneratedRezervation(date: string ){
+    return this.http.get<Rezervation[]>('/api/rezervation/kalendar/' + date).pipe(
       catchError(error => {
         let errorMsg: string;
         if (error.error instanceof ErrorEvent) {
