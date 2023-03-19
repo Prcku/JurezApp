@@ -59,6 +59,7 @@ public class RezervationServiceImpl implements RezervationService {
         try{
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
+//            if (fullRezervation != 4 ){
                 Optional<User> user = userJpaRepo.findById(id);
                 log.info("Get user by id : {}", id);
                 Rezervation rezervation = new Rezervation();
@@ -91,17 +92,13 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public List<RezervationDto> createRezervationByTime(Date date){
         Date now = new Date();
-        Date nearestDay = DateUtils.round(date, Calendar.DAY_OF_MONTH);
+        Date nearestDay = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);
-        if (now.getTime() < nearestDay.getTime()){
-            calendar.add(Calendar.DATE,-1);
-        }
         log.info("Created new session for excercies ... ");
         calendar.add(Calendar.MINUTE,360);
             List<RezervationDto> rezervationDtos = new ArrayList<>();
             for (int j=0;j<13;j++){
-                calendar.add(Calendar.MINUTE, 75);
                 RezervationDto rezervationDto = new RezervationDto();
                 rezervationDto.setCurrentTime(calendar.getTime());
                 if (rezervationDto.getCurrentTime().getTime() < now.getTime()){
@@ -112,6 +109,7 @@ public class RezervationServiceImpl implements RezervationService {
                 }
                 rezervationDto.setUsersCount(rezervationJpaRepo.countByCurrentTimeEquals(calendar.getTime()));
                 rezervationDtos.add(rezervationDto);
+                calendar.add(Calendar.MINUTE, 75);
         }
         log.info("check which rezervation already not availible");
             //treba otestovat ci to nahodou nebude chybat

@@ -21,7 +21,6 @@ export class AllRezervationComponent {
     myForm: FormGroup;
     user!: User;
     cancel_time!: string;
-    admin$: Observable<User | undefined>;
 
   constructor(private userService: UserService,
               private rezervationService: RezervationService,
@@ -32,11 +31,7 @@ export class AllRezervationComponent {
       date: new Date(),
     });
 
-    this.admin$ =this.userService.onUserChange()
-    if (this.admin$ != undefined) {
       this.reload();
-    }
-
   }
 
   //aby sa nedali zrusit rezervacie ktore uz boli
@@ -88,6 +83,7 @@ export class AllRezervationComponent {
       .subscribe(() => {
           this.userService.getAllUsersInRezervationInDay(this.myForm.value.date).subscribe( value => {
             this.rezervations = value;
+            console.log(value)
           })
         },
         () => {console.log("Neznama chyba")}

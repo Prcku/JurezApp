@@ -115,9 +115,8 @@ export class LoginComponent{
    if (formElemnt.invalid){
      return
    }
-    this.item.email = formElemnt.value.email;
-    this.item.password = formElemnt.value.password;
-    console.log(this.item)
+   this.item.email = formElemnt.value.email;
+   this.item.password = formElemnt.value.password;
    this.userService.isAutorized(this.item).subscribe(value => {
 
      if (value.authorities[0] == "ROLE_USER"){

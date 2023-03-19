@@ -9,8 +9,8 @@
 <div class="row">
       <span class="mb-5"> {{item[0].currentTime | date:"EEEE dd.MM"}}</span>
       <div class=" m-2 "  *ngFor="let day of item" >
-        <button *ngIf="day.status == true" class="btn btn-primary" type="button"(click)="openModal(template,day.currentTime)">{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
-        <button *ngIf="day.status == false" class="btn btn-primary" type="button" disabled >{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
+        <button [disabled]="day.status == false || day.usersCount == 4"  class="btn btn-primary" type="button"(click)="openModal(template,day.currentTime)">{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>
+<!--        <button *ngIf="day.status == false " class="btn btn-primary" type="button" disabled >{{day.currentTime | date: "HH:mm"}}  {{day.usersCount}}/4</button>-->
       </div>
   </div>
 <ng-template #template>

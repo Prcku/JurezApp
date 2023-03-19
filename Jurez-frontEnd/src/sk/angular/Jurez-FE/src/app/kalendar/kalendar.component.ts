@@ -24,6 +24,7 @@ export class KalendarComponent  {
   modalRef!: BsModalRef;
   modalRefAfter!: BsModalRef;
   infoText!: string;
+  user!: User;
 
   constructor(private rezervationService: RezervationService
     , private router: Router
@@ -38,6 +39,13 @@ export class KalendarComponent  {
     // pri zmene usera sa obnovi novy observable
     this.user$ =this.userService.onUserChange()
     if (this.user$ != undefined) {
+      this.user$.subscribe(value => {
+        // @ts-ignore
+        this.user = value;
+
+        }
+      )
+
       this.reload();
     }
 
@@ -66,21 +74,16 @@ export class KalendarComponent  {
 
   //confirm pre modal a rezervovanie rezervacie a nasledna informacia o ziskani rezervacie
   confirm(template: TemplateRef<any>): void {
-    this.user$.subscribe(value => {
-      if (value){
         let time_In_format =this.datepipe.transform(this.cancel_time, 'yyyy-MM-dd HH:mm');
-        this.rezervationService.bookRezervation(time_In_format, value.id).subscribe(value =>{
+        this.rezervationService.bookRezervation(time_In_format,this.user.id).subscribe(value =>{
           this.infoText="Vytvorenie rezervácie prebehlo úspešne"
           this.reload()
         }, error =>{
-          console.log(error.message)
           if (error.message == "Duplicity"){
 
             this.infoText="Na dneska už svoj zvolený termín máš !"
           }
         })
-      }
-    })
     this.modalRef.hide();
     this.modalRefAfter = this.modalService.show(template);
   }
