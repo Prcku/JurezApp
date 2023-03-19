@@ -1,10 +1,8 @@
-import { Component} from '@angular/core';
+import {Component, TemplateRef} from '@angular/core';
 import {UserService} from '../user.service';
-import {Router} from "@angular/router";
 import {User} from "../user";
 import {Subject} from "rxjs";
-import {RezervationService} from "../rezervation.service";
-import {Rezervation} from "../rezervation";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-admin',
@@ -15,17 +13,25 @@ export class AdminComponent {
 
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
+  modalRef!: BsModalRef;
   items!: User[];
-  item = {} as User;
-  Users: User[] |undefined;
-  constructor(private userService: UserService) {
+  currentUsers!: User[];
+  user!: User;
+  constructor(private userService: UserService,
+              private modalService: BsModalService) {
     this.reload();
+  }
+
+  openModal(template: TemplateRef<any>, user: User) {
+    this.user = user;
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   reload(){
     this.userService.getCurrentUsersInRezervation().subscribe( value => {
-      this.Users = value;
+      this.currentUsers = value;
     })
+
     this.userService.onUserChange()
     this.userService.getAll().subscribe(value => {this.items = value
     this.dtTrigger.next(value);})
@@ -48,18 +54,19 @@ export class AdminComponent {
     // }
   }
 
-  delete(item: User) {
-    if (confirm(`Delete ${item.firstName} ?`)) {
-      this.userService.delete(item.id)
-        .subscribe(() => {
-          this.reload();
-        })
-    }
-    window.location.reload()
-  }
-
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
+  confirm(): void {
+    this.userService.delete(this.user.id)
+      .subscribe(() => {
+        this.reload();
+      },
+        () => console.log("non catch error"))
+    this.modalRef.hide();
+  }
 
+  decline(): void {
+    this.modalRef.hide();
+  }
 }
