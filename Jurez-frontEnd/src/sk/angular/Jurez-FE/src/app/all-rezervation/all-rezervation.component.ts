@@ -39,6 +39,15 @@ export class AllRezervationComponent {
 
   }
 
+  //aby sa nedali zrusit rezervacie ktore uz boli
+  compareTime(date: string){
+    const rezervationTime = new Date(date)
+    if (rezervationTime.getTime() <= new Date().getTime() ){
+      return false
+    }
+    return true
+  }
+
   reload(){
     this.selected_date();
   }
