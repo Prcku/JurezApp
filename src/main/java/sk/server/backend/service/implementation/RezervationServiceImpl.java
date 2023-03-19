@@ -58,7 +58,7 @@ public class RezervationServiceImpl implements RezervationService {
     public boolean rezerveRezervation(Date date, Long id) {
         try{
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
-            if (fullRezervation != 4 && !rezervationJpaRepo.onlyOneRezervation(date,id)){
+            if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
                 Optional<User> user = userJpaRepo.findById(id);
                 log.info("Get user by id : {}", id);
                 Rezervation rezervation = new Rezervation();
@@ -69,11 +69,11 @@ public class RezervationServiceImpl implements RezervationService {
                 log.info("update rezervation : {}");
                 return true;
             }else {
-                log.info("rezervacie su mna tento cas full", date);
+                log.info("rezervacie su mna tento cas full alebo uz mas rezervaciu na tento den", date);
                 return false;
             }
         }catch (Exception e){
-            log.info("Get first rezervation by date FAILED: {}", date);
+            log.info("Get first rezervation by date FAILED: {}", e.getMessage());
             return false;
         }
     }
@@ -114,11 +114,12 @@ public class RezervationServiceImpl implements RezervationService {
                 rezervationDtos.add(rezervationDto);
         }
         log.info("check which rezervation already not availible");
-        for (Rezervation rezervation:rezervationJpaRepo.findByStatusTrue()) {
-            if (rezervation.getCurrentTime().getTime() < now.getTime()){
-                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
-            }
-        }
+            //treba otestovat ci to nahodou nebude chybat
+//        for (Rezervation rezervation:rezervationJpaRepo.findByStatusTrue()) {
+//            if (rezervation.getCurrentTime().getTime() < now.getTime()){
+//                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
+//            }
+//        }
         return rezervationDtos;
 
     }

@@ -22,6 +22,8 @@ export class KalendarComponent  {
   cancel_time!: Date;
   myForm: FormGroup;
   modalRef!: BsModalRef;
+  modalRefAfter!: BsModalRef;
+  infoText!: string;
 
   constructor(private rezervationService: RezervationService
     , private router: Router
@@ -60,18 +62,29 @@ export class KalendarComponent  {
     this.cancel_time = cancel_Time;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
-  //confirm pre modal a rezervovanie rezervacie
-  confirm(): void {
+
+
+  //confirm pre modal a rezervovanie rezervacie a nasledna informacia o ziskani rezervacie
+  confirm(template: TemplateRef<any>): void {
     this.user$.subscribe(value => {
       if (value){
         let time_In_format =this.datepipe.transform(this.cancel_time, 'yyyy-MM-dd HH:mm');
-        this.rezervationService.bookRezervation(time_In_format, value.id).subscribe(error =>{
+        this.rezervationService.bookRezervation(time_In_format, value.id).subscribe(value =>{
+          this.infoText="Vytvorenie rezervácie prebehlo úspešne"
           this.reload()
-        });
+        }, error =>{
+          console.log(error.message)
+          if (error.message == "Duplicity"){
+
+            this.infoText="Na dneska už svoj zvolený termín máš !"
+          }
+        })
       }
     })
     this.modalRef.hide();
+    this.modalRefAfter = this.modalService.show(template);
   }
+
   //pri odmietnuti rezervacie
   decline(): void {
     this.modalRef.hide();

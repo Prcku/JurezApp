@@ -15,7 +15,7 @@ export class AdminComponent {
   dtTrigger: Subject<any> = new Subject<any>();
   modalRef!: BsModalRef;
   items!: User[];
-  currentUsers!: User[];
+  currentUsers: User[] | undefined;
   user!: User;
   constructor(private userService: UserService,
               private modalService: BsModalService) {
@@ -29,6 +29,9 @@ export class AdminComponent {
 
   reload(){
     this.userService.getCurrentUsersInRezervation().subscribe( value => {
+      if (!value){
+        this.currentUsers = undefined;
+      }
       this.currentUsers = value;
     })
 

@@ -2,7 +2,6 @@ package sk.server.backend.service.implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
@@ -120,7 +119,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Rezervation> getUserRezervation(Long id) {
         try {
-            return rezervationJpaRepo.findByUser_IdEquals(id);
+            log.info("Get User Rezervation {}",id);
+            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(new Date());
+            return rezervationJpaRepo.findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(id);
         }catch (Exception e){
             return null;
         }

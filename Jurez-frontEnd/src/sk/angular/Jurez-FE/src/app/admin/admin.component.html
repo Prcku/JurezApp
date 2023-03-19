@@ -1,7 +1,8 @@
 
 
-<div *ngIf="currentUsers == undefined ; else nobody">
+<div *ngIf="currentUsers == [] ; else nobody">
   <h2>Aktualne v nemá nik rezerváciu ! </h2>
+  <a routerLink="allrezervation" style="color: black">Zobrazit všetky rezervácie </a>
 </div>
 <ng-template #nobody >
   <span style="display: flex; justify-content: space-between; align-items: flex-end">
@@ -16,7 +17,7 @@
        <span class="mb-1">
          {{user.firstName}} {{user.lastName}}
        </span>
-  </div>
+    </div>
   </div>
 </ng-template>
 <h2 class="mb-3">

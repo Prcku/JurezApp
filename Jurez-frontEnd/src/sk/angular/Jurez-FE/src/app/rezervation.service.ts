@@ -53,8 +53,6 @@ export class RezervationService {
         } else {
           errorMsg = this.getServerErrorMessage(error);
         }
-        console.log("book rezervation")
-        console.log(errorMsg)
         throw new Error(errorMsg);
       })
     );
@@ -63,19 +61,19 @@ export class RezervationService {
   private getServerErrorMessage(error: HttpErrorResponse): string {
     switch (error.status) {
       case 400: {
-        return `Not Found: ${error.message}`;
+        return `Not Found`;
       }
       case 403: {
-        return `Access Denied: ${error.message}`;
+        return `Access Denied`;
       }
       case 409: {
-        return `Duplicity: ${error.message}`;
+        return `Duplicity`;
       }
       case 500: {
-        return `Internal Server Error: ${error.message}`;
+        return `Internal Server Error`;
       }
       default: {
-        return `Unknown Server Error: ${error.message}`;
+        return `Unknown Server Error`;
       }
 
     }

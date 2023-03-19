@@ -20,8 +20,12 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
     //spocitaj rezercacie s danym casom
     Integer countByCurrentTimeEquals(Date currentTime);
 
-    //sluzi na to aby si uzivatel rezervoval termin iba 1 krat
-    @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2")
+    //sluzi na to aby si uzivatel rezervoval termin iba
+//    @Query("select (count(r) > 0) from Rezervation r where r.currentTime = ?1 and r.user.id = ?2 GROUP BY function('date_format', r.currentTime, '%Y, %m, %d')")
+//    boolean onlyOneRezervation(Date currentTime, Long id);
+
+    //sluzi na to aby si uzivatel rezervoval termin za jeden den iba jeden krat
+    @Query("select (count(r.currentTime) < 1) from Rezervation r where function('date_format', r.currentTime, '%Y, %m, %d') = function('date_format',?1, '%Y, %m, %d') and r.user.id = ?2 ")
     boolean onlyOneRezervation(Date currentTime, Long id);
 
     //zrusenie terminu
@@ -33,8 +37,13 @@ public interface RezervationJpaRepo extends JpaRepository<Rezervation,Long> {
     @Query("update Rezervation r set r.status = false where r.id = ?1")
     void updateStatusFalse(Long id);
 
-    //najdi rezervaciu ktoru vlastni user s danym id
-    List<Rezervation> findByUser_IdEquals(Long id);
+    //najdi rezervaciu ktoru vlastni user s danym id a zoradi ich podla datumu
+    List<Rezervation> findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update Rezervation r set r.status = false where function('date_format', r.currentTime, '%Y, %m, %d, %h, %m, %s') <= function('date_format',?1, '%Y, %m, %d, %h, %m, %s') ")
+    void updateStatusToFalseBecouseOfTime(Date currentTime);
 
     List<Rezervation> findByCurrentTimeBetween(Date currentTimeStart, Date currentTimeEnd);
 

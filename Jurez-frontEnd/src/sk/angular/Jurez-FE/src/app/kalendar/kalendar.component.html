@@ -15,10 +15,20 @@
   </div>
 <ng-template #template>
   <div class="modal-body text-center">
-    <p>Naozaj si chceš rezervovať zadaný termín ? {{cancel_time | date: "dd.MM HH:mm"}}</p>
-    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <p>Naozaj si chceš rezervovať zadaný termín ? <b> {{cancel_time | date: "dd.MM HH:mm"}} </b> </p>
+    <button type="button" class="btn btn-default" (click)="confirm(templateAfterConfirm)" >Yes</button>
     <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
   </div>
 </ng-template>
-
+<ng-template #templateAfterConfirm>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRefAfter.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{infoText}}</p>
+  </div>
+</ng-template>
 
