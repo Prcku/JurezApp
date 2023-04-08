@@ -139,7 +139,8 @@ public class UserController {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1200000))
+//                toto zmenit ak budem chciet auto loggout ale pridat tam trosku viac milisekund
+              //  .setExpiration(new Date(System.currentTimeMillis() + 1200000))
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 

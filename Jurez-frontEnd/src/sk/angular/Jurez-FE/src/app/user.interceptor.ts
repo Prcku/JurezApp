@@ -23,14 +23,7 @@ export class UserInterceptor implements HttpInterceptor {
       })
   }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // if (this.user?.token != undefined) {
-    //   return next.handle(request.clone({
-    //     setHeaders: {
-    //       Authorization: 'Bearer ' + this.user.token
-    //     }
-    //   }));
-    // }
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.localStorageService.get("token")) {
       return next.handle(request.clone({
         setHeaders: {

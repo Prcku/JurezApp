@@ -79,9 +79,10 @@ export class KalendarComponent  {
           this.infoText="Vytvorenie rezervácie prebehlo úspešne"
           this.reload()
         }, error =>{
+          console.log(error)
           if (error.message == "Duplicity"){
 
-            this.infoText="Na dneska už svoj zvolený termín máš !"
+            this.infoText="Na zadaný datum už svoj zvolený termín máš !"
           }
         })
     this.modalRef.hide();
