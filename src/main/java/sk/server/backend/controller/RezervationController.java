@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "https://prcku.github.io/Angular-app/")
 @RequestMapping("api/rezervation")
 public class RezervationController {
 

@@ -23,6 +23,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
+@CrossOrigin(origins = "https://prcku.github.io/Angular-app/")
 @RequestMapping("api/user")
 public class UserController {
 
