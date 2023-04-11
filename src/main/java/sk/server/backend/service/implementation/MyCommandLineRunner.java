@@ -18,7 +18,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
     private UserJpaRepo userJpaRepo;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        if(userJpaRepo.findByEmailEquals("junak@junak.com").isEmpty()){
         User first_admin = new User();
         first_admin.setFirstName("Branislav");
         first_admin.setLastName("Junak");
@@ -27,8 +28,9 @@ public class MyCommandLineRunner implements CommandLineRunner {
         first_admin.setRole("ROLE_ADMIN");
         User user1 = userJpaRepo.save(first_admin);
         if (user1 != null) {
-            log.info("Create new User: {}",user1.getEmail());
+            log.info("Create new User: {}", user1.getEmail());
         }
-        log.info("Not create new User: {}",user1.getEmail());
+        log.info("Not create new User: {}", user1.getEmail());
+        }
     }
 }
