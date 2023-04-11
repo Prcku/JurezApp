@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://mysql-standalone:3306/JUREZ
-    username: vsa
-    password: vsa
+    url: mysql://root:u2RHSaxSrlifx9DPoUyj@containers-us-west-1.railway.app:7546/railway
+    username: root
+    password: u2RHSaxSrlifx9DPoUyj
     hikari:
       initialization-fail-timeout: 0
   jpa:
