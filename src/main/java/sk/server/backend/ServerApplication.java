@@ -3,6 +3,7 @@ package sk.server.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,12 +18,20 @@ import sk.server.backend.domain.User;
 import sk.server.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import sk.server.backend.service.implementation.MyCommandLineRunner;
 
 @SpringBootApplication
 public class ServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ServerApplication.class, args);
+		SpringApplication.run(
+				ServerApplication.class, args
+		);
+	}
+
+	@Bean
+	public MyCommandLineRunner myCommandLineRunner() {
+		return new MyCommandLineRunner();
 	}
 
 //	public class CommandLineAppStartupRunner implements CommandLineRunner{		// Prípade pridania na server musi vytvoriť prvého admina

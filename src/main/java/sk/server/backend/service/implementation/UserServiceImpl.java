@@ -31,8 +31,12 @@ public class UserServiceImpl implements UserService {
 //                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
                 user.setRole("ROLE_WATCHER");
                 User user1 = userJpaRepo.save(user);
-                log.info("Create new User: {}",user.getEmail());
-                return user1;
+                if (user1 != null) {
+                    log.info("Create new User: {}",user1.getEmail());
+                    return user1;
+                }
+                log.info("Not create new User: {}",user1.getEmail());
+                return null;
             }
             log.info("Duplicit Email: {}",user.getEmail());
             return null;
