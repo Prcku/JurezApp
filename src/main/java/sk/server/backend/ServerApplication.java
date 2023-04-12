@@ -56,7 +56,7 @@ public class ServerApplication {
 			http.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/api/user/auth/").permitAll()
+					.antMatchers(HttpMethod.POST, "/api/user/auth").permitAll()
 					.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 					.anyRequest().authenticated();
 		}

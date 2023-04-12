@@ -113,7 +113,7 @@ public class UserController {
     }
 
     //zmenil si return y boolean na user
-    @PostMapping(value = "/auth/", produces = "text/plain")
+    @PostMapping(value = "/auth", produces = "text/plain")
     public String authentificationUser( @RequestBody UserDto user){
         if (user.getEmail() == null || user.getPassword() == null){
             throw new BadRequestException();
