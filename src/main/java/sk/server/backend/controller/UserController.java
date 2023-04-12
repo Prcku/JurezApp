@@ -113,6 +113,7 @@ public class UserController {
     }
 
     //zmenil si return y boolean na user
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(value = "/auth", produces = "text/plain")
     public String authentificationUser( @RequestBody UserDto user){
         if (user.getEmail() == null || user.getPassword() == null){
