@@ -2,10 +2,13 @@ package sk.server.backend.controller;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import scala.util.hashing.Hashing;
 import sk.server.backend.controller.exceptions.BadRequestException;
 import sk.server.backend.controller.exceptions.ConflictException;
 import sk.server.backend.controller.exceptions.EntityNotFoundException;
+import sk.server.backend.controller.secure.PasswordHashingUtils;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 import sk.server.backend.service.Response.UserDto;
@@ -13,6 +16,7 @@ import sk.server.backend.service.UserService;
 
 
 import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,7 +27,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
-@CrossOrigin(origins = "https://prcku.github.io")
+//@CrossOrigin(origins = "https://prcku.github.io")
 @RequestMapping("api/user")
 public class UserController {
 
@@ -84,7 +88,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public User updateUser(@RequestBody User user, @PathVariable Long id){
-        User user1 = userService.get(id);
+        User user1 = user;
         if (user1 == null){
             return null;
         }
@@ -96,9 +100,6 @@ public class UserController {
         }
         if(user.getEmail() != null ){
             user1.setEmail(user.getEmail());
-        }
-        if(user.getPassword() != null){
-            user1.setPassword(user.getPassword());
         }
         if(user.getRole() != null){
             user1.setRole(user.getRole());
@@ -116,9 +117,13 @@ public class UserController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping(value = "/auth", produces = "text/plain")
     public String authentificationUser( @RequestBody UserDto user){
+
         if (user.getEmail() == null || user.getPassword() == null){
             throw new BadRequestException();
         }
+//        String hashedPassword = Hashing.sha256().hashString(user.getPassword(), StandardCharsets.UTF_8).toString();
+//        String hashedPassword =  PasswordHashingUtils.hashPassword(user.getPassword());
+//        System.out.println(hashedPassword);
         User user1 = userService.authentification(user.getEmail(),user.getPassword());
         if (user1 != null){
             return getJWTToken(user1);

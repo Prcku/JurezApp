@@ -2,6 +2,7 @@ package sk.server.backend.service.implementation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User create(User user) {
         try {
             if(userJpaRepo.findByEmailEquals(user.getEmail()).isEmpty()){
-//                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
                 user.setRole("ROLE_WATCHER");
                 User user1 = userJpaRepo.save(user);
                 if (user1 != null) {
@@ -109,9 +110,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
-//        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
-        userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getId());
+    public boolean update(User user) {
+        try {
+            System.out.println(user.toString());
+            if (Objects.equals(user.getPassword(), userJpaRepo.findByEmailEquals(user.getEmail()).get().getPassword())){
+                log.info("Password was the same ");
+                userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user.getRole() ,user.getId());
+                return true;
+            }
+            else {
+                log.info("Password not the same create new one");
+                user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+                userJpaRepo.updateUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(),user.getRole() ,user.getId());
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+
     }
 
     @Override
@@ -125,6 +141,7 @@ public class UserServiceImpl implements UserService {
         try {
             log.info("Get User Rezervation {}",id);
             rezervationJpaRepo.updateStatusToFalseBecouseOfTime(new Date());
+            System.out.println(new Date());
             return rezervationJpaRepo.findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(id);
         }catch (Exception e){
             return null;
@@ -144,15 +161,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authentification(String email, String password) {
         try {
-            System.out.println(userJpaRepo.findByEmailEquals(email).get().getPassword());
-//            if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
-                log.info("Password is Right");
-                return userJpaRepo.findByEmailEquals(email).get();
+//            if (Objects.equals(password, userJpaRepo.findByEmailEquals(email).get().getPassword())){
+//                log.info("Password is Right");
+//                return userJpaRepo.findByEmailEquals(email).get();
 //            }
 //            else {
-//                log.info("Wrong password");
 //                return null;
 //            }
+            if (BCrypt.checkpw(password,userJpaRepo.findByEmailEquals(email).get().getPassword())){
+                log.info("Password is Right");
+                return userJpaRepo.findByEmailEquals(email).get();
+            }
+            else {
+                log.info("Wrong password");
+                return null;
+            }
         }catch (Exception e){
             return  null;
         }
