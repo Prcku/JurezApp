@@ -8,6 +8,7 @@ import scala.util.hashing.Hashing;
 import sk.server.backend.controller.exceptions.BadRequestException;
 import sk.server.backend.controller.exceptions.ConflictException;
 import sk.server.backend.controller.exceptions.EntityNotFoundException;
+import sk.server.backend.controller.exceptions.NoContentException;
 import sk.server.backend.controller.secure.PasswordHashingUtils;
 import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
@@ -35,13 +36,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+//    doriesit vratenie chybi v prípade niečoho zlého
     public List<User> getUsers(){
-        return userService.getAll();
+        try {
+            return userService.getAll();
+        }catch (Exception e){
+            throw new NoContentException();
+        }
     }
 
     @GetMapping("/currentrezervation")
     public List<User> getUsersInGym(){
-        return userService.findUsersInGym();
+        try {
+            return userService.findUsersInGym();
+        }catch (Exception e){
+            throw new NoContentException();
+        }
     }
 
     @GetMapping("/currentrezervation/{time}")
@@ -73,7 +83,11 @@ public class UserController {
 
     @GetMapping("rezervation/{id}")
     public List<Rezervation> getUserRezervation(@PathVariable Long id){
-        return userService.getUserRezervation(id);
+        try {
+            return userService.getUserRezervation(id);
+        }catch (Exception e){
+            throw new EntityNotFoundException();
+        }
 
     }
 
@@ -104,13 +118,21 @@ public class UserController {
         if(user.getRole() != null){
             user1.setRole(user.getRole());
         }
-        userService.update(user1);
-        return userService.get(id);
+        try {
+            userService.update(user1);
+            return userService.get(id);
+        }catch (Exception e) {
+            throw new ConflictException();
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
-         userService.delete(id);
+        try {
+            userService.delete(id);
+        }catch (Exception e){
+            throw new EntityNotFoundException();
+        }
     }
 
     //zmenil si return y boolean na user
@@ -129,7 +151,7 @@ public class UserController {
             return getJWTToken(user1);
         }
         else {
-            throw new EntityNotFoundException();
+            throw new BadRequestException();
         }
     }
     private String getJWTToken(User user) {

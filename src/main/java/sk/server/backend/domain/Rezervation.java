@@ -20,7 +20,7 @@ public class Rezervation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "currentTime", nullable = false )
+    @Column(name = "rezervationTime", nullable = false )
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", shape = JsonFormat.Shape.STRING, timezone = "Europe/Bratislava")
     private Date currentTime;

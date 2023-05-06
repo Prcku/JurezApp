@@ -106,7 +106,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return userJpaRepo.findAll();
+        try {
+            return userJpaRepo.findAll();
+        }catch(Exception e ){
+            return null;
+        }
     }
 
     @Override

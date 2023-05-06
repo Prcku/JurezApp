@@ -37,7 +37,9 @@ public class RezervationController {
 
         @GetMapping("/time")
         public List<Rezervation> getCurrentRezervation(){
+
             return rezervationService.findCurrentRezervation();
+
         }
 
         @PostMapping("/time/{id}/{date}")

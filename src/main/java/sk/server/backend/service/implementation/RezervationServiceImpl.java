@@ -59,7 +59,6 @@ public class RezervationServiceImpl implements RezervationService {
         try{
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
-//            if (fullRezervation != 4 ){
                 Optional<User> user = userJpaRepo.findById(id);
                 log.info("Get user by id : {}", id);
                 Rezervation rezervation = new Rezervation();
@@ -67,10 +66,10 @@ public class RezervationServiceImpl implements RezervationService {
                 rezervation.setStatus(true);
                 rezervation.setUser(user.get());
                 rezervationJpaRepo.save(rezervation);
-                log.info("update rezervation : {}");
+                log.info("Rezervation was created : {}", rezervation.getCurrentTime());
                 return true;
             }else {
-                log.info("rezervacie su mna tento cas full alebo uz mas rezervaciu na tento den", date);
+                log.info("Rezervation are full on this time or you already have rezervation for today : {}" , date);
                 return false;
             }
         }catch (Exception e){
@@ -98,7 +97,7 @@ public class RezervationServiceImpl implements RezervationService {
         log.info("Created new session for excercies ... ");
         calendar.add(Calendar.MINUTE,360);
             List<RezervationDto> rezervationDtos = new ArrayList<>();
-            for (int j=0;j<13;j++){
+            for (int j=0;j<14;j++){
                 RezervationDto rezervationDto = new RezervationDto();
                 rezervationDto.setCurrentTime(calendar.getTime());
                 if (rezervationDto.getCurrentTime().getTime() < now.getTime()){
