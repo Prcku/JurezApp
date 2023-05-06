@@ -10,6 +10,7 @@ import sk.server.backend.service.UserService;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.TimeZone;
 
 @Transactional
 @Slf4j
@@ -20,6 +21,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        System.out.println("Timezone: " + TimeZone.getDefault().getID());
         if(userJpaRepo.findByEmailEquals("junak@junak.com").isEmpty()){
         User first_admin = new User();
         first_admin.setFirstName("Branislav");

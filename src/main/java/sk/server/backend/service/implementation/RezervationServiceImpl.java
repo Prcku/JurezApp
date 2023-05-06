@@ -95,7 +95,7 @@ public class RezervationServiceImpl implements RezervationService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);
         log.info("Created new session for excercies ... ");
-        calendar.add(Calendar.MINUTE,240);
+        calendar.add(Calendar.MINUTE,360);
             List<RezervationDto> rezervationDtos = new ArrayList<>();
             for (int j=0;j<14;j++){
                 RezervationDto rezervationDto = new RezervationDto();
