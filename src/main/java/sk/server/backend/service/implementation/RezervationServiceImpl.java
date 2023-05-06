@@ -57,10 +57,11 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public boolean rezerveRezervation(Date date, Long id) {
         try{
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.setTime(date);
-//            log.info("Rezerve rezervation ");
-//            calendar.add(Calendar.MINUTE,- 120);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            log.info("Rezerve rezervation ");
+            calendar.add(Calendar.MINUTE,- 120);
+            date = calendar.getTime();
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
                 Optional<User> user = userJpaRepo.findById(id);
@@ -85,6 +86,11 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public void cancelUserRezervation(Date date, Long id) {
         try{
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            log.info("Rezerve rezervation ");
+            calendar.add(Calendar.MINUTE,- 120);
+            date = calendar.getTime();
             rezervationJpaRepo.deleteByCurrentTimeEqualsAndUser_IdEquals(date,id);
             log.info("DELETE first rezervation by date SUCCESS = {}", date );
         }catch (Exception e){
