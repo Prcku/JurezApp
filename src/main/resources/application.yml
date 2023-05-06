@@ -13,4 +13,4 @@ spring:
     hibernate:
       ddl-auto: update
   jackson:
-    time-zone: <Europe/Bratislava>
+    time-zone: Europe/Bratislava
