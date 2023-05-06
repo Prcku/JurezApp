@@ -57,6 +57,10 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public boolean rezerveRezervation(Date date, Long id) {
         try{
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(date);
+//            log.info("Rezerve rezervation ");
+//            calendar.add(Calendar.MINUTE,- 120);
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
                 Optional<User> user = userJpaRepo.findById(id);
@@ -95,7 +99,7 @@ public class RezervationServiceImpl implements RezervationService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);
         log.info("Created new session for excercies ... ");
-        calendar.add(Calendar.MINUTE,360);
+        calendar.add(Calendar.MINUTE,240);
             List<RezervationDto> rezervationDtos = new ArrayList<>();
             for (int j=0;j<14;j++){
                 RezervationDto rezervationDto = new RezervationDto();
