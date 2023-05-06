@@ -28,7 +28,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
-//@CrossOrigin(origins = "https://prcku.github.io")
+@CrossOrigin(origins = "https://prcku.github.io")
 @RequestMapping("api/user")
 public class UserController {
 
