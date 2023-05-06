@@ -107,7 +107,8 @@ public class RezervationServiceImpl implements RezervationService {
         log.info("Rezerve rezervation ");
         calendarnow.add(Calendar.MINUTE,- 120);
         now = calendarnow.getTime();
-        ;
+        System.out.println("NEW DATE()" + new Date().getTime());
+        System.out.println("now -120 minute" + now.getTime());
         Date nearestDay = DateUtils.truncate(date, Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(nearestDay);
