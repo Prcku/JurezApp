@@ -67,20 +67,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public HashMap<Date, List<Optional<User>>> findAllUsersInGym(Date startTime){
         try {
-            Calendar endTime = Calendar.getInstance();
-            endTime.setTime(startTime);
-            Calendar writeTime = Calendar.getInstance();
-            writeTime.setTime(startTime);
-            writeTime.add(Calendar.MINUTE, -120);
-            log.info("Searching user in Current day , {} ",endTime.getTime());
-//            For timezone
-            System.out.println(startTime.getTime());
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startTime);
             log.info("Rezerve rezervation ");
+            // for timezone
             calendar.add(Calendar.MINUTE,-120);
             startTime = calendar.getTime();
-            System.out.println(startTime.getTime());
+
+            Calendar endTime = Calendar.getInstance();
+            endTime.setTime(startTime);
+
+            Calendar writeTime = Calendar.getInstance();
+            writeTime.setTime(startTime);
+
+            log.info("Searching user in Current day , {} ",endTime.getTime());
+
+
             HashMap<Date,List<Optional<User>>> map = new HashMap<>();
             for (int i =0;i < 14;i++){
                 endTime.add(Calendar.MINUTE, 74);
