@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
             log.info("Duplicit Email: {}",user.getEmail());
             return null;
         }catch (Exception e){
-            log.info("Create new User Failed: {}",user.getEmail());
+            log.info("Create new User Failed: {}",e.getMessage());
             return null;
         }
 
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startTime);
             log.info("Rezerve rezervation ");
-            calendar.add(Calendar.MINUTE,- 120);
+            calendar.add(Calendar.MINUTE,- 240);
             startTime = calendar.getTime();
 
             HashMap<Date,List<Optional<User>>> map = new HashMap<>();
