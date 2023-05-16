@@ -71,13 +71,14 @@ public class UserServiceImpl implements UserService {
             endTime.setTime(startTime);
             Calendar writeTime = Calendar.getInstance();
             writeTime.setTime(startTime);
+            writeTime.add(Calendar.MINUTE, -120);
             log.info("Searching user in Current day , {} ",endTime.getTime());
 //            For timezone
             System.out.println(startTime.getTime());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startTime);
             log.info("Rezerve rezervation ");
-            calendar.add(Calendar.MINUTE,-240);
+            calendar.add(Calendar.MINUTE,-120);
             startTime = calendar.getTime();
             System.out.println(startTime.getTime());
             HashMap<Date,List<Optional<User>>> map = new HashMap<>();
