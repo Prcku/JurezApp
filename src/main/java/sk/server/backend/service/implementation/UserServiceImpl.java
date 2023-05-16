@@ -156,8 +156,13 @@ public class UserServiceImpl implements UserService {
     public List<Rezervation> getUserRezervation(Long id) {
         try {
             log.info("Get User Rezervation {}",id);
-            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(new Date());
-            System.out.println(new Date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            log.info("Rezerve rezervation ");
+            // for timezone
+            calendar.add(Calendar.MINUTE,-120);
+            Date date = calendar.getTime();
+            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
             return rezervationJpaRepo.findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(id);
         }catch (Exception e){
             return null;
