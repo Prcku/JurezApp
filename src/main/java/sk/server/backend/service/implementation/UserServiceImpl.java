@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(startTime);
             log.info("Rezerve rezervation ");
-            calendar.add(Calendar.MINUTE,-120);
+            calendar.add(Calendar.MINUTE,-240);
             startTime = calendar.getTime();
             System.out.println(startTime.getTime());
             HashMap<Date,List<Optional<User>>> map = new HashMap<>();
