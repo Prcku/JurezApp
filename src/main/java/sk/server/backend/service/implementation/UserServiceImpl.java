@@ -163,12 +163,12 @@ public class UserServiceImpl implements UserService {
             calendar.add(Calendar.MINUTE,+120);
             Date date = calendar.getTime();
 //            System.out.println(date);
-//            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
-            List<Rezervation> rezervations = rezervationJpaRepo.findByCurrentTimeLessThanEqual(date);
-            for (Rezervation rezervation:rezervations) {
-                rezervation.setStatus(false);
-                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
-            }
+            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
+//            List<Rezervation> rezervations = rezervationJpaRepo.findByCurrentTimeLessThanEqual(date);
+//            for (Rezervation rezervation:rezervations) {
+//                rezervation.setStatus(false);
+//                rezervationJpaRepo.updateStatusFalse(rezervation.getId());
+//            }
             return rezervationJpaRepo.findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(id);
         }catch (Exception e){
             return null;
