@@ -53,6 +53,7 @@ public class RezervationServiceImpl implements RezervationService {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             log.info("Rezerve rezervation ");
+            calendar.add(Calendar.MINUTE,- 120);
             date = calendar.getTime();
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
