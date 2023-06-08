@@ -9,7 +9,7 @@ import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 import sk.server.backend.repo.RezervationJpaRepo;
 import sk.server.backend.repo.UserJpaRepo;
-import sk.server.backend.service.Response.RezervationDto;
+import sk.server.backend.service.response.RezervationDto;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
@@ -31,13 +31,6 @@ public class RezervationServiceImpl implements RezervationService {
     @Override
     public List<Rezervation> findCurrentRezervation() {
         try {
-            /*
-                get now
-                get rezervation date with status true
-                compare with 1:15 + time
-                return User which are there
-
-             */
             Date now = new Date();
             List<Rezervation> rezervations;
             List<Rezervation> currentRezervations = new ArrayList<>();
@@ -60,7 +53,6 @@ public class RezervationServiceImpl implements RezervationService {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
             log.info("Rezerve rezervation ");
-            calendar.add(Calendar.MINUTE,- 120);
             date = calendar.getTime();
             long fullRezervation = rezervationJpaRepo.countByCurrentTimeEquals(date);
             if (fullRezervation != 4 && rezervationJpaRepo.onlyOneRezervation(date,id)){
