@@ -15,11 +15,13 @@ import java.util.Optional;
 
 @Repository
 public interface UserJpaRepo extends JpaRepository<User,Long> {
+    // Na editovanie usera
     @Transactional
     @Modifying
     @Query("update User u set u.firstName = ?1, u.lastName = ?2 ,u.email = ?3, u.password = ?4, u.role = ?5  where u.id = ?6")
     void updateUser(@NonNull String firstName, @NonNull String lastName, @NonNull String email,@NonNull  String password,String role,Long id);
 
+    // Najdenie usera ktorý má zadaný email
     Optional<User> findByEmailEquals(String email);
 
     // Na zistenie kto sa ma aktualne rezervaciu na tento cas
@@ -27,5 +29,4 @@ public interface UserJpaRepo extends JpaRepository<User,Long> {
 
     //na zistenie kto ma aktualne rezervaciu na tento cas
     List<User> findByRezervations_CurrentTimeBetweenOrderByRezervations_CurrentTimeAsc(Date currentTimeStart, Date currentTimeEnd);
-
 }
