@@ -166,6 +166,7 @@ public class UserServiceImpl implements UserService {
 //            rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
             List<Rezervation> rezervations = rezervationJpaRepo.findByCurrentTimeLessThan(calendar.getTime());
             for (Rezervation rezervation:rezervations) {
+                System.out.println(rezervation.getCurrentTime());
                 rezervation.setStatus(false);
                 rezervationJpaRepo.updateStatusFalse(rezervation.getId());
             }
