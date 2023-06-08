@@ -162,6 +162,7 @@ public class UserServiceImpl implements UserService {
             // for timezone
             calendar.add(Calendar.MINUTE,-120);
             Date date = calendar.getTime();
+            System.out.println(date);
             rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
             return rezervationJpaRepo.findByUser_IdAllIgnoreCaseOrderByCurrentTimeAsc(id);
         }catch (Exception e){
