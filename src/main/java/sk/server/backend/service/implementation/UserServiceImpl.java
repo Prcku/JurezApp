@@ -160,7 +160,7 @@ public class UserServiceImpl implements UserService {
             calendar.setTime(new Date());
             log.info("Rezerve rezervation ");
             // for timezone
-            calendar.add(Calendar.MINUTE,-120);
+            calendar.add(Calendar.MINUTE,+120);
             Date date = calendar.getTime();
             System.out.println(date);
             rezervationJpaRepo.updateStatusToFalseBecouseOfTime(date);
