@@ -9,7 +9,7 @@ import sk.server.backend.domain.Rezervation;
 import sk.server.backend.domain.User;
 import sk.server.backend.repo.RezervationJpaRepo;
 import sk.server.backend.repo.UserJpaRepo;
-import sk.server.backend.service.response.RezervationDto;
+import sk.server.backend.service.Response.RezervationDto;
 import sk.server.backend.service.RezervationService;
 
 import javax.transaction.Transactional;
